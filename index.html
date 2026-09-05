@@ -43,12 +43,12 @@
 .lime,.inv{background:var(--bg);color:var(--fg)}
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:clip}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 section[id],main{scroll-margin-top:86px}
 body{margin:0;background:var(--bg);color:var(--fg);
   font-family:var(--serif);font-size:18px;line-height:1.62;font-weight:400;
-  -webkit-font-smoothing:antialiased;overflow-x:clip}
+  -webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 p{margin:0}
@@ -70,7 +70,8 @@ em.sci{font-style:italic;color:var(--fainter)}
 .ul:hover::before{transform:scaleX(1);transform-origin:left}
 .ul:focus-visible::before{transform:scaleX(1);transform-origin:left}
 
-header{position:sticky;top:0;z-index:60;background:var(--bg);
+header{position:sticky;top:0;z-index:90;background:var(--bg);width:100%;
+  padding-top:env(safe-area-inset-top,0px);
   border-bottom:1px solid transparent;transition:border-color .32s var(--ease)}
 header.stuck{border-bottom-color:var(--rule)}
 .nav{display:flex;align-items:center;gap:clamp(.6rem,2.5vw,2rem);height:74px;min-width:0}
@@ -100,7 +101,7 @@ header.abierto .menu span{background:transparent}
 header.abierto .menu span::before{transform:translateY(5px) rotate(45deg)}
 header.abierto .menu span::after{transform:translateY(-5px) rotate(-45deg)}
 @media(max-width:860px){
-  .nav nav{position:fixed;inset:74px 0 auto 0;background:var(--bg);flex-direction:column;gap:0;
+  .nav nav{position:fixed;inset:calc(74px + env(safe-area-inset-top,0px)) 0 auto 0;background:var(--bg);flex-direction:column;gap:0;
     border-bottom:1px solid var(--rule);padding:.5rem 1.3rem 1.1rem;
     transform:translateY(-120%);transition:transform .32s var(--ease);z-index:59}
   header.abierto nav{transform:none}
@@ -400,6 +401,7 @@ footer{padding:clamp(2.6rem,5vw,4rem) 0 2.4rem;position:relative;z-index:10}
   .barra-movil{display:block;position:fixed;left:0;right:0;bottom:0;z-index:70;
     padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
     background:rgba(244,246,236,.95);backdrop-filter:blur(12px);border-top:1px solid var(--rule)}
+  .barra-movil{z-index:70}
   .barra-movil .btn{width:100%}
   footer{padding-bottom:6rem}
 }
@@ -468,14 +470,6 @@ dialog.legal::backdrop{background:rgba(20,30,12,.62);backdrop-filter:blur(6px)}
 @media(prefers-reduced-motion:reduce){.rail-gecko .giro{transition:none}}
 /* GALERÍA — cinta continua. El ratón manda: hacia la derecha avanza,
    hacia la izquierda retrocede, y el juego se repite para que no haya final. */
-.cinta-mando{display:flex;justify-content:flex-end;margin-bottom:.7rem}
-.pausa{display:inline-flex;align-items:center;gap:.55rem;min-height:44px;padding:.4rem .9rem;
-  background:none;border:1px solid var(--rule-2);border-radius:999px;color:var(--muted);
-  font:inherit;font-size:.9rem;cursor:pointer;transition:all .2s var(--ease)}
-.pausa:hover{color:var(--fg);border-color:var(--fg)}
-.pausa .ic{width:11px;height:12px;flex:none;background:currentColor;
-  clip-path:polygon(0 0,4px 0,4px 12px,0 12px,0 0,7px 0,11px 0,11px 12px,7px 12px)}
-.pausa[aria-pressed="true"] .ic{clip-path:polygon(0 0,11px 6px,0 12px)}
 .tiras{position:relative;height:clamp(260px,29vw,380px);
   overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;
   overscroll-behavior-x:contain}
@@ -853,11 +847,6 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         <p class="lede">La cinta avanza sola. Detenla con el cursor o con el botón, y abre
           cualquier foto para verla completa. Las tres láminas rayadas todavía esperan las
           fotos del propio local: la sala, un cumpleaños, un grupo de colegio.</p>
-      </div>
-      <div class="cinta-mando">
-        <button class="pausa" type="button" id="pausa" aria-pressed="false">
-          <span class="ic" aria-hidden="true"></span><span id="pausa-txt">Pausar la cinta</span>
-        </button>
       </div>
       <div class="tiras" id="tiras">
         <div class="tiras-pista" id="pista">
@@ -1493,26 +1482,18 @@ function vigilarCinta(){
   else if (!dentro && aLaVista){ aLaVista = false; }
 }
 
-let pausadaAMano = false;
-const btnPausa = document.getElementById('pausa');
-function fijarPausa(v){
-  pausadaAMano = v;
-  vObj = v ? 0 : CRUCERO;
-  btnPausa.setAttribute('aria-pressed', String(v));
-  document.getElementById('pausa-txt').textContent = v ? 'Reanudar la cinta' : 'Pausar la cinta';
-}
+let detenidaPorVisor = false;
 /* cede el paso mientras el usuario la maneja, y retoma poco después */
 function cederPaso(ms){
-  if (pausadaAMano || quieto.matches) return;
+  if (detenidaPorVisor || quieto.matches) return;
   vObj = 0;
   clearTimeout(reanudar);
-  reanudar = setTimeout(() => { if (!pausadaAMano) vObj = CRUCERO; }, ms);
+  reanudar = setTimeout(() => { if (!detenidaPorVisor) vObj = CRUCERO; }, ms);
 }
 
 if (banda && pista){
   medirCinta();
   if (!quieto.matches) vigilarCinta();
-  if (btnPausa) btnPausa.addEventListener('click', () => fijarPausa(!pausadaAMano));
 
   banda.addEventListener('scroll', envolver, {passive:true});
   banda.addEventListener('pointerdown', () => cederPaso(2500));
@@ -1520,8 +1501,8 @@ if (banda && pista){
   banda.addEventListener('wheel', () => cederPaso(1800), {passive:true});
 
   if (matchMedia('(hover:hover)').matches){
-    banda.addEventListener('pointerenter', () => { if (!pausadaAMano) vObj = 0; });
-    banda.addEventListener('pointerleave', () => { if (!pausadaAMano) vObj = CRUCERO; });
+    banda.addEventListener('pointerenter', () => { if (!detenidaPorVisor) vObj = 0; });
+    banda.addEventListener('pointerleave', () => { if (!detenidaPorVisor) vObj = CRUCERO; });
   }
   pista.addEventListener('focusin', () => cederPaso(4000));   /* el navegador ya trae el foco a la vista */
   addEventListener('resize', medirCinta);
@@ -1550,13 +1531,24 @@ if (pista){
     if (!b) return;
     const idx = conFoto.findIndex(x => x.dataset.i === b.dataset.i);
     pintarVisor(idx < 0 ? 0 : idx);
+    detenidaPorVisor = true; vObj = 0;      /* mientras miras una foto, la cinta espera */
     if (!visor.open) visor.showModal();
   });
 }
-document.getElementById('visor-x').onclick    = () => visor.close();
+document.getElementById('visor-x').onclick    = cerrarVisor;
 document.getElementById('visor-prev').onclick = () => pintarVisor(verActual - 1);
 document.getElementById('visor-next').onclick = () => pintarVisor(verActual + 1);
-visor.addEventListener('click', e => { if (e.target === visor) visor.close(); });
+visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
+function cerrarVisor(){
+  visor.close();
+  detenidaPorVisor = false;
+  if (!quieto.matches) vObj = CRUCERO;      /* al cerrar, retoma la marcha */
+}
+/* el evento cubre la tecla Esc; las rutas explícitas no dependen de él */
+visor.addEventListener('close', () => {
+  detenidaPorVisor = false;
+  if (!quieto.matches) vObj = CRUCERO;
+});
 addEventListener('keydown', e => {
   if (!visor.open) return;
   if (e.key === 'ArrowLeft')  pintarVisor(verActual - 1);
