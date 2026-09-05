@@ -1,0 +1,3 @@
+# Propuesta privada en revisión. No indexar.
+User-agent: *
+Disallow: /
