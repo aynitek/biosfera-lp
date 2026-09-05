@@ -73,7 +73,14 @@ em.sci{font-style:italic;color:var(--fainter)}
 header{position:sticky;top:0;z-index:60;background:var(--bg);
   border-bottom:1px solid transparent;transition:border-color .32s var(--ease)}
 header.stuck{border-bottom-color:var(--rule)}
-.nav{display:flex;align-items:center;gap:2rem;height:74px}
+.nav{display:flex;align-items:center;gap:clamp(.6rem,2.5vw,2rem);height:74px;min-width:0}
+.brand{min-width:0}
+/* en pantallas muy estrechas la marca cede antes que los controles */
+@media(max-width:430px){
+  .brand i{display:none}
+  .brand b{font-size:1.35rem}
+  .nav .btn-go{padding:.62rem 1rem .52rem;font-size:1rem}
+}
 .brand{display:flex;align-items:center;gap:.7rem;margin-right:auto;min-height:44px}
 .brand .mark{width:38px;height:38px;border-radius:9px;background-size:cover;background-position:center;flex:none}
 .brand b{font-family:var(--disp);font-weight:900;font-size:1.55rem;line-height:.9;display:block}
