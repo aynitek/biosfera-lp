@@ -43,12 +43,12 @@
 .lime,.inv{background:var(--bg);color:var(--fg)}
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 section[id],main{scroll-margin-top:86px}
 body{margin:0;background:var(--bg);color:var(--fg);
   font-family:var(--serif);font-size:18px;line-height:1.62;font-weight:400;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 p{margin:0}
@@ -469,8 +469,11 @@ dialog.legal::backdrop{background:rgba(20,30,12,.62);backdrop-filter:blur(6px)}
 .pausa .ic{width:11px;height:12px;flex:none;background:currentColor;
   clip-path:polygon(0 0,4px 0,4px 12px,0 12px,0 0,7px 0,11px 0,11px 12px,7px 12px)}
 .pausa[aria-pressed="true"] .ic{clip-path:polygon(0 0,11px 6px,0 12px)}
-.tiras{position:relative;overflow:hidden;height:clamp(260px,29vw,380px)}
-.tiras-pista{display:flex;gap:5px;height:100%;will-change:transform}
+.tiras{position:relative;height:clamp(260px,29vw,380px);
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  overscroll-behavior-x:contain}
+.tiras::-webkit-scrollbar{display:none}
+.tiras-pista{display:flex;gap:5px;height:100%;width:max-content}
 .tira{flex:0 0 clamp(170px,16.5vw,235px);position:relative;border:0;padding:0;cursor:inherit;
   background-color:var(--bg-2);background-size:cover;background-position:center;overflow:hidden;
   filter:saturate(.88);transition:filter .35s var(--ease)}
@@ -490,10 +493,8 @@ dialog.legal::backdrop{background:rgba(20,30,12,.62);backdrop-filter:blur(6px)}
 .tira.hueco i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;
   font-size:.86rem;color:var(--fainter);letter-spacing:.04em;text-align:center;padding:0 .8rem}
 /* táctil o movimiento reducido: cinta deslizable normal, sin bucle */
-@media(hover:none),(prefers-reduced-motion:reduce){
-  .tiras{overflow-x:auto;scroll-snap-type:x mandatory;cursor:default}
-  .tiras-pista{transform:none !important}
-  .tira{scroll-snap-align:center;filter:none}
+@media(hover:none){
+  .tira{filter:none}
   .tira b{opacity:1;transform:none}
   .tira::after{opacity:1}
 }
@@ -1440,56 +1441,51 @@ document.getElementById('prev-abrir').onclick = () => abrir(verPrevia);
 document.getElementById('legal-x').onclick   = () => dlgLegal.close();
 dlgLegal.addEventListener('click', e => { if (e.target === dlgLegal) dlgLegal.close(); });
 
-/* CINTA — avanza sola y despacio. Se frena al pasar el cursor por encima,
-   para poder hacer clic sin perseguir la imagen. */
+/* CINTA — avanza sola y despacio sobre el desplazamiento nativo del contenedor.
+   Usar scrollLeft en vez de transform hace que el dedo funcione igual en iOS,
+   que el teclado arrastre el foco solo, y que el bucle no dependa de la plataforma. */
 const banda = document.getElementById('tiras');
 const pista = document.getElementById('pista');
 const JUEGOS = 3;
-const CRUCERO = 0.42;          /* px por fotograma ≈ 25 px/s */
-let anchoJuego = 0, desfase = 0, vAct = 0, vObj = CRUCERO, rafCinta = 0, aLaVista = false;
+const CRUCERO = 0.42;
+let anchoJuego = 0, vAct = 0, vObj = CRUCERO, rafCinta = 0, aLaVista = false, reanudar = 0;
+let pos = 0;   /* posición en decimales: scrollLeft redondea y se comería el avance */
 
 function medirCinta(){
   if (!pista) return;
-  const previo = anchoJuego;
   const porJuego = pista.children.length / JUEGOS;
   let w = 0;
   for (let i = 0; i < porJuego; i++) w += pista.children[i].getBoundingClientRect().width + 5;
   anchoJuego = w;
-  /* al cambiar de tamaño hay que reescalar el desfase o la pista se va a un vacío */
-  desfase = previo > 0 ? (desfase / previo) * anchoJuego : 0;
-  pintarCinta();
+  /* arrancar en el juego central deja material a ambos lados */
+  if (banda.scrollLeft < 1){ banda.scrollLeft = anchoJuego; }
+  pos = banda.scrollLeft;
 }
-function pintarCinta(){
-  pista.style.transform = 'translate3d(' + (-desfase).toFixed(1) + 'px,0,0)';
+function envolver(){
+  if (!anchoJuego) return;
+  const s = banda.scrollLeft;
+  if (s >= anchoJuego * 2){ banda.scrollLeft = s - anchoJuego; pos = banda.scrollLeft; }
+  else if (s <= 0){ banda.scrollLeft = s + anchoJuego; pos = banda.scrollLeft; }
 }
 function pasoCinta(){
-  vAct += (vObj - vAct) * 0.08;                 /* arranque y frenado suaves */
+  vAct += (vObj - vAct) * 0.08;
   if (Math.abs(vAct) > 0.004 && anchoJuego > 0){
-    desfase += vAct;
-    if (desfase > anchoJuego * 2) desfase -= anchoJuego;
-    else if (desfase < 0) desfase += anchoJuego;
-    pintarCinta();
+    if (Math.abs(banda.scrollLeft - pos) > 2) pos = banda.scrollLeft;   /* la movió el usuario */
+    pos += vAct;
+    if (pos >= anchoJuego * 2) pos -= anchoJuego;
+    else if (pos <= 0) pos += anchoJuego;
+    banda.scrollLeft = pos;
   }
   rafCinta = (aLaVista && anchoJuego > 0) ? requestAnimationFrame(pasoCinta) : 0;
 }
 function vigilarCinta(){
-  if (!banda || anchoJuego === 0) return;      /* táctil o sin medir: nada que animar */
+  if (!banda || anchoJuego === 0) return;
   const r = banda.getBoundingClientRect();
   const dentro = r.bottom > -120 && r.top < innerHeight + 120;
   if (dentro && !aLaVista){ aLaVista = true; if (!rafCinta) rafCinta = requestAnimationFrame(pasoCinta); }
-  else if (!dentro && aLaVista){ aLaVista = false; }   /* fuera de pantalla no gasta fotogramas */
+  else if (!dentro && aLaVista){ aLaVista = false; }
 }
 
-/* trae a la vista la lámina que recibe el foco: sin esto los botones
-   reales viven fuera de la ventana visible y el teclado no llega */
-function mostrarLamina(b){
-  if (!anchoJuego) return;
-  /* al tercio izquierdo y sin envolver: centrar hacía que las primeras láminas
-     saltaran al extremo contrario y siguieran fuera de la ventana */
-  const d = b.offsetLeft - banda.clientWidth * 0.14;
-  desfase = Math.min(Math.max(d, 0), anchoJuego);
-  pintarCinta();
-}
 let pausadaAMano = false;
 const btnPausa = document.getElementById('pausa');
 function fijarPausa(v){
@@ -1498,27 +1494,29 @@ function fijarPausa(v){
   btnPausa.setAttribute('aria-pressed', String(v));
   document.getElementById('pausa-txt').textContent = v ? 'Reanudar la cinta' : 'Pausar la cinta';
 }
+/* cede el paso mientras el usuario la maneja, y retoma poco después */
+function cederPaso(ms){
+  if (pausadaAMano || quieto.matches) return;
+  vObj = 0;
+  clearTimeout(reanudar);
+  reanudar = setTimeout(() => { if (!pausadaAMano) vObj = CRUCERO; }, ms);
+}
 
 if (banda && pista){
-  const conRaton = matchMedia('(hover:hover)').matches && !quieto.matches;
-  medirCinta();                                  /* siempre: el teclado lo necesita */
+  medirCinta();
+  if (!quieto.matches) vigilarCinta();
   if (btnPausa) btnPausa.addEventListener('click', () => fijarPausa(!pausadaAMano));
-  pista.addEventListener('focusin', e => {
-    const b = e.target.closest('.tira');
-    if (!b) return;
-    vObj = 0;                                    /* el foco detiene la cinta */
-    mostrarLamina(b);
-  });
-  pista.addEventListener('focusout', e => {
-    if (!pausadaAMano && conRaton && !pista.contains(e.relatedTarget)) vObj = CRUCERO;
-  });
-  if (conRaton){
-    banda.addEventListener('pointerenter', () => { vObj = 0; });
+
+  banda.addEventListener('scroll', envolver, {passive:true});
+  banda.addEventListener('pointerdown', () => cederPaso(2500));
+  banda.addEventListener('touchstart', () => cederPaso(2500), {passive:true});
+  banda.addEventListener('wheel', () => cederPaso(1800), {passive:true});
+
+  if (matchMedia('(hover:hover)').matches){
+    banda.addEventListener('pointerenter', () => { if (!pausadaAMano) vObj = 0; });
     banda.addEventListener('pointerleave', () => { if (!pausadaAMano) vObj = CRUCERO; });
-    vigilarCinta();
-  } else {
-    if (btnPausa) btnPausa.closest('.cinta-mando').hidden = true;   /* táctil: no hay nada que pausar */
   }
+  pista.addEventListener('focusin', () => cederPaso(4000));   /* el navegador ya trae el foco a la vista */
   addEventListener('resize', medirCinta);
 }
 
