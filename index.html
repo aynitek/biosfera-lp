@@ -187,29 +187,20 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 
-/* FAMOSOS — borde de degradado en marcha: el unico filtro que no es un grupo taxonomico,
-   asi que se distingue del resto sin necesidad de una etiqueta que lo explique */
-@property --giro{syntax:"<angle>";inherits:false;initial-value:0deg}
-.chip-vip{border-color:transparent;border-width:2px;
-  /* aro oliva fijo + una banda de luz que le da la vuelta: se lee el movimiento a 1.5px */
-  /* sobre papel el brillo claro no se ve (#E6F27A da 1.11:1), asi que cada estado lleva su
-     propio aro: oscuro con destello lima sobre papel, oliva con destello palido sobre tinta.
-     El 0deg de reserva mantiene el aro si el navegador no soporta @property */
-  --aro:conic-gradient(from var(--giro,0deg),
-    #3E4A11 0deg,#556212 26deg,#8FA020 52deg,#C4D22C 74deg,#8FA020 96deg,#556212 122deg,
-    #3E4A11 158deg,#3E4A11 360deg);
-  background:linear-gradient(var(--bg),var(--bg)) padding-box,var(--aro) border-box;
-  animation:giro 4.5s linear infinite}
-.chip-vip:hover{border-color:transparent}
-.chip-vip[aria-pressed="true"]{border-color:transparent;
-  /* con base #626D15 el aro daba 2.99:1 sobre la tinta y se perdia: solo asomaba el destello.
-     Se sube la base a 5.80:1 para que el anillo se vea entero y el brillo lo recorra */
-  --aro:conic-gradient(from var(--giro,0deg),
-    #8FA020 0deg,#A3B324 24deg,#C4D22C 48deg,#F2FBC0 72deg,#C4D22C 96deg,#A3B324 120deg,
-    #8FA020 156deg,#8FA020 360deg);
-  background:linear-gradient(var(--fg),var(--fg)) padding-box,var(--aro) border-box}
-@keyframes giro{to{--giro:360deg}}
-@media(prefers-reduced-motion:reduce){.chip-vip{animation:none}}
+/* FAMOSOS — el unico filtro que no es un grupo taxonomico, asi que se distingue del
+   resto sin necesidad de una etiqueta que lo explique. Filete de 1px como los demas y
+   una franja de luz que cruza en diagonal: la luz pasando sobre el cristal de una
+   vitrina. Descansa tres segundos entre pasadas; sin esa pausa seria un banner. */
+.chip-vip{position:relative;overflow:hidden;border-color:#8FA020;
+  /* sobre papel la franja tiene que ser oscura, sobre tinta clara: al reves no se lee */
+  --luz:rgba(21,32,13,.13)}
+.chip-vip[aria-pressed="true"]{border-color:#8FA020;--luz:rgba(230,242,122,.5)}
+.chip-vip:hover{border-color:var(--accent)}
+.chip-vip::after{content:"";position:absolute;inset:-1px;pointer-events:none;
+  background:linear-gradient(104deg,transparent 42%,var(--luz) 50%,transparent 58%);
+  transform:translateX(-130%);animation:barrido 5s var(--ease) infinite}
+@keyframes barrido{0%,62%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+@media(prefers-reduced-motion:reduce){.chip-vip::after{display:none}}
 
 /* ÍNDICE DE LA COLECCIÓN — lista editorial + panel de vista previa */
 .idx{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(2rem,4vw,3.5rem);align-items:start}
