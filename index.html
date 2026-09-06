@@ -192,14 +192,19 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 @property --giro{syntax:"<angle>";inherits:false;initial-value:0deg}
 .chip-vip{border-color:transparent;border-width:1.5px;
   /* aro oliva fijo + una banda de luz que le da la vuelta: se lee el movimiento a 1.5px */
-  /* el 0deg de reserva mantiene el aro si el navegador no soporta @property */
+  /* sobre papel el brillo claro no se ve (#E6F27A da 1.11:1), asi que cada estado lleva su
+     propio aro: oscuro con destello lima sobre papel, oliva con destello palido sobre tinta.
+     El 0deg de reserva mantiene el aro si el navegador no soporta @property */
   --aro:conic-gradient(from var(--giro,0deg),
-    #626D15 0deg,#8FA020 30deg,#C4D22C 58deg,#E6F27A 76deg,#C4D22C 94deg,#8FA020 122deg,
-    #626D15 165deg,#626D15 360deg);
+    #3E4A11 0deg,#556212 26deg,#8FA020 52deg,#C4D22C 74deg,#8FA020 96deg,#556212 122deg,
+    #3E4A11 158deg,#3E4A11 360deg);
   background:linear-gradient(var(--bg),var(--bg)) padding-box,var(--aro) border-box;
   animation:giro 4.5s linear infinite}
 .chip-vip:hover{border-color:transparent}
 .chip-vip[aria-pressed="true"]{border-color:transparent;
+  --aro:conic-gradient(from var(--giro,0deg),
+    #626D15 0deg,#8FA020 26deg,#C4D22C 52deg,#E6F27A 74deg,#C4D22C 96deg,#8FA020 122deg,
+    #626D15 158deg,#626D15 360deg);
   background:linear-gradient(var(--fg),var(--fg)) padding-box,var(--aro) border-box}
 @keyframes giro{to{--giro:360deg}}
 @media(prefers-reduced-motion:reduce){.chip-vip{animation:none}}
