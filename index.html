@@ -43,9 +43,7 @@
 .lime,.inv{background:var(--bg);color:var(--fg)}
 
 *{box-sizing:border-box}
-/* sin rebote elastico en los extremos: el riel es position:fixed y no participa del rebote,
-   asi que al frenar de golpe arriba el tronco se despegaba de la pagina */
-html{scroll-behavior:smooth;overscroll-behavior-y:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 section[id],main{scroll-margin-top:86px}
 body{margin:0;background:var(--bg);color:var(--fg);
@@ -477,11 +475,15 @@ dialog.legal::backdrop{background:rgba(20,30,12,.62);backdrop-filter:blur(6px)}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
 }
-/* RIEL — tronco fijo a la izquierda con el gecko que te acompaña.
-   Solo en pantallas con margen suficiente: nunca debe pisar el contenido. */
-.rail{display:none}
+/* RIEL — tronco a la izquierda con el gecko que te acompaña.
+   Solo en pantallas con margen suficiente: nunca debe pisar el contenido.
+   Va sticky, no fixed: un elemento fijo se ancla al viewport y no participa del rebote
+   elastico de macOS, asi que al frenar de golpe contra el tope el tronco se despegaba
+   de la pagina. Sticky viaja dentro del contenido y rebota con el. */
+.rail-wrap{display:none}
 @media(min-width:1500px){
-  .rail{display:block;position:fixed;left:0;top:78px;bottom:0;width:74px;z-index:0;pointer-events:none;overflow:hidden}
+  .rail-wrap{display:block;position:absolute;left:0;top:0;width:74px;z-index:0;pointer-events:none}
+  .rail{position:sticky;top:78px;width:74px;overflow:hidden}
 }
 .rail-trunk{position:absolute;inset:0;opacity:.62;
   background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiAyMjAiIHdpZHRoPSI5NiIgaGVpZ2h0PSIyMjAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgogIDxkZWZzPgogICAgPCEtLSBkZWdyYWRhZG8gaG9yaXpvbnRhbDogZGEgdm9sdW1lbiBjaWzDrW5kcmljbywgb3NjdXJvIGVuIGxvcyBjYW50b3MgLS0+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImNvcnRlemEiIHgxPSIwIiB4Mj0iMSIgeTE9IjAiIHkyPSIwIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiAgIHN0b3AtY29sb3I9IiM4NTY4NDYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIuMzQiIHN0b3AtY29sb3I9IiNCRkEzN0EiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIuNTgiIHN0b3AtY29sb3I9IiNCMjk1NjkiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiAgIHN0b3AtY29sb3I9IiM3MjU3MzciLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8Y2xpcFBhdGggaWQ9InNpbHVldGEiPgogICAgICA8cGF0aCBkPSJNMTYgMCBDIDE2IDE4LCAxMSAzOCwgMTMgNjYgQyAxNSA5NiwgOSAxMjIsIDEyIDE1MCBDIDE1IDE4MCwgMTYgMjAwLCAxNiAyMjAKICAgICAgICAgICAgICAgTCA4NCAyMjAgQyA4NCAyMDAsIDg4IDE4MiwgODYgMTUyIEMgODQgMTIyLCA5MCA5NiwgODcgNjYgQyA4NCAzOCwgODQgMTgsIDg0IDAgWiIvPgogICAgPC9jbGlwUGF0aD4KICA8L2RlZnM+CiAgPHBhdGggZD0iTTE2IDAgQyAxNiAxOCwgMTEgMzgsIDEzIDY2IEMgMTUgOTYsIDkgMTIyLCAxMiAxNTAgQyAxNSAxODAsIDE2IDIwMCwgMTYgMjIwCiAgICAgICAgICAgTCA4NCAyMjAgQyA4NCAyMDAsIDg4IDE4MiwgODYgMTUyIEMgODQgMTIyLCA5MCA5NiwgODcgNjYgQyA4NCAzOCwgODQgMTgsIDg0IDAgWiIKICAgICAgICBmaWxsPSJ1cmwoI2NvcnRlemEpIi8+CiAgPCEtLSB2ZXRhczogcmViYXNhbiBlbCBtb3NhaWNvIHkgdmFuIGEgdG9wZSwgcGFyYSBxdWUgbGEgdW5pw7NuIG5vIGRlamUgbWFyY2EgLS0+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI3NpbHVldGEpIiBzdHJva2U9IiM1QTQ1MjciIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIKICAgICBzdHJva2UtbGluZWNhcD0iYnV0dCIgb3BhY2l0eT0iLjQyIj4KICAgIDxwYXRoIGQ9Ik0zNCAtNiBDIDM0IDIwLCAzMCA2MCwgMzMgMTEwIEMgMzYgMTYwLCAzNCAyMDAsIDM0IDIyNiIvPgogICAgPHBhdGggZD0iTTUyIC02IEMgNTIgMjIsIDU2IDcwLCA1MyAxMjAgQyA1MCAxNzAsIDUyIDE5OCwgNTIgMjI2Ii8+CiAgICA8cGF0aCBkPSJNNjggLTYgQyA2OCAxOCwgNjQgNjQsIDY3IDExMiBDIDcwIDE2NCwgNjggMjAwLCA2OCAyMjYiLz4KICA8L2c+Cjwvc3ZnPgo=") no-repeat;background-size:100% 100%}
@@ -563,9 +565,10 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
 .i-logo{background-image:url("data:image/webp;base64,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")}
 </style>
 
-<div class="rail" aria-hidden="true">
-  <div class="rail-trunk"></div>
-  <div class="rail-gecko" id="gecko"><span class="giro"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 340" width="160" height="340" aria-hidden="true">
+<div class="rail-wrap" id="rielc" aria-hidden="true">
+  <div class="rail">
+    <div class="rail-trunk"></div>
+    <div class="rail-gecko" id="gecko"><span class="giro"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 340" width="160" height="340" aria-hidden="true">
   <defs>
     <g id="pie" stroke="currentColor" stroke-linecap="round" fill="none">
       <path d="M0 0 L -11 -8" stroke-width="4.2"/>
@@ -608,6 +611,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
   </g>
 </svg>
 </span></div>
+  </div>
 </div>
 
 <header id="hd">
@@ -1302,6 +1306,7 @@ btnMas.addEventListener('click', () => {
   const quieto = () => { if (scrollY !== y) scrollTo({top: y, behavior: 'instant'}); };
   quieto();
   requestAnimationFrame(quieto);   /* el ajuste del navegador puede llegar un frame despues */
+  recortarRiel();                  /* el documento acaba de cambiar de alto */
 });
 document.querySelectorAll('.chip').forEach(c =>
   c.addEventListener('click', () => aplicarFiltro(c.dataset.f)));
@@ -1339,13 +1344,20 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
 /* el gecko sube y baja contigo, y gira para mirar hacia donde va */
 const gk = document.getElementById('gecko');
 const riel = document.querySelector('.rail');
+const rielc = document.getElementById('rielc');
 const pie = document.querySelector('footer');
 
-/* el tronco nace bajo el header y muere donde empieza el pie:
-   el riel es fijo, así que hay que recortarlo cuando el pie entra en pantalla */
-function ajustarRiel(){
-  if (!riel || getComputedStyle(riel).display === 'none') return;
+/* el tronco nace bajo el header y muere donde empieza el pie. El contenedor llega hasta
+   el pie —ahi el sticky deja de pegarse— y el riel mide una pantalla menos la cabecera. */
+function ajustarRiel(){ recortarRiel(); }
+/* El contenedor termina donde empieza el pie: ahi el sticky deja de pegarse. Y el tronco
+   se acorta cuando el pie se acerca; si en vez de acortarlo dejaramos que el sticky lo
+   empujara contra el fondo del contenedor, el gecko se saldria por arriba.
+   Ambos salen de una sola lectura, asi que recalcularlo en cada fotograma sale gratis. */
+function recortarRiel(){
+  if (!rielc || getComputedStyle(rielc).display === 'none') return;
   const tope = pie.getBoundingClientRect().top;
+  rielc.style.height = Math.round(tope + scrollY) + 'px';
   riel.style.height = Math.max(0, Math.min(innerHeight, tope) - 78) + 'px';
 }
 const quieto = matchMedia('(prefers-reduced-motion:reduce)');
@@ -1378,9 +1390,12 @@ addEventListener('scroll', () => {
   animarCifras();                 /* barato y se autodesactiva: fuera del rAF */
   if (pendiente) return;
   pendiente = true;
-  requestAnimationFrame(() => { ajustarRiel(); moverGecko(); moverBichos(); vigilarCinta(); pendiente = false; });
+  requestAnimationFrame(() => { recortarRiel(); moverGecko(); moverBichos(); vigilarCinta(); pendiente = false; });
 }, {passive:true});
 addEventListener('resize', () => { ajustarRiel(); moverGecko(); });
+/* el documento cambia de alto al desplegar «ver más» o al cargar las fuentes:
+   el contenedor del riel tiene que seguir terminando justo donde empieza el pie */
+if (window.ResizeObserver) new ResizeObserver(ajustarRiel).observe(document.body);
 ajustarRiel(); moverGecko();
 
 /* CIFRAS — arrancan en cero desde que carga la página (si empezaran con el valor
