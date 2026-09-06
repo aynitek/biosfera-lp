@@ -236,6 +236,15 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .row:hover::before,.row.on::before{transform:scaleX(1);transform-origin:left}
 .row:focus-visible::before{transform:scaleX(1);transform-origin:left}
 .row-g{grid-area:g;font-size:.82rem;color:var(--accent);padding-top:.3rem}
+/* SELLO — la misma estrella del chip Famosos, para que la fila y el filtro que la
+   selecciona hablen el mismo idioma. Va en la linea del nombre, no en una columna
+   propia: es una marca sobre el nombre, no un dato mas de la ficha. */
+.sello{width:.68em;height:.68em;fill:currentColor;color:var(--accent);
+  margin-left:.42em;vertical-align:.06em;flex:none}
+/* el sello es una marca visual: quien no la ve necesita que se lo digan */
+.oculto{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap;border:0}
+.row[aria-pressed] .sello,.row:hover .sello{color:var(--accent)}
 .row-n{grid-area:n;font-family:var(--disp);font-weight:800;text-transform:uppercase;
   font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:.95;
   transition:transform .42s var(--ease)}
@@ -574,6 +583,13 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
 .i-logo{background-image:url("data:image/webp;base64,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")}
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="sello-estrella" viewBox="0 0 16 16">
+    <!-- disco con la estrella calada: un solo trazo, evenodd hace el hueco -->
+    <path fill-rule="evenodd" d="M8 0a8 8 0 0 1 0 16 8 8 0 0 1 0-16Zm0 2.4l.81 4.79L13.6 8l-4.79.81L8 13.6l-.81-4.79L2.4 8l4.79-.81Z"/>
+  </symbol>
+</svg>
+
 <div class="rail-wrap" id="rielc" aria-hidden="true">
   <div class="rail">
     <div class="rail-trunk"></div>
@@ -747,7 +763,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <div class="rows" id="rows">
         <button class="row" type="button" data-sp="0" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
-          <span class="row-n">Gecko leopardo</span>
+          <span class="row-n">Gecko leopardo<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
           <span class="row-b">Eublepharis macularius</span>
           <span class="row-h">Parpadea, y casi ningún gecko puede.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
@@ -768,7 +784,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         </button>
         <button class="row" type="button" data-sp="3" data-g="Arácnido" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Arácnido</span>
-          <span class="row-n">Tarántula</span>
+          <span class="row-n">Tarántula<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
           <span class="row-b">Brachypelma sp.</span>
           <span class="row-h">Prefiere lanzarte pelos antes que morder.</span>
           <span class="row-t"></span>
@@ -789,7 +805,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         </button>
         <button class="row" type="button" data-sp="6" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
-          <span class="row-n">Falsa coral</span>
+          <span class="row-n">Falsa coral<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
           <span class="row-b">Lampropeltis sp.</span>
           <span class="row-h">Un disfraz que le salva la vida.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
@@ -810,14 +826,14 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         </button>
         <button class="row" type="button" data-sp="9" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Erizo africano</span>
+          <span class="row-n">Erizo africano<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
           <span class="row-b">Atelerix albiventris</span>
           <span class="row-h">Se escupe las púas para oler mejor.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="10" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Petauro del azúcar</span>
+          <span class="row-n">Petauro del azúcar<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
           <span class="row-b">Petaurus breviceps</span>
           <span class="row-h">Marsupial que planea 50 metros.</span>
           <span class="row-t"></span>
