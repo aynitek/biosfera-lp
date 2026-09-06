@@ -221,7 +221,8 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .vermas{margin-top:1.1rem;background:none;border:1px solid var(--rule-2);border-radius:999px;
   min-height:44px;padding:.5rem 1.2rem;cursor:pointer;font-family:var(--disp);font-weight:700;
   text-transform:uppercase;font-size:1rem;letter-spacing:.03em;color:var(--fg);
-  transition:all .2s var(--ease)}
+  /* nada de «all»: arrastraria visibility y el boton tardaria en irse al cambiar de grupo */
+  transition:border-color .2s var(--ease),background .2s var(--ease),color .2s var(--ease)}
 .vermas:hover{border-color:var(--fg);background:var(--bg-2)}
 /* ocupa su sitio aunque no haya nada que desplegar: si no, la seccion salta */
 .vermas[hidden]{display:block;visibility:hidden}
