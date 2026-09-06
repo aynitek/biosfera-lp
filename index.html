@@ -43,7 +43,9 @@
 .lime,.inv{background:var(--bg);color:var(--fg)}
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* sin rebote elastico en los extremos: el riel es position:fixed y no participa del rebote,
+   asi que al frenar de golpe arriba el tronco se despegaba de la pagina */
+html{scroll-behavior:smooth;overscroll-behavior-y:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 section[id],main{scroll-margin-top:86px}
 body{margin:0;background:var(--bg);color:var(--fg);
