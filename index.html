@@ -677,11 +677,12 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
     <div class="shell">
       <div class="sec-head">
         <h2>Quiénes viven aquí</h2>
-        <p class="lede">Toca cualquiera para abrir su ficha. Vas a encontrar el mito que arrastra
-          y lo que pasa de verdad.</p>
+        <p class="lede">Empezamos por las estrellas de la casa. Cambia de grupo para ver al resto,
+          y toca cualquiera para abrir su ficha: vas a encontrar el mito que arrastra y lo que pasa
+          de verdad.</p>
       </div>
       <div class="filters" role="group" aria-label="Filtrar por grupo">
-        <button class="chip" type="button" data-f="todos" aria-pressed="true">Todos</button>
+        <button class="chip" type="button" data-f="estrellas" aria-pressed="true">Las estrellas</button>
         <button class="chip" type="button" data-f="Reptil" aria-pressed="false">Reptiles</button>
         <button class="chip" type="button" data-f="Anfibio" aria-pressed="false">Anfibios</button>
         <button class="chip" type="button" data-f="Arácnido" aria-pressed="false">Arácnidos</button>
@@ -690,112 +691,112 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
       </div>
       <div class="idx">
         <div class="rows" id="rows">
-        <button class="row" type="button" data-sp="0" data-g="Reptil" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="0" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Gecko leopardo</span>
           <span class="row-b">Eublepharis macularius</span>
           <span class="row-h">Parpadea, y casi ningún gecko puede.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
-        <button class="row" type="button" data-sp="1" data-g="Reptil" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="1" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Dragón barbudo</span>
           <span class="row-b">Pogona vitticeps</span>
           <span class="row-h">Saluda con el brazo. En serio.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
-        <button class="row" type="button" data-sp="2" data-g="Reptil" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="2" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Serpiente del maíz</span>
           <span class="row-b">Pantherophis guttatus</span>
           <span class="row-h">La primera que vas a tocar.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
-        <button class="row" type="button" data-sp="3" data-g="Arácnido" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="3" data-g="Arácnido" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Arácnido</span>
           <span class="row-n">Tarántula</span>
           <span class="row-b">Brachypelma sp.</span>
           <span class="row-h">Prefiere lanzarte pelos antes que morder.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="4" data-g="Reptil" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="4" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Gecko tokay</span>
           <span class="row-b">Gekko gecko</span>
           <span class="row-h">Ladra de noche. De ahí el nombre.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="5" data-g="Anfibio" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="5" data-g="Anfibio" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Anfibio</span>
           <span class="row-n">Rana pacman</span>
           <span class="row-b">Ceratophrys ornata</span>
           <span class="row-h">Es más boca que rana.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="6" data-g="Reptil" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="6" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Falsa coral</span>
           <span class="row-b">Lampropeltis sp.</span>
           <span class="row-h">Un disfraz que le salva la vida.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
-        <button class="row" type="button" data-sp="7" data-g="Arácnido" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="7" data-g="Arácnido" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Arácnido</span>
           <span class="row-n">Escorpión</span>
           <span class="row-b">Orden Scorpiones</span>
           <span class="row-h">Brilla turquesa bajo luz UV.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="8" data-g="Mamífero" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="8" data-g="Mamífero" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Hurón</span>
           <span class="row-b">Mustela putorius furo</span>
           <span class="row-h">Te roba cosas y las guarda en su escondite.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
-        <button class="row" type="button" data-sp="9" data-g="Mamífero" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="9" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Erizo africano</span>
           <span class="row-b">Atelerix albiventris</span>
           <span class="row-h">Se escupe las púas para oler mejor.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
-        <button class="row" type="button" data-sp="10" data-g="Mamífero" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="10" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Petauro del azúcar</span>
           <span class="row-b">Petaurus breviceps</span>
           <span class="row-h">Marsupial que planea 50 metros.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="11" data-g="Mamífero" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="11" data-g="Mamífero" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Gato sphynx</span>
           <span class="row-b">Felis catus</span>
           <span class="row-h">Se siente como un durazno tibio.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
-        <button class="row" type="button" data-sp="12" data-g="Ave" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="12" data-g="Ave" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Ave</span>
           <span class="row-n">Guacamayo escarlata</span>
           <span class="row-b">Ara macao</span>
           <span class="row-h">Se llaman por su nombre entre ellos.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="13" data-g="Ave" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="13" data-g="Ave" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Ave</span>
           <span class="row-n">Ninfa</span>
           <span class="row-b">Nymphicus hollandicus</span>
           <span class="row-h">La cresta te dice cómo se siente.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="14" data-g="Reptil" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="14" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Dragón de agua chino</span>
           <span class="row-b">Physignathus cocincinus</span>
           <span class="row-h">Aguanta 25 minutos bajo el agua.</span>
           <span class="row-t"></span>
         </button>
-        <button class="row" type="button" data-sp="15" data-g="Mamífero" aria-haspopup="dialog">
+        <button class="row" type="button" data-sp="15" data-g="Mamífero" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Rata</span>
           <span class="row-b">Rattus norvegicus</span>
@@ -1129,7 +1130,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
 </dialog>
 
 <script>
-const SP = [{"k":"gecko-leopardo","n":"Gecko leopardo","b":"Eublepharis macularius","g":"Reptil","o":"Desiertos de Afganistán, Pakistán e India","t":"20–25 cm","d":"Insectos vivos","v":"15–20 años","mito":"Que es un lagarto cualquiera, de esos que se escapan y no te miran.","real":"Casi ningún gecko puede cerrar los ojos, pero este sí: pertenece a la familia de los que conservan párpados móviles. Parpadea, duerme con los ojos cerrados y te sostiene la mirada. Y si le agarras la cola, la suelta y le vuelve a crecer.","gancho":"Parpadea, y casi ningún gecko puede.","tocar":true},{"k":"dragon-barbudo","n":"Dragón barbudo","b":"Pogona vitticeps","g":"Reptil","o":"Desiertos del centro de Australia","t":"40–60 cm","d":"Insectos y verduras","v":"10–15 años","mito":"Que ese nombre es puro marketing.","real":"Se lo ganó a pulso. Cuando algo lo incomoda infla la garganta hasta ponérsela negra, como una barba, y saluda moviendo un brazo en círculo. Ese saludo forma parte de su lenguaje corporal.","gancho":"Saluda con el brazo. En serio.","tocar":true},{"k":"serpiente-maiz","n":"Serpiente del maíz","b":"Pantherophis guttatus","g":"Reptil","o":"Bosques del sureste de Estados Unidos","t":"1,2–1,8 m","d":"Roedores","v":"15–20 años","mito":"Serpiente igual a veneno.","real":"No tiene veneno ni colmillos. Es dócil, curiosa y tibia al tacto, no viscosa. Es la primera que ponemos en manos de alguien que llega muerto de miedo.","gancho":"La primera que vas a tocar.","tocar":true},{"k":"tarantula","n":"Tarántula","b":"Brachypelma sp.","g":"Arácnido","o":"México y Centroamérica","t":"12–16 cm de envergadura","d":"Insectos","v":"Hembras hasta 30 años","mito":"Que su mordida te manda al hospital.","real":"Para un humano sano su veneno es más flojo que una picadura de abeja, y morder es su último recurso: cuando se asusta se frota el abdomen con las patas traseras y lanza pelos urticantes. Aun así es de las que solo se observan.","gancho":"Prefiere lanzarte pelos antes que morder.","tocar":false},{"k":"gecko-tokay","n":"Gecko tokay","b":"Gekko gecko","g":"Reptil","o":"Selvas del sudeste asiático","t":"30–35 cm","d":"Insectos grandes","v":"15–20 años","mito":"Que los geckos son silenciosos.","real":"Este ladra. Su nombre viene del grito «to-kay» que repite de noche y que se oye a cuadras. Tiene carácter, y es el más territorial de la casa.","gancho":"Ladra de noche. De ahí el nombre.","tocar":false},{"k":"rana-pacman","n":"Rana pacman","b":"Ceratophrys ornata","g":"Anfibio","o":"Pastizales de Argentina, Uruguay y Brasil","t":"12–16 cm","d":"Insectos y presas pequeñas","v":"10–15 años","mito":"Que las ranas saltan.","real":"Esta casi no se mueve. Se entierra dejando fuera solo los ojos y espera. Su boca ocupa la mitad del cuerpo y puede tragarse presas de su mismo tamaño.","gancho":"Es más boca que rana.","tocar":false},{"k":"coral-falsa","n":"Falsa coral","b":"Lampropeltis sp.","g":"Reptil","o":"América","t":"90 cm–1,5 m","d":"Roedores y otros reptiles","v":"15–20 años","mito":"Roja y negra, peligro seguro.","real":"Copia el traje de la coral venenosa sin tener una gota de veneno. Es un farol evolutivo que le funciona: los depredadores no se arriesgan a comprobarlo. Aquí te enseñamos a distinguirlas.","gancho":"Un disfraz que le salva la vida.","tocar":true},{"k":"escorpion","n":"Escorpión","b":"Orden Scorpiones","g":"Arácnido","o":"Zonas áridas y tropicales","t":"6–12 cm","d":"Insectos","v":"4–8 años","mito":"Que todos son mortales.","real":"De unas 2.500 especies, apenas unas 25 son peligrosas para una persona. Y todas, sin excepción, brillan de color turquesa bajo luz ultravioleta. Todavía no sabemos por qué.","gancho":"Brilla turquesa bajo luz UV.","tocar":false},{"k":"hurones","n":"Hurón","b":"Mustela putorius furo","g":"Mamífero","o":"Doméstico desde hace 2.500 años, de origen europeo","t":"40–50 cm","d":"Carne","v":"6–10 años","mito":"Que es una especie de rata grande.","real":"Es pariente de la comadreja, no de los roedores, y lleva unos 2.500 años conviviendo con nosotros. Duerme hasta 18 horas al día y dedica las otras seis a robarte cosas pequeñas y esconderlas siempre en el mismo sitio.","gancho":"Te roba cosas y las guarda en su escondite.","tocar":true},{"k":"erizos","n":"Erizo africano","b":"Atelerix albiventris","g":"Mamífero","o":"Sabanas de África central","t":"15–22 cm","d":"Insectos","v":"4–6 años","mito":"Que las púas son como las del puercoespín.","real":"Sus púas son pelo endurecido, se aplastan cuando está tranquilo y nunca salen disparadas. Y hace algo rarísimo. Si huele algo nuevo, se llena las púas con su propia saliva, una conducta que los biólogos llaman automarcaje.","gancho":"Se escupe las púas para oler mejor.","tocar":true},{"k":"petauro","n":"Petauro del azúcar","b":"Petaurus breviceps","g":"Mamífero","o":"Bosques de Australia y Nueva Guinea","t":"16–20 cm más la cola","d":"Néctar, savia e insectos","v":"10–15 años","mito":"Que es una ardilla voladora.","real":"Es marsupial y cría a los hijos en una bolsa, como los canguros. Tampoco vuela, planea. Abre una membrana que va de la muñeca al tobillo y cruza hasta 50 metros entre árboles.","gancho":"Marsupial que planea 50 metros.","tocar":false},{"k":"gato-sphynx","n":"Gato sphynx","b":"Felis catus","g":"Mamífero","o":"Doméstico, de origen canadiense","t":"30–40 cm","d":"Carne","v":"12–15 años","mito":"Que no tiene pelo y es frío al tacto.","real":"Tiene una pelusa finísima, como un durazno, y se siente más caliente que un gato normal porque no hay pelaje aislando. Nuestro residente se llama Rhem.","gancho":"Se siente como un durazno tibio.","tocar":true},{"k":"guacamayo","n":"Guacamayo escarlata","b":"Ara macao","g":"Ave","o":"Amazonía, incluida la peruana","t":"80–90 cm","d":"Frutas, semillas y nueces","v":"Más de 50 años","mito":"Que solo repite lo que oye.","real":"Se le pone nombre propio a cada miembro del grupo y se llaman entre ellos con ese sonido. Vive más de medio siglo, así que un guacamayo puede sobrevivir a quien lo crió.","gancho":"Se llaman por su nombre entre ellos.","tocar":false},{"k":"ninfas","n":"Ninfa","b":"Nymphicus hollandicus","g":"Ave","o":"Interior de Australia","t":"30–33 cm","d":"Semillas y verduras","v":"15–20 años","mito":"Que la cresta es solo adorno.","real":"Es un termómetro emocional que puedes leer sin saber nada de aves. Erguida marca curiosidad, muy alta susto, pegada a la cabeza enojo. Los machos, además, aprenden a silbar melodías completas.","gancho":"La cresta te dice cómo se siente.","tocar":false},{"k":"dragon-agua","n":"Dragón de agua chino","b":"Physignathus cocincinus","g":"Reptil","o":"Ríos y selvas del sudeste asiático","t":"80 cm–1 m con cola","d":"Insectos, peces y verduras","v":"10–15 años","mito":"Que un lagarto de un metro tiene que ser agresivo.","real":"Su plan ante el peligro es huir, no pelear: se deja caer al agua desde la rama y aguanta la respiración hasta 25 minutos en el fondo. Es el que te recibe en la portada de la casa.","gancho":"Aguanta 25 minutos bajo el agua.","tocar":false},{"k":"ratones","n":"Rata","b":"Rattus norvegicus","g":"Mamífero","o":"Doméstica, de origen asiático","t":"20–25 cm más la cola","d":"Omnívora","v":"2–3 años","mito":"Que es sucia y transmite enfermedades.","real":"La rata doméstica se acicala más que un gato. Reconoce su nombre, aprende trucos y —esto está documentado— se ríe cuando le hacen cosquillas, en un ultrasonido que nuestro oído no alcanza.","gancho":"Se ríe cuando le haces cosquillas.","tocar":true}];
+const SP = [{"estrella":true,"k":"gecko-leopardo","n":"Gecko leopardo","b":"Eublepharis macularius","g":"Reptil","o":"Desiertos de Afganistán, Pakistán e India","t":"20–25 cm","d":"Insectos vivos","v":"15–20 años","mito":"Que es un lagarto cualquiera, de esos que se escapan y no te miran.","real":"Casi ningún gecko puede cerrar los ojos, pero este sí: pertenece a la familia de los que conservan párpados móviles. Parpadea, duerme con los ojos cerrados y te sostiene la mirada. Y si le agarras la cola, la suelta y le vuelve a crecer.","gancho":"Parpadea, y casi ningún gecko puede.","tocar":true},{"k":"dragon-barbudo","n":"Dragón barbudo","b":"Pogona vitticeps","g":"Reptil","o":"Desiertos del centro de Australia","t":"40–60 cm","d":"Insectos y verduras","v":"10–15 años","mito":"Que ese nombre es puro marketing.","real":"Se lo ganó a pulso. Cuando algo lo incomoda infla la garganta hasta ponérsela negra, como una barba, y saluda moviendo un brazo en círculo. Ese saludo forma parte de su lenguaje corporal.","gancho":"Saluda con el brazo. En serio.","tocar":true},{"k":"serpiente-maiz","n":"Serpiente del maíz","b":"Pantherophis guttatus","g":"Reptil","o":"Bosques del sureste de Estados Unidos","t":"1,2–1,8 m","d":"Roedores","v":"15–20 años","mito":"Serpiente igual a veneno.","real":"No tiene veneno ni colmillos. Es dócil, curiosa y tibia al tacto, no viscosa. Es la primera que ponemos en manos de alguien que llega muerto de miedo.","gancho":"La primera que vas a tocar.","tocar":true},{"estrella":true,"k":"tarantula","n":"Tarántula","b":"Brachypelma sp.","g":"Arácnido","o":"México y Centroamérica","t":"12–16 cm de envergadura","d":"Insectos","v":"Hembras hasta 30 años","mito":"Que su mordida te manda al hospital.","real":"Para un humano sano su veneno es más flojo que una picadura de abeja, y morder es su último recurso: cuando se asusta se frota el abdomen con las patas traseras y lanza pelos urticantes. Aun así es de las que solo se observan.","gancho":"Prefiere lanzarte pelos antes que morder.","tocar":false},{"k":"gecko-tokay","n":"Gecko tokay","b":"Gekko gecko","g":"Reptil","o":"Selvas del sudeste asiático","t":"30–35 cm","d":"Insectos grandes","v":"15–20 años","mito":"Que los geckos son silenciosos.","real":"Este ladra. Su nombre viene del grito «to-kay» que repite de noche y que se oye a cuadras. Tiene carácter, y es el más territorial de la casa.","gancho":"Ladra de noche. De ahí el nombre.","tocar":false},{"k":"rana-pacman","n":"Rana pacman","b":"Ceratophrys ornata","g":"Anfibio","o":"Pastizales de Argentina, Uruguay y Brasil","t":"12–16 cm","d":"Insectos y presas pequeñas","v":"10–15 años","mito":"Que las ranas saltan.","real":"Esta casi no se mueve. Se entierra dejando fuera solo los ojos y espera. Su boca ocupa la mitad del cuerpo y puede tragarse presas de su mismo tamaño.","gancho":"Es más boca que rana.","tocar":false},{"estrella":true,"k":"coral-falsa","n":"Falsa coral","b":"Lampropeltis sp.","g":"Reptil","o":"América","t":"90 cm–1,5 m","d":"Roedores y otros reptiles","v":"15–20 años","mito":"Roja y negra, peligro seguro.","real":"Copia el traje de la coral venenosa sin tener una gota de veneno. Es un farol evolutivo que le funciona: los depredadores no se arriesgan a comprobarlo. Aquí te enseñamos a distinguirlas.","gancho":"Un disfraz que le salva la vida.","tocar":true},{"k":"escorpion","n":"Escorpión","b":"Orden Scorpiones","g":"Arácnido","o":"Zonas áridas y tropicales","t":"6–12 cm","d":"Insectos","v":"4–8 años","mito":"Que todos son mortales.","real":"De unas 2.500 especies, apenas unas 25 son peligrosas para una persona. Y todas, sin excepción, brillan de color turquesa bajo luz ultravioleta. Todavía no sabemos por qué.","gancho":"Brilla turquesa bajo luz UV.","tocar":false},{"k":"hurones","n":"Hurón","b":"Mustela putorius furo","g":"Mamífero","o":"Doméstico desde hace 2.500 años, de origen europeo","t":"40–50 cm","d":"Carne","v":"6–10 años","mito":"Que es una especie de rata grande.","real":"Es pariente de la comadreja, no de los roedores, y lleva unos 2.500 años conviviendo con nosotros. Duerme hasta 18 horas al día y dedica las otras seis a robarte cosas pequeñas y esconderlas siempre en el mismo sitio.","gancho":"Te roba cosas y las guarda en su escondite.","tocar":true},{"estrella":true,"k":"erizos","n":"Erizo africano","b":"Atelerix albiventris","g":"Mamífero","o":"Sabanas de África central","t":"15–22 cm","d":"Insectos","v":"4–6 años","mito":"Que las púas son como las del puercoespín.","real":"Sus púas son pelo endurecido, se aplastan cuando está tranquilo y nunca salen disparadas. Y hace algo rarísimo. Si huele algo nuevo, se llena las púas con su propia saliva, una conducta que los biólogos llaman automarcaje.","gancho":"Se escupe las púas para oler mejor.","tocar":true},{"estrella":true,"k":"petauro","n":"Petauro del azúcar","b":"Petaurus breviceps","g":"Mamífero","o":"Bosques de Australia y Nueva Guinea","t":"16–20 cm más la cola","d":"Néctar, savia e insectos","v":"10–15 años","mito":"Que es una ardilla voladora.","real":"Es marsupial y cría a los hijos en una bolsa, como los canguros. Tampoco vuela, planea. Abre una membrana que va de la muñeca al tobillo y cruza hasta 50 metros entre árboles.","gancho":"Marsupial que planea 50 metros.","tocar":false},{"k":"gato-sphynx","n":"Gato sphynx","b":"Felis catus","g":"Mamífero","o":"Doméstico, de origen canadiense","t":"30–40 cm","d":"Carne","v":"12–15 años","mito":"Que no tiene pelo y es frío al tacto.","real":"Tiene una pelusa finísima, como un durazno, y se siente más caliente que un gato normal porque no hay pelaje aislando. Nuestro residente se llama Rhem.","gancho":"Se siente como un durazno tibio.","tocar":true},{"k":"guacamayo","n":"Guacamayo escarlata","b":"Ara macao","g":"Ave","o":"Amazonía, incluida la peruana","t":"80–90 cm","d":"Frutas, semillas y nueces","v":"Más de 50 años","mito":"Que solo repite lo que oye.","real":"Se le pone nombre propio a cada miembro del grupo y se llaman entre ellos con ese sonido. Vive más de medio siglo, así que un guacamayo puede sobrevivir a quien lo crió.","gancho":"Se llaman por su nombre entre ellos.","tocar":false},{"k":"ninfas","n":"Ninfa","b":"Nymphicus hollandicus","g":"Ave","o":"Interior de Australia","t":"30–33 cm","d":"Semillas y verduras","v":"15–20 años","mito":"Que la cresta es solo adorno.","real":"Es un termómetro emocional que puedes leer sin saber nada de aves. Erguida marca curiosidad, muy alta susto, pegada a la cabeza enojo. Los machos, además, aprenden a silbar melodías completas.","gancho":"La cresta te dice cómo se siente.","tocar":false},{"k":"dragon-agua","n":"Dragón de agua chino","b":"Physignathus cocincinus","g":"Reptil","o":"Ríos y selvas del sudeste asiático","t":"80 cm–1 m con cola","d":"Insectos, peces y verduras","v":"10–15 años","mito":"Que un lagarto de un metro tiene que ser agresivo.","real":"Su plan ante el peligro es huir, no pelear: se deja caer al agua desde la rama y aguanta la respiración hasta 25 minutos en el fondo. Es el que te recibe en la portada de la casa.","gancho":"Aguanta 25 minutos bajo el agua.","tocar":false},{"k":"ratones","n":"Rata","b":"Rattus norvegicus","g":"Mamífero","o":"Doméstica, de origen asiático","t":"20–25 cm más la cola","d":"Omnívora","v":"2–3 años","mito":"Que es sucia y transmite enfermedades.","real":"La rata doméstica se acicala más que un gato. Reconoce su nombre, aprende trucos y —esto está documentado— se ríe cuando le hacen cosquillas, en un ultrasonido que nuestro oído no alcanza.","gancho":"Se ríe cuando le haces cosquillas.","tocar":true}];
 document.documentElement.lang = document.documentElement.lang || 'es';
 const $ = s => document.querySelector(s);
 const dlg = $('#ficha'), rows = $('#rows');
@@ -1219,16 +1220,20 @@ addEventListener('keydown', e => {
 });
 
 /* filtro por grupo */
-document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
-  const f = c.dataset.f;
-  document.querySelectorAll('.chip').forEach(o => o.setAttribute('aria-pressed', String(o === c)));
+function aplicarFiltro(f){
+  document.querySelectorAll('.chip').forEach(o =>
+    o.setAttribute('aria-pressed', String(o.dataset.f === f)));
   let primero = null;
   rows.querySelectorAll('.row').forEach(r => {
-    r.hidden = f !== 'todos' && r.dataset.g !== f;
+    /* «estrellas» no es un grupo taxonómico: es una selección marcada a mano */
+    r.hidden = f === 'estrellas' ? r.dataset.e !== '1' : r.dataset.g !== f;
     if (!r.hidden && primero === null) primero = +r.dataset.sp;
   });
   if (primero !== null) previa(primero);
-}));
+}
+document.querySelectorAll('.chip').forEach(c =>
+  c.addEventListener('click', () => aplicarFiltro(c.dataset.f)));
+aplicarFiltro('estrellas');        /* la página abre mostrando las estrellas */
 
 /* el gecko sube y baja contigo, y gira para mirar hacia donde va */
 const gk = document.getElementById('gecko');
