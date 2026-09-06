@@ -239,8 +239,8 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 /* SELLO — la misma estrella del chip Famosos, para que la fila y el filtro que la
    selecciona hablen el mismo idioma. Va en la linea del nombre, no en una columna
    propia: es una marca sobre el nombre, no un dato mas de la ficha. */
-.sello{width:.68em;height:.68em;fill:currentColor;color:var(--accent);
-  margin-left:.42em;vertical-align:.06em;flex:none}
+.sello{display:block;width:26px;height:26px;fill:currentColor;color:var(--accent)}
+@media(max-width:1040px){.sello{width:22px;height:22px}}
 /* el sello es una marca visual: quien no la ve necesita que se lo digan */
 .oculto{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
   clip-path:inset(50%);white-space:nowrap;border:0}
@@ -252,7 +252,9 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .row:focus-visible .row-n{transform:translateX(10px)}
 .row-b{grid-area:b;font-style:italic;color:var(--fainter);font-size:.9rem;margin-top:.15rem}
 .row-h{grid-area:h;color:var(--muted);font-size:.95rem;margin-top:.35rem;max-width:46ch}
-.row-t{grid-area:t;align-self:center}
+/* la columna se reserva aunque la fila no lleve sello: si no, el nombre de cada
+   especie se corta a un ancho distinto y la lista deja de estar alineada */
+.row-t{grid-area:t;align-self:center;width:26px}
 .tocar{display:inline-block;font-size:.78rem;color:var(--accent);border:1px solid var(--rule-2);
   border-radius:999px;padding:.15rem .6rem .05rem;white-space:nowrap}
 @media(max-width:640px){
@@ -585,8 +587,10 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="sello-estrella" viewBox="0 0 16 16">
-    <!-- disco con la estrella calada: un solo trazo, evenodd hace el hueco -->
-    <path fill-rule="evenodd" d="M8 0a8 8 0 0 1 0 16 8 8 0 0 1 0-16Zm0 2.4l.81 4.79L13.6 8l-4.79.81L8 13.6l-.81-4.79L2.4 8l4.79-.81Z"/>
+    <!-- Baldosa con la estrella de cinco puntas calada, a la manera de las del paseo de
+         la fama. Un solo trazo: evenodd abre el hueco, asi que la estrella deja ver el
+         fondo de la fila igual que el terrazo deja ver el suyo. -->
+    <path fill-rule="evenodd" d="M1.6 0h12.8A1.6 1.6 0 0 1 16 1.6v12.8a1.6 1.6 0 0 1-1.6 1.6H1.6A1.6 1.6 0 0 1 0 14.4V1.6A1.6 1.6 0 0 1 1.6 0Zm6.4 2.8L9.25 6.63H13.28L10.02 9.01L11.26 12.84L8 10.47L4.74 12.84L5.98 9.01L2.72 6.63H6.75Z"/>
   </symbol>
 </svg>
 
@@ -763,31 +767,31 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <div class="rows" id="rows">
         <button class="row" type="button" data-sp="0" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
-          <span class="row-n">Gecko leopardo<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
+          <span class="row-n">Gecko leopardo</span>
           <span class="row-b">Eublepharis macularius</span>
           <span class="row-h">Parpadea, y casi ningún gecko puede.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"><svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
         </button>
         <button class="row" type="button" data-sp="1" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Dragón barbudo</span>
           <span class="row-b">Pogona vitticeps</span>
           <span class="row-h">Saluda con el brazo. En serio.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="2" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Serpiente del maíz</span>
           <span class="row-b">Pantherophis guttatus</span>
           <span class="row-h">La primera que vas a tocar.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="3" data-g="Arácnido" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Arácnido</span>
-          <span class="row-n">Tarántula<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
+          <span class="row-n">Tarántula</span>
           <span class="row-b">Brachypelma sp.</span>
           <span class="row-h">Prefiere lanzarte pelos antes que morder.</span>
-          <span class="row-t"></span>
+          <span class="row-t"><svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
         </button>
         <button class="row" type="button" data-sp="4" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
@@ -805,10 +809,10 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         </button>
         <button class="row" type="button" data-sp="6" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
-          <span class="row-n">Falsa coral<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
+          <span class="row-n">Falsa coral</span>
           <span class="row-b">Lampropeltis sp.</span>
           <span class="row-h">Un disfraz que le salva la vida.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"><svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
         </button>
         <button class="row" type="button" data-sp="7" data-g="Arácnido" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Arácnido</span>
@@ -822,28 +826,28 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <span class="row-n">Hurón</span>
           <span class="row-b">Mustela putorius furo</span>
           <span class="row-h">Te roba cosas y las guarda en su escondite.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="9" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Erizo africano<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
+          <span class="row-n">Erizo africano</span>
           <span class="row-b">Atelerix albiventris</span>
           <span class="row-h">Se escupe las púas para oler mejor.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"><svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
         </button>
         <button class="row" type="button" data-sp="10" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Petauro del azúcar<svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
+          <span class="row-n">Petauro del azúcar</span>
           <span class="row-b">Petaurus breviceps</span>
           <span class="row-h">Marsupial que planea 50 metros.</span>
-          <span class="row-t"></span>
+          <span class="row-t"><svg class="sello" viewBox="0 0 16 16" aria-hidden="true"><use href="#sello-estrella"/></svg><span class="oculto">Uno de los famosos</span></span>
         </button>
         <button class="row" type="button" data-sp="11" data-g="Mamífero" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Gato sphynx</span>
           <span class="row-b">Felis catus</span>
           <span class="row-h">Se siente como un durazno tibio.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="12" data-g="Ave" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Ave</span>
@@ -871,7 +875,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <span class="row-n">Rata</span>
           <span class="row-b">Rattus norvegicus</span>
           <span class="row-h">Se ríe cuando le haces cosquillas.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
+          <span class="row-t"></span>
         </button>
           </div>
           <button class="vermas" type="button" id="vermas" hidden></button>
