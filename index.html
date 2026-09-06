@@ -187,20 +187,29 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 
-/* FAMOSOS — el unico filtro que no es un grupo taxonomico, asi que se distingue del
-   resto sin necesidad de una etiqueta que lo explique. Filete de 1px como los demas y
-   una franja de luz que cruza en diagonal: la luz pasando sobre el cristal de una
-   vitrina. Descansa tres segundos entre pasadas; sin esa pausa seria un banner. */
-.chip-vip{position:relative;overflow:hidden;border-color:#8FA020;
-  /* sobre papel la franja tiene que ser oscura, sobre tinta clara: al reves no se lee */
-  --luz:rgba(21,32,13,.13)}
-.chip-vip[aria-pressed="true"]{border-color:#8FA020;--luz:rgba(230,242,122,.5)}
+/* FAMOSOS — el unico filtro que no es un grupo taxonomico. Se marca con destellos que
+   aparecen y se apagan alrededor de la pastilla: son las estrellas de la casa, y el
+   filtro estuvo a punto de llamarse asi. Filete de 1px como los demas chips. */
+.chip-vip{position:relative;border-color:#8FA020;
+  /* sobre papel el destello tiene que ser oscuro, sobre tinta claro: al reves no se lee */
+  --chispa:#4A5714}
+.chip-vip[aria-pressed="true"]{border-color:#8FA020;--chispa:#E6F27A}
 .chip-vip:hover{border-color:var(--accent)}
-.chip-vip::after{content:"";position:absolute;inset:-1px;pointer-events:none;
-  background:linear-gradient(104deg,transparent 42%,var(--luz) 50%,transparent 58%);
-  transform:translateX(-130%);animation:barrido 5s var(--ease) infinite}
-@keyframes barrido{0%,62%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
-@media(prefers-reduced-motion:reduce){.chip-vip::after{display:none}}
+.chispa{position:absolute;pointer-events:none;background:var(--chispa);
+  width:var(--t);height:var(--t);opacity:0;
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
+  animation:chispear 3.6s ease-in-out infinite}
+/* repartidas en cuartos del ciclo y en las cuatro esquinas: siempre hay una encendida,
+   nunca todas a la vez, y ninguna cae sobre la palabra */
+.c1{--t:13px;left:2px;top:2px;animation-delay:0s}
+.c2{--t:10px;right:-4px;top:-4px;animation-delay:.9s}
+.c3{--t:11px;right:5px;bottom:-3px;animation-delay:1.8s}
+.c4{--t:9px;left:-5px;bottom:4px;animation-delay:2.7s}
+@keyframes chispear{
+  0%,36%,100%{transform:scale(0) rotate(0);opacity:0}
+  9%{transform:scale(1.05) rotate(30deg);opacity:1}
+  22%{transform:scale(.8) rotate(58deg);opacity:.9}}
+@media(prefers-reduced-motion:reduce){.chispa{display:none}}
 
 /* ÍNDICE DE LA COLECCIÓN — lista editorial + panel de vista previa */
 .idx{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(2rem,4vw,3.5rem);align-items:start}
@@ -717,7 +726,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           de verdad.</p>
       </div>
       <div class="filters" role="group" aria-label="Filtrar por grupo">
-        <button class="chip chip-vip" type="button" data-f="estrellas" aria-pressed="true">Famosos</button>
+        <button class="chip chip-vip" type="button" data-f="estrellas" aria-pressed="true">Famosos<i class="chispa c1" aria-hidden="true"></i><i class="chispa c2" aria-hidden="true"></i><i class="chispa c3" aria-hidden="true"></i><i class="chispa c4" aria-hidden="true"></i></button>
         <button class="chip" type="button" data-f="Reptil" aria-pressed="false">Reptiles</button>
         <button class="chip" type="button" data-f="Anfibio" aria-pressed="false">Anfibios</button>
         <button class="chip" type="button" data-f="Arácnido" aria-pressed="false">Arácnidos</button>
