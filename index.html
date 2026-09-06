@@ -1266,12 +1266,14 @@ function aplicarFiltro(f){
   pinta(true);
 }
 btnMas.addEventListener('click', () => {
-  /* las filas nuevas entran encima del boton: sin compensar, se te va de debajo del cursor */
-  const antes = btnMas.getBoundingClientRect().top;
+  /* el navegador ancla el scroll al insertar filas y te arrastra: aqui no queremos moverte
+     ni un pixel, la lista crece hacia abajo y los filtros siguen donde estaban */
+  const y = scrollY;
   desplegado = !desplegado;
   pinta(false);
-  const salto = btnMas.getBoundingClientRect().top - antes;
-  if (salto) scrollBy({top: salto, behavior: 'instant'});
+  const quieto = () => { if (scrollY !== y) scrollTo({top: y, behavior: 'instant'}); };
+  quieto();
+  requestAnimationFrame(quieto);   /* el ajuste del navegador puede llegar un frame despues */
 });
 document.querySelectorAll('.chip').forEach(c =>
   c.addEventListener('click', () => aplicarFiltro(c.dataset.f)));
