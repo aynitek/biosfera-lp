@@ -181,9 +181,28 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.6rem}
 .chip{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:1rem;letter-spacing:.03em;min-height:44px;
   background:none;border:1px solid var(--rule-2);color:var(--muted);border-radius:999px;
-  padding:.42rem 1rem .32rem;cursor:pointer;transition:all .2s var(--ease)}
+  padding:.42rem 1rem .32rem;cursor:pointer;
+  /* nada de «all»: el chip de famosos anima un angulo y no queremos que lo interpole la transicion */
+  transition:color .2s var(--ease),border-color .2s var(--ease),background-color .2s var(--ease)}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+
+/* FAMOSOS — borde de degradado en marcha: el unico filtro que no es un grupo taxonomico,
+   asi que se distingue del resto sin necesidad de una etiqueta que lo explique */
+@property --giro{syntax:"<angle>";inherits:false;initial-value:0deg}
+.chip-vip{border-color:transparent;border-width:1.5px;
+  /* aro oliva fijo + una banda de luz que le da la vuelta: se lee el movimiento a 1.5px */
+  /* el 0deg de reserva mantiene el aro si el navegador no soporta @property */
+  --aro:conic-gradient(from var(--giro,0deg),
+    #626D15 0deg,#8FA020 30deg,#C4D22C 58deg,#E6F27A 76deg,#C4D22C 94deg,#8FA020 122deg,
+    #626D15 165deg,#626D15 360deg);
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,var(--aro) border-box;
+  animation:giro 4.5s linear infinite}
+.chip-vip:hover{border-color:transparent}
+.chip-vip[aria-pressed="true"]{border-color:transparent;
+  background:linear-gradient(var(--fg),var(--fg)) padding-box,var(--aro) border-box}
+@keyframes giro{to{--giro:360deg}}
+@media(prefers-reduced-motion:reduce){.chip-vip{animation:none}}
 
 /* ÍNDICE DE LA COLECCIÓN — lista editorial + panel de vista previa */
 .idx{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(2rem,4vw,3.5rem);align-items:start}
@@ -694,7 +713,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           de verdad.</p>
       </div>
       <div class="filters" role="group" aria-label="Filtrar por grupo">
-        <button class="chip" type="button" data-f="estrellas" aria-pressed="true">Famosos</button>
+        <button class="chip chip-vip" type="button" data-f="estrellas" aria-pressed="true">Famosos</button>
         <button class="chip" type="button" data-f="Reptil" aria-pressed="false">Reptiles</button>
         <button class="chip" type="button" data-f="Anfibio" aria-pressed="false">Anfibios</button>
         <button class="chip" type="button" data-f="Arácnido" aria-pressed="false">Arácnidos</button>
