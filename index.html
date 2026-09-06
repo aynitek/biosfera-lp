@@ -192,7 +192,7 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .rows{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
 .row{display:grid;grid-template-columns:8.5rem 1fr auto;grid-template-areas:"g n t" "g b t" "g h t";
   align-items:baseline;column-gap:1.2rem;width:100%;text-align:left;background:none;border:0;
-  border-bottom:1px solid var(--rule);padding:1.15rem .9rem 1.25rem;color:inherit;font:inherit;
+  border-bottom:1px solid var(--rule);padding:.8rem .9rem .9rem;color:inherit;font:inherit;
   cursor:pointer;position:relative;isolation:isolate}
 .row[hidden]{display:none}
 /* el barrido de fondo entra por donde saldrá — misma idea que el subrayado */
@@ -207,7 +207,7 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .row:hover .row-n,.row.on .row-n{transform:translateX(10px)}
 .row:focus-visible .row-n{transform:translateX(10px)}
 .row-b{grid-area:b;font-style:italic;color:var(--fainter);font-size:.9rem;margin-top:.15rem}
-.row-h{grid-area:h;color:var(--muted);font-size:.95rem;margin-top:.5rem;max-width:46ch}
+.row-h{grid-area:h;color:var(--muted);font-size:.95rem;margin-top:.35rem;max-width:46ch}
 .row-t{grid-area:t;align-self:center}
 .tocar{display:inline-block;font-size:.78rem;color:var(--accent);border:1px solid var(--rule-2);
   border-radius:999px;padding:.15rem .6rem .05rem;white-space:nowrap}
@@ -217,6 +217,14 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 }
 
 /* panel de vista previa */
+.idx-col{min-width:0}
+.vermas{margin-top:1.1rem;background:none;border:1px solid var(--rule-2);border-radius:999px;
+  min-height:44px;padding:.5rem 1.2rem;cursor:pointer;font-family:var(--disp);font-weight:700;
+  text-transform:uppercase;font-size:1rem;letter-spacing:.03em;color:var(--fg);
+  transition:all .2s var(--ease)}
+.vermas:hover{border-color:var(--fg);background:var(--bg-2)}
+/* ocupa su sitio aunque no haya nada que desplegar: si no, la seccion salta */
+.vermas[hidden]{display:block;visibility:hidden}
 .prev{position:sticky;top:100px}
 @media(max-width:900px){
   .prev{display:none}
@@ -693,7 +701,8 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         <button class="chip" type="button" data-f="Ave" aria-pressed="false">Aves</button>
       </div>
       <div class="idx">
-        <div class="rows" id="rows">
+        <div class="idx-col">
+          <div class="rows" id="rows">
         <button class="row" type="button" data-sp="0" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Gecko leopardo</span>
@@ -806,6 +815,8 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <span class="row-h">Se ríe cuando le haces cosquillas.</span>
           <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
+          </div>
+          <button class="vermas" type="button" id="vermas" hidden></button>
         </div>
         <aside class="prev" aria-live="polite">
           <div class="prev-ph"><span>Fotografía pendiente</span><i class="shot" id="pshot"></i></div>
@@ -1223,20 +1234,69 @@ addEventListener('keydown', e => {
 });
 
 /* filtro por grupo */
-function aplicarFiltro(f){
-  document.querySelectorAll('.chip').forEach(o =>
-    o.setAttribute('aria-pressed', String(o.dataset.f === f)));
-  let primero = null;
+const TOPE = 5;                    /* como máximo cinco a la vista: mantiene la altura estable */
+const btnMas = document.getElementById('vermas');
+let filtroActual = 'estrellas', desplegado = false;
+
+function pinta(){
+  let mostradas = 0, ocultas = 0, primero = null;
   rows.querySelectorAll('.row').forEach(r => {
     /* «estrellas» no es un grupo taxonómico: es una selección marcada a mano */
-    r.hidden = f === 'estrellas' ? r.dataset.e !== '1' : r.dataset.g !== f;
-    if (!r.hidden && primero === null) primero = +r.dataset.sp;
+    const delGrupo = filtroActual === 'estrellas' ? r.dataset.e === '1' : r.dataset.g === filtroActual;
+    if (!delGrupo){ r.hidden = true; return; }
+    if (!desplegado && mostradas >= TOPE){ r.hidden = true; ocultas++; return; }
+    r.hidden = false; mostradas++;
+    if (primero === null) primero = +r.dataset.sp;
   });
+  if (ocultas > 0){
+    btnMas.hidden = false;
+    btnMas.textContent = 'Ver ' + ocultas + ' más';
+  } else if (desplegado){
+    btnMas.hidden = false; btnMas.textContent = 'Ver menos';
+  } else {
+    btnMas.hidden = true;
+  }
   if (primero !== null) previa(primero);
 }
+function aplicarFiltro(f){
+  filtroActual = f; desplegado = false;
+  document.querySelectorAll('.chip').forEach(o =>
+    o.setAttribute('aria-pressed', String(o.dataset.f === f)));
+  pinta();
+}
+btnMas.addEventListener('click', () => { desplegado = !desplegado; pinta(); });
 document.querySelectorAll('.chip').forEach(c =>
   c.addEventListener('click', () => aplicarFiltro(c.dataset.f)));
+
+/* Reserva el alto del filtro con más especies. Sin esto la sección cambia de
+   altura al pasar de un grupo a otro, y la página parece moverse sola.
+   Se mide en vez de fijarse a mano: así vale para cualquier ancho y sigue
+   siendo correcto si mañana se añaden especies. */
+function fijarAltoLista(){
+  const filas = [...rows.querySelectorAll('.row')];
+  if (!filas.length) return;
+  const antes = filas.map(r => r.hidden);
+  rows.style.minHeight = '';
+  let alto = 0;
+  document.querySelectorAll('.chip').forEach(c => {
+    const f = c.dataset.f;
+    let n = 0;
+    filas.forEach(r => {
+      const dentro = f === 'estrellas' ? r.dataset.e === '1' : r.dataset.g === f;
+      r.hidden = !(dentro && n < TOPE);
+      if (dentro && n < TOPE) n++;
+    });
+    alto = Math.max(alto, rows.getBoundingClientRect().height);
+  });
+  filas.forEach((r, i) => { r.hidden = antes[i]; });
+  rows.style.minHeight = Math.ceil(alto) + 'px';
+}
 aplicarFiltro('estrellas');        /* la página abre mostrando las estrellas */
+/* las tipografías cambian el alto de las filas: hay que medir con ellas ya cargadas */
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fijarAltoLista);
+else addEventListener('load', fijarAltoLista);
+let reMedir;
+addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(fijarAltoLista, 180); });
 
 /* el gecko sube y baja contigo, y gira para mirar hacia donde va */
 const gk = document.getElementById('gecko');
