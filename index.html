@@ -199,12 +199,14 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
   width:var(--t);height:var(--t);opacity:0;
   clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
   animation:chispear 3.6s ease-in-out infinite}
-/* repartidas en cuartos del ciclo y en las cuatro esquinas: siempre hay una encendida,
-   nunca todas a la vez, y ninguna cae sobre la palabra */
-.c1{--t:13px;left:2px;top:2px;animation-delay:0s}
-.c2{--t:10px;right:-4px;top:-4px;animation-delay:.9s}
-.c3{--t:11px;right:5px;bottom:-3px;animation-delay:1.8s}
-.c4{--t:9px;left:-5px;bottom:4px;animation-delay:2.7s}
+/* Repartidas en cuartos del ciclo: siempre hay una encendida y nunca todas a la vez.
+   Y en los cuatro huecos libres de la pastilla —los dos casquetes redondeados a los
+   lados de la palabra, y las bandas de arriba y abajo—, que es donde caben enteras
+   sin pisar el texto ni asomarse por el borde. */
+.c1{--t:10px;left:2px;top:50%;margin-top:-5px;animation-delay:0s}
+.c2{--t:9px;left:34%;top:2px;animation-delay:.9s}
+.c3{--t:10px;right:2px;top:50%;margin-top:-5px;animation-delay:1.8s}
+.c4{--t:9px;right:32%;bottom:1px;animation-delay:2.7s}
 @keyframes chispear{
   0%,36%,100%{transform:scale(0) rotate(0);opacity:0}
   9%{transform:scale(1.05) rotate(30deg);opacity:1}
