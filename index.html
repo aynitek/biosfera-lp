@@ -517,31 +517,6 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
 .carro-n{font-family:var(--disp);font-weight:700;font-size:1rem;color:var(--muted);
   font-variant-numeric:tabular-nums;letter-spacing:.04em}
 
-/* ÚLTIMO VIDEO — cierra el bloque de credibilidad: los numeros dicen que gustan, esto
-   enseña por que. Panel de tinta, no la caratula real: la del canal viene con texto
-   quemado en amarillo y rojo y desarmaria el tono de toda la pagina. */
-.ultimo{margin:clamp(2rem,4vw,3rem) 0 0;display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
-  gap:clamp(1.4rem,3vw,2.4rem);align-items:center}
-@media(max-width:820px){.ultimo{grid-template-columns:1fr;gap:1.2rem}}
-.ultimo-go{width:100%;aspect-ratio:16/9;border:0;padding:0;cursor:pointer;
-  background:var(--fg);border-radius:9px;display:grid;place-items:center;
-  transition:background .3s var(--ease)}
-.ultimo-go:hover{background:#1D2A12}
-.ultimo-play{width:62px;height:62px;border-radius:50%;background:#C4D22C;
-  display:grid;place-items:center;transition:transform .3s var(--ease)}
-.ultimo-play svg{width:28px;height:28px;fill:var(--fg);margin-left:3px}
-.ultimo-go:hover .ultimo-play{transform:scale(1.09)}
-.ultimo-go:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
-.ultimo-marco{width:100%;aspect-ratio:16/9;border:0;border-radius:9px;display:block}
-.ultimo figcaption{display:grid;gap:.45rem;justify-items:start}
-.ultimo-ceja{font-family:var(--disp);font-weight:700;text-transform:uppercase;
-  letter-spacing:.09em;font-size:.8rem;color:var(--accent)}
-.ultimo-tit{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  font-size:clamp(1.25rem,2.1vw,1.7rem);line-height:1.05;margin:.1rem 0 0;
-  text-wrap:balance}
-.ultimo-fecha{font-size:.88rem;color:var(--fainter);margin:.2rem 0 .3rem}
-
 .social{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
 .soc{background:var(--bg);padding:1.6rem 1.35rem;position:relative}
 /* a la derecha, alineado con la cifra: aprovecha el hueco que dejaba el número */
@@ -1320,20 +1295,6 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
       </div>
       <blockquote>Un museo interactivo que busca fomentar el respeto y amor por la naturaleza a través del
         contacto directo con diversas especies.<cite>PressPeru, noviembre de 2025</cite></blockquote>
-      <figure class="ultimo">
-        <button class="ultimo-go" type="button" data-yt="KM9BdMXeU5c"
-          aria-label="Reproducir el último video del canal de Biosfera">
-          <span class="ultimo-play" aria-hidden="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.5v11l9-5.5z"/></svg>
-          </span>
-        </button>
-        <figcaption>
-          <span class="ultimo-ceja">Lo último en su canal</span>
-          <p class="ultimo-tit">NO SUPIMOS responder y PASÓ ESTO… Ruleta de Animales Exóticos</p>
-          <p class="ultimo-fecha">Publicado el 3 de septiembre de 2026</p>
-          <a class="ul" href="https://youtu.be/KM9BdMXeU5c" target="_blank" rel="noopener">Verlo en YouTube</a>
-        </figcaption>
-      </figure>
     </div>
   </section>
 
@@ -2007,21 +1968,16 @@ hd.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
 
 /* el reproductor de YouTube solo aparece cuando alguien pulsa: hasta entonces no se
    carga nada de terceros. Si el embebido esta bloqueado queda el enlace del pie. */
-function montarVideo(sel, clase, titulo){
-  const b = document.querySelector(sel);
-  if (!b) return;
-  b.addEventListener('click', () => {
-    const marco = document.createElement('iframe');
-    marco.className = clase;
-    marco.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.yt + '?autoplay=1&rel=0';
-    marco.title = titulo;
-    marco.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share';
-    marco.allowFullscreen = true;
-    b.replaceWith(marco);
-  });
-}
-montarVideo('.video-go', 'video-marco', 'Video de presentación de Biosfera');
-montarVideo('.ultimo-go', 'ultimo-marco', 'Último video del canal de Biosfera');
+const vgo = document.querySelector('.video-go');
+if (vgo) vgo.addEventListener('click', () => {
+  const marco = document.createElement('iframe');
+  marco.className = 'video-marco';
+  marco.src = 'https://www.youtube-nocookie.com/embed/' + vgo.dataset.yt + '?autoplay=1&rel=0';
+  marco.title = 'Video de presentación de Biosfera';
+  marco.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share';
+  marco.allowFullscreen = true;
+  vgo.replaceWith(marco);
+});
 
 /* CARRUSEL — deslizar con el dedo funciona solo; las flechas son para quien no lo intuye.
    Los mandos se muestran unicamente si la tira desborda de verdad. */
