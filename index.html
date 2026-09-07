@@ -449,6 +449,36 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
 /* el recomendado va en el lima del hero: es el bloque de color de la casa, no un adorno */
 .entrada.destacada{background:#C4D22C}
 .entrada.destacada:hover{background:#BCCA26}
+
+/* BIOEXCLUSIVO — el aro de degradado en marcha que estreno el chip Famosos. Es el unico
+   ticket con precio por grupo, asi que se distingue por el filo y no por otra etiqueta.
+   Va en un pseudoelemento y NO en un border de verdad: las filas del ticket son subgrid,
+   y 2px de borde desplazarian sus tracks respecto a los otros dos, descuadrando justo la
+   comparacion que la seccion existe para permitir. Asi no toca el layout.
+   El interior se recorta con mascara para que solo quede el anillo y el texto siga a la
+   vista; la mascara del troquel, que es del padre, recorta tambien el aro, asi que el
+   anillo sigue el filo del ticket y le muerde las dos muescas.
+   Base tinta sobre el lima (10,13:1) y destello de papel (1,53:1): sobre lima un brillo
+   claro se lee y uno lima desapareceria. El 0deg de reserva deja el aro quieto pero
+   visible si el navegador no soporta @property. */
+@property --giro{syntax:"<angle>";inherits:false;initial-value:0deg}
+.entrada.destacada::before{content:"";position:absolute;inset:0;pointer-events:none;
+  border:2px solid transparent;
+  /* la banda de luz es ancha a proposito. En una pastilla pequena una cuna de 48deg se
+     lee; en una tarjeta de 396x560 el angulo no reparte por igual —el filo superior abarca
+     unos 70deg y los laterales el resto—, asi que una cuna estrecha se arrastra por los
+     lados y cruza arriba de golpe. Con una rampa de 210deg siempre hay un tramo encendido. */
+  --aro:conic-gradient(from var(--giro,0deg),
+    #15200D 0deg,#3E4A11 45deg,#8FA020 80deg,#E8EFB8 105deg,#F4F6EC 120deg,#E8EFB8 135deg,
+    #8FA020 160deg,#3E4A11 195deg,#15200D 240deg,#15200D 360deg);
+  background:var(--aro) border-box;
+  -webkit-mask:linear-gradient(#000,#000) padding-box,linear-gradient(#000,#000) border-box;
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000,#000) padding-box,linear-gradient(#000,#000) border-box;
+  mask-composite:exclude;
+  animation:giro 5s linear infinite}
+@keyframes giro{to{--giro:360deg}}
+@media(prefers-reduced-motion:reduce){.entrada.destacada::before{animation:none}}
 .ent-quien{display:inline-block;align-self:start;justify-self:start;font-family:var(--disp);
   font-weight:700;text-transform:uppercase;font-size:.82rem;letter-spacing:.07em;
   color:var(--accent);border:1px solid var(--rule-2);border-radius:999px;
