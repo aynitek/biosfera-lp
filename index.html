@@ -410,36 +410,6 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
   grid-template-rows:repeat(12,auto)}
 /* por debajo de 1040 no caben tres columnas legibles, y dos sueltas serian peor que
    una debajo de otra: se comparan en vertical, cada tarjeta entera */
-/* PESTAÑAS — en pantallas estrechas los tres tickets no se apilan ni se deslizan: se
-   muestran de uno en uno y las pestañas van pegadas al borde de arriba, con el precio
-   dentro para que los tres se comparen sin cambiar de tarjeta. */
-.ent-tabs{display:none}
-@media(max-width:1040px){
-  /* minmax(0,1fr): sin eso «BIOEXCLUSIVO» impone su ancho minimo y la tira desborda */
-  .ent-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
-  .ent-tab{font-family:var(--disp);font-weight:700;text-transform:uppercase;
-    font-size:clamp(.66rem,2.6vw,.82rem);letter-spacing:.02em;line-height:1.1;
-    display:grid;gap:.2rem;justify-items:center;padding:.65rem .3rem .55rem;
-    background:var(--bg-2);color:var(--muted);border:0;cursor:pointer;
-    border-radius:8px 8px 0 0;transition:background .2s var(--ease),color .2s var(--ease)}
-  .ent-tab b{font-size:clamp(.9rem,3.4vw,1.05rem);color:var(--fg);
-    font-variant-numeric:lining-nums tabular-nums}
-  .ent-tab[aria-selected="true"]{background:#E3E8CF;color:var(--fg)}
-  .ent-tab:nth-child(3)[aria-selected="true"]{background:#C4D22C}
-  .entradas{display:block;grid-template-rows:none;max-width:none}
-  /* la regla base .entrada{display:grid} va despues en el archivo: hace falta subir la
-     especificidad para que aqui gane el ocultar */
-  .entradas > .entrada{display:none}
-  .entradas > .entrada.activo{display:grid;grid-row:auto !important;
-    grid-template-rows:none !important;
-    /* mismo remate que abajo: linea de puntos y dos muescas, para que las pestañas
-       parezcan el talon que se arranca */
-    border-top:2px dashed rgba(21,32,13,.34);
-    --muescas:radial-gradient(var(--r) at left 0 bottom var(--corte),transparent 97%,#000),
-              radial-gradient(var(--r) at right 0 bottom var(--corte),transparent 97%,#000),
-              radial-gradient(var(--r) at left 0 top 0,transparent 97%,#000),
-              radial-gradient(var(--r) at right 0 top 0,transparent 97%,#000)}
-  .ent-specs{grid-row:auto !important;grid-template-rows:none !important}}
 .entrada{--corte:100px;--r:17px;
   background:#E3E8CF;position:relative;padding:1.8rem 1.7rem 0;
   display:grid;grid-row:span 12;grid-template-rows:subgrid;align-content:start;
@@ -488,6 +458,18 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
   align-items:center}
 .ent-talon .btn{font-size:1.02rem;padding:.62rem 1.25rem .52rem}
 .ent-nota{margin-top:1.4rem;font-size:.88rem;color:var(--fainter)}
+
+/* CARRUSEL — en pantallas estrechas los tres tickets no se apilan: se deslizan con el
+   dedo, y las flechas estan para quien no lo intuya. Tres tarjetas de 560px una debajo
+   de otra hacen la pagina interminable en un movil. */
+@media(max-width:1040px){
+  .entradas{display:flex;grid-template-rows:none;max-width:none;
+    overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+    gap:1rem;padding-bottom:.3rem;scrollbar-width:none}
+  .entradas::-webkit-scrollbar{display:none}
+  .entradas > .entrada{flex:0 0 min(85%,420px);scroll-snap-align:center;
+    grid-row:auto !important;grid-template-rows:none !important}
+  .ent-specs{grid-row:auto !important;grid-template-rows:none !important}}
 
 /* A LA MEDIDA — no son comparables entre si, asi que no llevan el troquel ni el precio
    grande: filete arriba y tipografia mas callada, para que se lean como otra categoria. */
@@ -1177,12 +1159,8 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         <p class="lede">Los tres son guiados y en los tres tocas animales. Cambia cuánto dura,
           a cuántos conoces y con cuántos te puedes quedar un rato.</p>
       </div>
-      <div class="ent-tabs" role="tablist" aria-label="Elige un recorrido">
-        <button class="ent-tab" type="button" role="tab" aria-selected="true" data-t="0">BioExótico<b>S/ 20</b></button>
-        <button class="ent-tab" type="button" role="tab" aria-selected="false" data-t="1">BioAventura<b>S/ 35</b></button>
-        <button class="ent-tab" type="button" role="tab" aria-selected="false" data-t="2">BioExclusivo<b>S/ 250</b></button>
-      </div>
-      <div class="entradas">
+      <div class="carro">
+      <div class="entradas carro-pista">
         <article class="entrada">
           <span class="ent-quien">Vengo a conocer</span>
           <h3>BioExótico</h3>
@@ -1238,6 +1216,14 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
             <a class="btn btn-go" href="https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20reservar%20el%20recorrido%20BioExclusivo." target="_blank" rel="noopener">Reservar mi visita</a>
           </div>
         </article>
+      </div>
+        <div class="carro-nav">
+          <button class="carro-b" type="button" data-dir="-1" aria-label="Ver el anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <span class="carro-n" aria-live="polite"></span>
+          <button class="carro-b" type="button" data-dir="1" aria-label="Ver el siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
       </div>
       <p class="ent-nota">Solo se entra con reserva, y la reserva se paga por adelantado.</p>
 
@@ -1995,18 +1981,6 @@ if (vgo) vgo.addEventListener('click', () => {
 
 /* CARRUSEL — deslizar con el dedo funciona solo; las flechas son para quien no lo intuye.
    Los mandos se muestran unicamente si la tira desborda de verdad. */
-/* pestañas de los recorridos: en movil solo se ve un ticket a la vez */
-const pest = [...document.querySelectorAll('.ent-tab')];
-const tickets = [...document.querySelectorAll('.entrada')];
-if (pest.length) {
-  const elegir = i => {
-    pest.forEach((b, n) => b.setAttribute('aria-selected', String(n === i)));
-    tickets.forEach((t, n) => t.classList.toggle('activo', n === i));
-  };
-  pest.forEach((b, i) => b.addEventListener('click', () => elegir(i)));
-  elegir(0);
-}
-
 document.querySelectorAll('.carro').forEach(carro => {
   const pista = carro.querySelector('.carro-pista');
   const botones = [...carro.querySelectorAll('.carro-b')];
