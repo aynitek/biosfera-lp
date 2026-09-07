@@ -166,7 +166,11 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .sec-head{max-width:62ch;margin-bottom:clamp(1.8rem,3.5vw,2.8rem)}
 .sec-head p{margin-top:1.1rem}
 
-.thesis-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.thesis-grid{display:grid;grid-template-columns:1.05fr .95fr;
+  gap:clamp(2.2rem,6.5vw,6.5rem);align-items:start}
+/* el texto para antes del borde de su columna: entre el ultimo renglon y el video quedan
+   el limite de medida mas el hueco de la reticula, no solo el hueco */
+.thesis-txt .lede{max-width:46ch}
 .thesis-q{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   font-size:clamp(1.9rem,4vw,3.1rem);line-height:.95;max-width:16ch;text-wrap:balance}
 .facts{display:grid;gap:1.4rem}
@@ -727,7 +731,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
     <div class="shell">
       <div class="sec-head"><h2>Quiénes somos</h2></div>
       <div class="thesis-grid">
-      <div>
+      <div class="thesis-txt">
         <p class="thesis-q">Un zoológico te pone un vidrio delante. Nosotros te ponemos al animal en la mano.</p>
         <p class="lede" style="margin-top:1.6rem">Biosfera es un centro de educación ambiental en Surco, y eso
           se nota en que nadie te apura. Cada especie viene con alguien que te cuenta de dónde salió, cómo vive
