@@ -180,10 +180,11 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
   gap:clamp(2rem,4.4vw,4rem);align-items:stretch}
 /* 52ch es donde la primera linea suelta su ultima palabra: el borde del texto cae justo
    donde empezaba ese «en» y el bloque se despega del video sin tocar la reticula.
-   Nada de justificar: en castellano a esta medida saldrian rios. Se empareja el borde
-   derecho con las dos herramientas que existen para eso — particion de palabras (el
-   documento ya declara lang="es") y reparto de lineas que evita renglones huerfanos. */
-.thesis-txt .lede{max-width:52ch;-webkit-hyphens:auto;hyphens:auto;text-wrap:pretty}
+   Nada de justificar ni de partir palabras con guion. El borde derecho se empareja de
+   dos maneras: text-wrap:pretty evita renglones huerfanos, y en el texto mismo van
+   espacios duros que atan el final del primer parrafo y un orden distinto en la
+   enumeracion del segundo, que es lo unico que mueve donde caen los cortes. */
+.thesis-txt .lede{max-width:52ch;text-wrap:pretty}
 .thesis-q{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   font-size:clamp(1.9rem,4vw,3.1rem);line-height:.95;max-width:16ch;text-wrap:balance}
 .facts{display:grid;gap:1.4rem}
@@ -754,9 +755,9 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         <div class="thesis-cuerpo">
           <p class="lede">Biosfera es un centro de educación ambiental en Surco, y eso
             se nota en que nadie te apura. Cada especie viene con alguien que te cuenta de dónde salió, cómo vive
-            y por qué le tenemos miedo a la especie equivocada.</p>
+            y por qué le tenemos miedo a la especie equivocada.</p>
           <p class="lede">Trabajamos con las que peor fama tienen: tarántulas,
-            escorpiones, serpientes, cucarachas. No para impresionar, sino porque el miedo casi siempre se cae
+            serpientes, escorpiones, cucarachas. No para impresionar, sino porque el miedo casi siempre se cae
             cuando alguien te explica qué estás mirando. De ahí sale nuestra frase: una nueva forma de aprender.</p>
         </div>
       </div>
