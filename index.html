@@ -239,9 +239,11 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 /* con un solo dato, el :last-child le quitaba la linea; aqui la linea es el remate */
 .col-nos .fact:last-child{border-bottom:1px solid var(--rule);padding-bottom:1.4rem}
 .video{margin:0;display:grid;gap:.8rem}
+/* El play queda solo en el flujo para que caiga en el centro exacto del panel. Con el
+   rotulo tambien en flujo, lo que se centraba era la pareja y el play subia. */
 .video-go{position:relative;width:100%;aspect-ratio:16/9;padding:1rem;border:0;
   cursor:pointer;background:#C4D22C;border-radius:9px;overflow:clip;
-  display:grid;place-content:center;justify-items:center;gap:1.15rem}
+  display:grid;place-content:center;justify-items:center}
 /* la misma flora del resto de la pagina, aqui en tinta porque el fondo es el lima.
    Se recortan contra la esquina: asoman, no se posan en el centro. */
 .video-deco{position:absolute;color:#15200D;pointer-events:none;display:block}
@@ -258,9 +260,13 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
   position:relative;z-index:1}
 .video-play svg{width:30px;height:30px;fill:#C4D22C;margin-left:3px}
 .video-go:hover .video-play{transform:scale(1.09)}
+/* el rotulo pasa al pie de la caratula: sale del flujo para no descentrar el play, y
+   ahi se lee como el titulo de una portada */
 .video-rot{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  letter-spacing:.04em;font-size:clamp(1.3rem,2.4vw,1.85rem);color:#15200D;
-  text-align:center;line-height:1.02;max-width:14ch;text-wrap:balance;position:relative}
+  letter-spacing:.04em;font-size:clamp(1.15rem,2.1vw,1.6rem);color:#15200D;
+  text-align:center;line-height:1.04;text-wrap:balance;
+  position:absolute;left:1rem;right:1rem;bottom:1.05rem;
+  max-width:20ch;margin-inline:auto}
 .video-go:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
 .video-marco{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:9px}
 .video figcaption{display:grid;gap:.25rem;justify-items:start;
