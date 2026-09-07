@@ -377,8 +377,33 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .pf-mas{margin-top:1.2rem;font-size:.92rem;color:var(--muted);max-width:44ch}
 
 /* EL PANEL — imagen rectangular con esquina curva, y galeria si hay mas de una foto */
+/* La tira de miniaturas va AL LADO y no debajo: asi no cuesta alto, y el apartado
+   sigue cabiendo en una pantalla. Sustituye a los puntos porque una miniatura dice
+   cuantas fotos hay y ademas que son cada una, que es lo que los puntos no pueden. */
+.pgal-caja{display:grid;grid-template-columns:80px 1fr;gap:.55rem;align-items:start}
+.pgal-tira{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.pgal-mini{width:100%;aspect-ratio:16/9;padding:0;border:1px solid var(--rule);
+  border-radius:8px;overflow:hidden;background:var(--bg-2);cursor:pointer;
+  position:relative;display:block;opacity:.55;
+  transition:opacity .25s var(--ease),border-color .25s var(--ease)}
+.pgal-mini i{position:absolute;inset:0;background-size:cover;background-position:center}
+.pgal-mini:hover,.pgal-mini:focus-visible{opacity:1}
+/* la que se esta viendo va a plena opacidad y con el filete lima */
+.pgal-mini[aria-current="true"]{opacity:1;border-color:#7F9628;box-shadow:0 0 0 2px #C4D22C}
+.pgal-mini.pendiente::before{content:"";position:absolute;inset:0;opacity:.6;
+  background:repeating-linear-gradient(135deg,transparent 0 5px,var(--rule-2) 5px 6px)}
 .pgal{position:relative;border-radius:16px;overflow:hidden;background:var(--bg-2);
   border:1px solid var(--rule)}
+/* la lupa abre la foto en el visor grande que ya usa la galeria: es la misma pieza,
+   no una segunda */
+.pgal-lupa{position:absolute;top:.55rem;right:.55rem;z-index:3;width:44px;height:44px;
+  border-radius:50%;border:0;background:rgba(244,246,236,.9);color:var(--fg);
+  display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 1px 6px rgba(20,30,12,.2);transition:background .2s var(--ease)}
+.pgal-lupa:hover{background:#fff}
+.pgal-lupa svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round}
+.pgal-caja.pendiente .pgal-lupa{display:none}
 /* la tira se desplaza de verdad: asi se pasa con el dedo en el movil y las flechas
    solo tienen que empujarla, que es como se espera de una galeria de producto */
 .pgal-pista{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
@@ -408,25 +433,13 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
    objetivo tactil y esa caja invisible interceptaria el arrastre del dedo justo donde
    se empieza a deslizar la galeria. Aqui el boton mide 44px y el punto que se ve son
    8px dibujados dentro. */
-.pgal-pts{display:none;justify-content:center;margin-top:.15rem}
-.pgal-caja[data-varias] .pgal-pts{display:flex}
-.pgal-pt{width:26px;height:44px;padding:0;border:0;background:none;cursor:pointer;
-  display:grid;place-items:center}
-.pgal-pt::before{content:"";width:8px;height:8px;border-radius:50%;
-  background:var(--rule-2);transition:background .25s var(--ease),scale .25s var(--ease)}
-.pgal-pt[aria-current="true"]::before{background:#7F9628;scale:1.35}
-/* Con raton los puntos vuelven encima de la foto: ahi no hay dedo que arrastrar, asi
-   que no interceptan el deslizamiento, y su fila deja de costar 44px de alto. Con dedo
-   se quedan debajo, con sus 44px enteros. */
+/* Las flechas asoman al pasar el raton por la foto: con la tira de miniaturas al lado
+   la senal de que hay mas fotos ya esta dada, asi que no hacen falta siempre puestas.
+   Con dedo se quedan visibles, que ahi no hay raton que pasar. */
 @media(hover:hover) and (pointer:fine){
-  .pgal-caja{position:relative}
-  .pgal-pts{position:absolute;left:0;right:0;bottom:.5rem;z-index:3;margin:0}
-  .pgal-pt{height:22px;width:20px}
-  .pgal-pt::before{background:rgba(244,246,236,.55);
-    box-shadow:0 1px 3px rgba(20,30,12,.35)}
-  .pgal-pt[aria-current="true"]::before{background:#C4D22C}
+  .pgal-caja[data-varias] .pgal-b{opacity:0;transition:opacity .25s var(--ease)}
+  .pgal:hover .pgal-b,.pgal-b:focus-visible{opacity:1}
 }
-
 /* solo para lector de pantalla: anuncia «Foto 2 de 3» al mover la galeria, que si no
    el cambio de imagen no se entera nadie que no la vea */
 .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
@@ -440,7 +453,7 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
   color:var(--muted);font-size:.95rem;line-height:1.5}
 .pcuerpo .btn-go{margin-top:.8rem}
 @media(prefers-reduced-motion:reduce){
-  .pfila::before,.pfila::after,.pgal-pt::before,.pf-n{transition:none}
+  .pfila::before,.pfila::after,.pgal-mini,.pf-n{transition:none}
   .pfila:hover .pf-n,.pfila.on .pf-n{transform:none}
   .pgal-pista{scroll-behavior:auto}
 }
@@ -1472,6 +1485,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         </div>
         <aside class="ptienda">
           <div class="pgal-caja" id="pgcaja">
+            <div class="pgal-tira" id="pgtira" role="group" aria-label="Fotos del producto"></div>
             <div class="pgal">
               <ul class="pgal-pista" id="pgpista" tabindex="0" aria-label="Fotos del producto"></ul>
               <button class="pgal-b ant" type="button" id="pgant" aria-label="Foto anterior">
@@ -1480,8 +1494,10 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
               <button class="pgal-b sig" type="button" id="pgsig" aria-label="Foto siguiente">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
               </button>
+              <button class="pgal-lupa" type="button" id="pglupa" aria-label="Ver la foto en grande">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M15.8 15.8L21 21M11 8.4v5.2M8.4 11h5.2"/></svg>
+              </button>
             </div>
-            <div class="pgal-pts" id="pgpts" role="group" aria-label="Ir a una foto"></div>
           </div>
           <p class="vh" id="pgcuenta" aria-live="polite"></p>
           <div class="pcuerpo" id="pcuerpo">
@@ -1832,21 +1848,22 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
   if (!filas) return;
   const chips = document.querySelectorAll('#ftienda .chip');
   const gal = document.getElementById('pgcaja'), pista = document.getElementById('pgpista');
-  const pts = document.getElementById('pgpts'), cuenta = document.getElementById('pgcuenta');
+  const tira = document.getElementById('pgtira'), cuenta = document.getElementById('pgcuenta');
+  const lupa = document.getElementById('pglupa');
   const ant = document.getElementById('pgant'), sig = document.getElementById('pgsig');
   const cta = document.getElementById('pccta');
   const quietoM = matchMedia('(prefers-reduced-motion:reduce)');
   let actual = -1, foto = 0, total = 1;
 
-  function pintarPuntos(){
-    [...pts.children].forEach((b, i) => b.setAttribute('aria-current', String(i === foto)));
+  function marcarTira(){
+    [...tira.children].forEach((b, i) => b.setAttribute('aria-current', String(i === foto)));
     cuenta.textContent = total > 1 ? 'Foto ' + (foto + 1) + ' de ' + total : '';
   }
   function irFoto(n, suave){
     foto = (n + total) % total;                 /* da la vuelta: son dos o tres fotos */
     pista.scrollTo({left: pista.clientWidth * foto,
                     behavior: suave && !quietoM.matches ? 'smooth' : 'instant'});
-    pintarPuntos();
+    marcarTira();
   }
 
   function producto(i){
@@ -1863,13 +1880,19 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
       ? Array.from({length: p.fotos}, (_, n) =>
           '<li><i class="shot i-' + p.k + '-' + (n + 1) + '"></i></li>').join('')
       : '<li></li>';
-    pts.innerHTML = p.fotos > 1
+    /* La tira se dibuja siempre, tambien con una sola foto y con ninguna: si apareciera
+       y desapareciera, la foto grande cambiaria de ancho y con 16:9 tambien de alto, y
+       la seccion daria un salto al cambiar de producto. */
+    tira.innerHTML = p.fotos
       ? Array.from({length: p.fotos}, (_, n) =>
-          '<button class="pgal-pt" type="button" aria-label="Foto ' + (n + 1) + '"></button>').join('')
-      : '';
-    [...pts.children].forEach((b, n) => b.addEventListener('click', () => irFoto(n, true)));
+          '<button class="pgal-mini" type="button" aria-label="Ver la foto ' + (n + 1) +
+          ' de ' + p.fotos + '"><i class="shot i-' + p.k + '-' + (n + 1) + '"></i></button>').join('')
+      : '<span class="pgal-mini pendiente" aria-hidden="true"></span>';
+    [...tira.children].forEach((b, n) => {
+      if (b.tagName === 'BUTTON') b.addEventListener('click', () => irFoto(n, true));
+    });
     pista.scrollLeft = 0;
-    pintarPuntos();
+    marcarTira();
     document.getElementById('pcn').textContent = p.n;
     document.getElementById('pcu').textContent = p.u;
     document.getElementById('pcd').textContent = p.d;
@@ -1900,6 +1923,32 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
     }));
   ant.addEventListener('click', () => irFoto(foto - 1, true));
   sig.addEventListener('click', () => irFoto(foto + 1, true));
+  /* La lupa abre la foto en el mismo dialogo que usa la galeria. Se marca de quien es
+     mientras esta abierto, para que sus flechas recorran las fotos del producto y no
+     las de la cinta. */
+  lupa.addEventListener('click', () => {
+    const p = PROD[actual];
+    if (!p || !p.fotos) return;
+    visor.dataset.duena = 'tienda';
+    pintarVisorTienda(foto);
+    if (!visor.open) visor.showModal();
+  });
+  function pintarVisorTienda(n){
+    const p = PROD[actual];
+    foto = (n + p.fotos) % p.fotos;
+    const f = document.getElementById('visor-foto');
+    f.className = 'visor-foto i-' + p.k + '-' + (foto + 1);
+    f.setAttribute('aria-label', p.n);
+    document.getElementById('visor-cap').textContent = p.n;
+    document.getElementById('visor-num').textContent = (foto + 1) + ' de ' + p.fotos;
+    irFoto(foto, false);
+  }
+  document.getElementById('visor-prev').addEventListener('click', () => {
+    if (visor.dataset.duena === 'tienda') pintarVisorTienda(foto - 1);
+  });
+  document.getElementById('visor-next').addEventListener('click', () => {
+    if (visor.dataset.duena === 'tienda') pintarVisorTienda(foto + 1);
+  });
   /* con el foco en la galeria, las flechas del teclado la mueven */
   pista.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft'){ e.preventDefault(); irFoto(foto - 1, true); }
@@ -1911,7 +1960,7 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
     clearTimeout(esperar);
     esperar = setTimeout(() => {
       const visto = Math.round(pista.scrollLeft / Math.max(1, pista.clientWidth));
-      if (visto !== foto && visto >= 0 && visto < total){ foto = visto; pintarPuntos(); }
+      if (visto !== foto && visto >= 0 && visto < total){ foto = visto; marcarTira(); }
     }, 90);
   }, {passive: true});
 
@@ -2274,21 +2323,29 @@ if (pista){
     const b = e.target.closest('.tira[data-img]');
     if (!b) return;
     const idx = conFoto.findIndex(x => x.dataset.i === b.dataset.i);
+    visor.dataset.duena = 'cinta';        /* quien abre, manda */
     pintarVisor(idx < 0 ? 0 : idx);
     detenidaPorVisor = true; vObj = 0;      /* mientras miras una foto, la cinta espera */
     if (!visor.open) visor.showModal();
   });
 }
 document.getElementById('visor-x').onclick    = cerrarVisor;
-document.getElementById('visor-prev').onclick = () => pintarVisor(verActual - 1);
-document.getElementById('visor-next').onclick = () => pintarVisor(verActual + 1);
+/* El visor lo comparten la cinta y la tienda: sus flechas solo mueven la cinta si fue
+   la cinta quien lo abrio. La tienda pone visor.dataset.duena y engancha las suyas. */
+document.getElementById('visor-prev').onclick = () => {
+  if (visor.dataset.duena !== 'tienda') pintarVisor(verActual - 1); };
+document.getElementById('visor-next').onclick = () => {
+  if (visor.dataset.duena !== 'tienda') pintarVisor(verActual + 1); };
 visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
-function cerrarVisor(){
-  visor.close();
+function cerrarVisor(){ visor.close(); }
+/* La limpieza va en close y no en cerrarVisor porque close SI se dispara con la tecla
+   Esc, y el clic en el fondo no: antes, cerrar con Esc dejaba la cinta parada.
+   No se borra duena aqui: la fija quien abre, asi que nunca queda antigua. */
+visor.addEventListener('close', () => {
+  if (visor.dataset.duena === 'tienda') return;
   detenidaPorVisor = false;
   if (!quieto.matches) vObj = CRUCERO;      /* al cerrar, retoma la marcha */
-}
-/* el evento cubre la tecla Esc; las rutas explícitas no dependen de él */
+});
 visor.addEventListener('close', () => {
   detenidaPorVisor = false;
   if (!quieto.matches) vObj = CRUCERO;
