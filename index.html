@@ -410,10 +410,29 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
   grid-template-rows:repeat(12,auto)}
 /* por debajo de 1040 no caben tres columnas legibles, y dos sueltas serian peor que
    una debajo de otra: se comparan en vertical, cada tarjeta entera */
+/* PESTAÑAS — en pantallas estrechas los tres tickets no se apilan ni se deslizan: se
+   muestran de uno en uno y las pestañas van pegadas al borde de arriba, con el precio
+   dentro para que los tres se comparen sin cambiar de tarjeta. */
+.ent-tabs{display:none}
 @media(max-width:1040px){
-  .entradas{grid-template-columns:1fr;max-width:480px;grid-template-rows:none;
-    row-gap:clamp(1rem,2vw,1.6rem)}
-  .entrada,.ent-specs{grid-row:auto !important;grid-template-rows:none !important}}
+  /* minmax(0,1fr): sin eso «BIOEXCLUSIVO» impone su ancho minimo y la tira desborda */
+  .ent-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+  .ent-tab{font-family:var(--disp);font-weight:700;text-transform:uppercase;
+    font-size:clamp(.66rem,2.6vw,.82rem);letter-spacing:.02em;line-height:1.1;
+    display:grid;gap:.2rem;justify-items:center;padding:.65rem .3rem .55rem;
+    background:var(--bg-2);color:var(--muted);border:0;cursor:pointer;
+    border-radius:8px 8px 0 0;transition:background .2s var(--ease),color .2s var(--ease)}
+  .ent-tab b{font-size:clamp(.9rem,3.4vw,1.05rem);color:var(--fg);
+    font-variant-numeric:lining-nums tabular-nums}
+  .ent-tab[aria-selected="true"]{background:#E3E8CF;color:var(--fg)}
+  .ent-tab:nth-child(3)[aria-selected="true"]{background:#C4D22C}
+  .entradas{display:block;grid-template-rows:none;max-width:none}
+  /* la regla base .entrada{display:grid} va despues en el archivo: hace falta subir la
+     especificidad para que aqui gane el ocultar */
+  .entradas > .entrada{display:none}
+  .entradas > .entrada.activo{display:grid;grid-row:auto !important;
+    grid-template-rows:none !important}
+  .ent-specs{grid-row:auto !important;grid-template-rows:none !important}}
 .entrada{--corte:96px;--r:16px;
   background:#E3E8CF;position:relative;padding:1.5rem 1.6rem 0;
   display:grid;grid-row:span 12;grid-template-rows:subgrid;align-content:start;
@@ -472,8 +491,12 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
 .medidas{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.6rem);
   grid-template-rows:repeat(3,auto)}
 @media(max-width:860px){
-  .medidas{grid-template-columns:1fr;max-width:520px;grid-template-rows:none}
-  .medida{grid-row:auto !important;grid-template-rows:none !important}}
+  .medidas{display:flex;grid-template-rows:none;max-width:none;
+    overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+    gap:1.6rem;padding-bottom:.3rem;scrollbar-width:none}
+  .medidas::-webkit-scrollbar{display:none}
+  .medida{flex:0 0 min(85%,420px);scroll-snap-align:center;
+    grid-row:auto !important;grid-template-rows:none !important}}
 .medida{display:grid;grid-row:span 3;grid-template-rows:subgrid;align-content:start;
   gap:1rem;border-top:2px solid var(--fg);padding-top:1.1rem}
 .med-quien{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:.78rem;
@@ -486,6 +509,19 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
 .med-datos li::before{content:"";position:absolute;left:0;top:.6em;width:4px;height:4px;
   border-radius:50%;background:var(--accent)}
 .medida .btn{justify-self:start}
+
+/* mandos del carrusel: solo aparecen cuando la tira de verdad se desplaza */
+.carro-nav{display:none;align-items:center;gap:.9rem;margin-top:1.1rem}
+.carro[data-desliza] .carro-nav{display:flex}
+.carro-b{width:44px;height:44px;border-radius:50%;border:1px solid var(--rule-2);
+  background:none;cursor:pointer;display:grid;place-items:center;color:var(--fg);
+  transition:border-color .2s var(--ease),opacity .2s var(--ease)}
+.carro-b svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.carro-b:hover{border-color:var(--fg)}
+.carro-b[disabled]{opacity:.3;cursor:default}
+.carro-n{font-family:var(--disp);font-weight:700;font-size:1rem;color:var(--muted);
+  font-variant-numeric:tabular-nums;letter-spacing:.04em}
 
 .social{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
 .soc{background:var(--bg);padding:1.6rem 1.35rem;position:relative}
@@ -1129,6 +1165,11 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         <p class="lede">Los tres son guiados y en los tres tocas animales. Cambia cuánto dura,
           a cuántos conoces y con cuántos te puedes quedar un rato.</p>
       </div>
+      <div class="ent-tabs" role="tablist" aria-label="Elige un recorrido">
+        <button class="ent-tab" type="button" role="tab" aria-selected="true" data-t="0">BioExótico<b>S/ 20</b></button>
+        <button class="ent-tab" type="button" role="tab" aria-selected="false" data-t="1">BioAventura<b>S/ 35</b></button>
+        <button class="ent-tab" type="button" role="tab" aria-selected="false" data-t="2">BioExclusivo<b>S/ 250</b></button>
+      </div>
       <div class="entradas">
         <article class="entrada">
           <span class="ent-quien">Vengo a conocer</span>
@@ -1186,13 +1227,15 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           </div>
         </article>
       </div>
+      </div>
       <p class="ent-nota">Solo se entra con reserva, y la reserva se paga por adelantado.</p>
 
       <div class="sec-head sec-sub">
         <h3>A la medida</h3>
         <p class="lede">Esto no se compra de una: se coordina contigo por WhatsApp.</p>
       </div>
-      <div class="medidas">
+      <div class="carro">
+      <div class="medidas carro-pista">
         <article class="medida">
           <div class="med-txt">
             <span class="med-quien">En el local</span>
@@ -1232,6 +1275,14 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           </ul>
           <a class="btn btn-ghost" href="https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20talleres%20recreativos." target="_blank" rel="noopener">Pedir información</a>
         </article>
+      </div>
+        <div class="carro-nav">
+          <button class="carro-b" type="button" data-dir="-1" aria-label="Ver el anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <span class="carro-n" aria-live="polite"></span>
+          <button class="carro-b" type="button" data-dir="1" aria-label="Ver el siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
       </div>
     </div>
   </section>
@@ -1929,6 +1980,50 @@ if (vgo) vgo.addEventListener('click', () => {
   marco.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share';
   marco.allowFullscreen = true;
   vgo.replaceWith(marco);
+});
+
+/* CARRUSEL — deslizar con el dedo funciona solo; las flechas son para quien no lo intuye.
+   Los mandos se muestran unicamente si la tira desborda de verdad. */
+/* pestañas de los recorridos: en movil solo se ve un ticket a la vez */
+const pest = [...document.querySelectorAll('.ent-tab')];
+const tickets = [...document.querySelectorAll('.entrada')];
+if (pest.length) {
+  const elegir = i => {
+    pest.forEach((b, n) => b.setAttribute('aria-selected', String(n === i)));
+    tickets.forEach((t, n) => t.classList.toggle('activo', n === i));
+  };
+  pest.forEach((b, i) => b.addEventListener('click', () => elegir(i)));
+  elegir(0);
+}
+
+document.querySelectorAll('.carro').forEach(carro => {
+  const pista = carro.querySelector('.carro-pista');
+  const botones = [...carro.querySelectorAll('.carro-b')];
+  const cuenta = carro.querySelector('.carro-n');
+  const total = pista.children.length;
+  const paso = () => {
+    const uno = pista.firstElementChild.getBoundingClientRect().width;
+    return uno + parseFloat(getComputedStyle(pista).columnGap || 0);
+  };
+  function estado(){
+    const desborda = pista.scrollWidth - pista.clientWidth > 4;
+    carro.toggleAttribute('data-desliza', desborda);
+    /* una region que se desplaza tiene que poder recorrerse con el teclado */
+    pista.tabIndex = desborda ? 0 : -1;
+    if (!desborda) return;
+    const i = Math.min(total, Math.round(pista.scrollLeft / paso()) + 1);
+    cuenta.textContent = i + ' / ' + total;
+    botones[0].disabled = pista.scrollLeft < 4;
+    botones[1].disabled = pista.scrollLeft > pista.scrollWidth - pista.clientWidth - 4;
+  }
+  botones.forEach(b => b.addEventListener('click', () =>
+    pista.scrollBy({left: paso() * (+b.dataset.dir), behavior: 'smooth'})));
+  let esperar;
+  pista.addEventListener('scroll', () => {
+    clearTimeout(esperar); esperar = setTimeout(estado, 90);
+  }, {passive:true});
+  addEventListener('resize', () => { clearTimeout(esperar); esperar = setTimeout(estado, 150); });
+  estado();
 });
 
 previa(0);
