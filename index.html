@@ -172,10 +172,13 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
   border-left:4px solid #C4D22C;padding-left:clamp(1.1rem,1.9vw,1.6rem)}
 .thesis-cuerpo .lede{margin-top:0}
 
-/* La columna del texto va por debajo de la mitad: su medida de lectura ya la fija el
-   56ch de .lede, asi que darle mas ancho solo abriria hueco muerto contra el video. */
-.thesis-grid{display:grid;grid-template-columns:.88fr 1.12fr;
+/* El video no puede achicarse sin reabrir el hueco: la seccion mide lo que mide y el
+   texto corta en 56ch, asi que al estrechar el video la columna del texto se ensancha y
+   le sobra sitio. Se sube la medida del cuerpo a 66ch —sigue dentro del rango comodo de
+   lectura— para que llene una columna mas ancha y el video pueda ceder ese espacio. */
+.thesis-grid{display:grid;grid-template-columns:1.06fr .94fr;
   gap:clamp(2rem,4.4vw,4rem);align-items:stretch}
+.thesis-txt .lede{max-width:66ch}
 .thesis-q{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   font-size:clamp(1.9rem,4vw,3.1rem);line-height:.95;max-width:16ch;text-wrap:balance}
 .facts{display:grid;gap:1.4rem}
