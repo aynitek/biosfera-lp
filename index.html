@@ -169,10 +169,7 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .thesis-grid{display:grid;grid-template-columns:1.05fr .95fr;
   gap:clamp(1.5rem,2.6vw,2.75rem);align-items:start}
 .thesis-q{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  font-size:clamp(1.9rem,4vw,3.1rem);line-height:.95;text-wrap:balance}
-/* sin tope de medida dentro de la reticula: con 16ch el titular acababa 300px antes que
-   los parrafos y dejaba un vacio enorme junto a la mitad superior del video */
-.thesis-txt .thesis-q{max-width:none}
+  font-size:clamp(1.9rem,4vw,3.1rem);line-height:.95;max-width:16ch;text-wrap:balance}
 .facts{display:grid;gap:1.4rem}
 .fact{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:baseline;
   padding-bottom:1.4rem;border-bottom:1px solid var(--rule)}
