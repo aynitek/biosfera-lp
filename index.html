@@ -43,7 +43,13 @@
 .lime,.inv{background:var(--bg);color:var(--fg)}
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* Sin rebote elastico en vertical. El rebote es nativo de macOS y existia
+   siempre, pero con el tapiz se delata: durante el rebote el navegador fija
+   scrollY en 0, asi que el fondo se queda quieto mientras el contenido se
+   desliza, y la pagina se despega de su propio papel. Solo el eje y: los
+   carruseles siguen con su overscroll-behavior-x:contain. */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;
+  overscroll-behavior-y:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 section[id],main{scroll-margin-top:86px}
 body{margin:0;background:var(--bg);color:var(--fg);
