@@ -538,7 +538,8 @@ blockquote cite{display:block;margin-top:1rem;font-style:normal;font-size:.88rem
    sigue sin pedir nada a terceros y el mapa aparece al instante. */
 .visit-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);
   gap:clamp(1.6rem,3.5vw,3rem);align-items:start}
-.mapa{position:relative;display:block;border-radius:9px;overflow:clip;
+.mapa{position:relative;display:block;width:100%;padding:0;text-align:left;cursor:pointer;
+  border-radius:9px;overflow:clip;
   background:var(--bg-2);border:1px solid rgba(21,32,13,.22);
   transition:border-color .25s var(--ease)}
 .mapa:hover{border-color:var(--fg)}
@@ -552,6 +553,8 @@ blockquote cite{display:block;margin-top:1rem;font-style:normal;font-size:.88rem
 .mapa-pie b{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   font-size:clamp(1.05rem,1.7vw,1.3rem);line-height:1.1}
 .mapa-pie i{font-style:normal;font-size:.9rem;color:rgba(240,246,226,.82)}
+.mapa:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.mapa-vivo{width:100%;aspect-ratio:1000/562;border:0;border-radius:9px;display:block}
 .mapa-cred{position:absolute;top:.5rem;right:.6rem;font-size:.66rem;
   color:rgba(21,32,13,.5);background:rgba(244,246,236,.72);
   border-radius:3px;padding:.1rem .35rem}
@@ -1320,15 +1323,16 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
     <div class="shell"><div class="panel lime">
       <div class="sec-head"><h2>Cómo llegar</h2></div>
       <div class="visit-grid">
-        <a class="mapa" href="https://www.google.com/maps/place/?q=place_id:ChIJgYidMyzHBZERDrWOPoOC6ZY" target="_blank" rel="noopener"
-          aria-label="Ver Biosfera en Google Maps, avenida La Encalada 969, Santiago de Surco">
+        <button class="mapa" type="button"
+          data-emb="https://maps.google.com/maps?q=-12.1061337,-76.9714624&amp;z=17&amp;hl=es&amp;output=embed"
+          aria-label="Cargar el mapa navegable de Google">
           <span class="mapa-img i-mapa" aria-hidden="true"></span>
           <span class="mapa-pie">
             <b>Biosfera · Animales Exóticos</b>
-            <i>Av. La Encalada 969, Santiago de Surco</i>
+            <i>Av. La Encalada 969, Santiago de Surco · toca para explorar el mapa</i>
           </span>
           <span class="mapa-cred" aria-hidden="true">© OpenStreetMap</span>
-        </a>
+        </button>
         <div class="visit-lado">
           <dl class="dl">
             <div><dt>Dirección</dt><dd>Av. La Encalada 969<br>Santiago de Surco, Lima</dd></div>
@@ -1336,7 +1340,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
             <div><dt>Reservas</dt><dd><a class="ul" href="https://wa.me/51986044734" target="_blank" rel="noopener">986 044 734</a></dd></div>
           </dl>
           <div class="visit-botones">
-            <a class="btn btn-go" href="https://www.google.com/maps/dir/?api=1&destination=-12.1061337,-76.9714624&destination_place_id=ChIJgYidMyzHBZERDrWOPoOC6ZY" target="_blank" rel="noopener">
+            <a class="btn btn-go" href="https://www.google.com/maps/dir/?api=1&destination=Biosfera%20-%20Animales%20Ex%C3%B3ticos&destination_place_id=ChIJgYidMyzHBZERDrWOPoOC6ZY" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
               Cómo llegar</a>
             <a class="btn btn-ghost" href="https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20reservar%20una%20visita" target="_blank" rel="noopener">
@@ -1994,6 +1998,20 @@ hd.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
 
 /* el reproductor de YouTube solo aparece cuando alguien pulsa: hasta entonces no se
    carga nada de terceros. Si el embebido esta bloqueado queda el enlace del pie. */
+/* el mapa navegable de Google solo se carga si alguien lo pide: hasta entonces esta la
+   imagen propia, que aparece al instante y no depende de terceros */
+const mapa = document.querySelector('.mapa');
+if (mapa) mapa.addEventListener('click', () => {
+  const marco = document.createElement('iframe');
+  marco.className = 'mapa-vivo';
+  marco.src = mapa.dataset.emb;
+  marco.title = 'Mapa de Biosfera en Av. La Encalada 969, Santiago de Surco';
+  marco.loading = 'lazy';
+  marco.referrerPolicy = 'no-referrer-when-downgrade';
+  marco.allowFullscreen = true;
+  mapa.replaceWith(marco);
+});
+
 const vgo = document.querySelector('.video-go');
 if (vgo) vgo.addEventListener('click', () => {
   const marco = document.createElement('iframe');
