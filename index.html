@@ -371,7 +371,11 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .pf-mini .shot{position:absolute;inset:0;background-size:cover;background-position:center}
 .pf-mini.pendiente::before{content:"";position:absolute;inset:0;opacity:.6;
   background:repeating-linear-gradient(135deg,transparent 0 6px,var(--rule-2) 6px 7px)}
-.pf-n{font-size:.97rem;line-height:1.25;display:flex;flex-direction:column}
+/* el nombre se corre al pasar y al quedar seleccionado, igual que en la lista de
+   animales: es el mismo gesto de la casa para «esto responde» */
+.pf-n{font-size:.97rem;line-height:1.25;display:flex;flex-direction:column;
+  transition:transform .42s var(--ease)}
+.pfila:hover .pf-n,.pfila:focus-visible .pf-n,.pfila.on .pf-n{transform:translateX(8px)}
 .pf-n em{font-style:normal;font-size:.8rem;color:var(--fainter);margin-top:.1rem}
 .pf-precio{font-family:var(--disp);font-weight:900;font-size:1.05rem;line-height:1;
   font-variant-numeric:tabular-nums;color:var(--accent)}
@@ -437,18 +441,12 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .pc-n{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   font-size:clamp(1.5rem,2.2vw,2rem);line-height:.98}
 .pc-u{color:var(--fainter);font-size:.92rem;margin-top:.25rem}
-/* El precio va pegado a la foto como la etiqueta de una estanteria: es lenguaje de
-   tienda, y ahorra la linea que ocupaba debajo. Va a la izquierda para no chocar con
-   la flecha de la derecha. */
-.pgal-precio{position:absolute;left:0;bottom:0;z-index:2;background:#C4D22C;color:var(--fg);
-  font-family:var(--disp);font-weight:900;font-size:1.35rem;line-height:1;
-  padding:.5rem .8rem .42rem;border-top-right-radius:12px;
-  font-variant-numeric:tabular-nums}
 .pc-d{margin-top:.6rem;padding-top:.6rem;border-top:1px solid var(--rule);
   color:var(--muted);font-size:.95rem;line-height:1.5}
 .pcuerpo .btn-go{margin-top:.8rem}
 @media(prefers-reduced-motion:reduce){
-  .pfila::before,.pfila::after,.pgal-pt::before{transition:none}
+  .pfila::before,.pfila::after,.pgal-pt::before,.pf-n{transition:none}
+  .pfila:hover .pf-n,.pfila.on .pf-n{transform:none}
   .pgal-pista{scroll-behavior:auto}
 }
 }
@@ -1500,7 +1498,6 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
               <button class="pgal-b sig" type="button" id="pgsig" aria-label="Foto siguiente">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
               </button>
-              <span class="pgal-precio" id="pcprecio"></span>
             </div>
             <div class="pgal-pts" id="pgpts" role="group" aria-label="Ir a una foto"></div>
           </div>
@@ -1893,7 +1890,6 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
     pintarPuntos();
     document.getElementById('pcn').textContent = p.n;
     document.getElementById('pcu').textContent = p.u;
-    document.getElementById('pcprecio').textContent = p.precio;
     document.getElementById('pcd').textContent = p.d;
     cta.href = p.wa;
     filas.querySelectorAll('.pfila').forEach(r => r.classList.toggle('on', +r.dataset.pr === i));
