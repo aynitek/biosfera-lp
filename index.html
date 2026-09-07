@@ -34,7 +34,10 @@
   --ease:cubic-bezier(.22,.68,.24,1);
   --cardw:clamp(250px,25vw,330px);
 }
-.lime{--bg:#C4D22C;--bg-2:#B8C627;--fg:#141E0C;--muted:rgba(20,30,12,.74);--fainter:rgba(20,30,12,.52);
+/* Sobre el lima, un .52 de tinta da 3,07:1 y no llega al minimo legible: en este tema
+   --fainter sube a .74, el mismo valor que --muted, que da 4,90:1. Sobre el papel el
+   .52 si pasaba (4,93:1), asi que el problema era solo aqui. */
+.lime{--bg:#C4D22C;--bg-2:#B8C627;--fg:#141E0C;--muted:rgba(20,30,12,.74);--fainter:rgba(20,30,12,.74);
   --rule:rgba(20,30,12,.24);--rule-2:rgba(20,30,12,.38);--accent:#141E0C;
   --btn-bg:#141E0C;--btn-fg:#EEF2DA}
 .inv{--bg:#141E0C;--bg-2:#1D2A15;--fg:#F0EEE2;--muted:rgba(240,238,226,.68);--fainter:rgba(240,238,226,.50);
@@ -185,11 +188,6 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 }
 
 .shell{position:relative;z-index:1}
-/* Los reptiles derivan un poco al desplazarte: dan vida sin pedir atención. Se anima
-   la propiedad translate, NO transform: al escribir transform desde el script se
-   borraba el rotate del style y las siluetas se enderezaban solas. */
-.reptil{transition:none}
-
 /* mismo recurso que el hero: el color es un bloque colocado, no un fondo a sangre */
 .panel{padding:clamp(1.9rem,4.2vw,3.4rem) clamp(1.7rem,3.6vw,3rem)}
 .sec-head{max-width:62ch;margin-bottom:clamp(1.8rem,3.5vw,2.8rem)}
@@ -543,6 +541,9 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .sp-note{margin-top:1.5rem;font-size:.9rem;color:var(--fainter);max-width:66ch}
 
 /* FICHA */
+/* Los tres dialogos devuelven el foco a quien los abrio. Sin esto, al cerrar te
+   quedabas con el foco en el boton de cerrar de un dialogo que ya no esta, y con el
+   teclado tenias que recorrer la pagina otra vez para volver a donde estabas. */
 dialog.ficha{border:0;padding:0;background:transparent;max-width:min(960px,94vw);width:100%;color:var(--fg)}
 dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
 .ficha-in{background:var(--bg);border:1px solid var(--rule-2);display:grid;grid-template-columns:.85fr 1.15fr;
@@ -1681,7 +1682,7 @@ let cur = 0;
 
 function paint(i){
   const s = SP[i]; cur = i;
-  $('#fshot').className = 'shot i-' + s.k;
+  rotularFoto($('#fshot'), s.k, s.n);
   $('#fg').textContent = s.g;
   $('#fn').textContent = s.n;
   $('#fb').textContent = s.b;
@@ -1698,9 +1699,9 @@ function paint(i){
 }
 
 /* al abrir, el nombre de la fila se transforma en el título de la ficha */
-function abrir(i){
+function abrir(i, disparador){
   const n = rows.querySelector('[data-sp="' + i + '"] .row-n');
-  const go = () => { paint(i); if (!dlg.open) dlg.showModal(); };
+  const go = () => { paint(i); abrirDialogo(dlg, disparador); };
   if (!document.startViewTransition || matchMedia('(prefers-reduced-motion:reduce)').matches){ go(); return; }
   if (n) n.style.viewTransitionName = 'morph';
   let ran = false;
@@ -1725,14 +1726,14 @@ function previa(i){
   $('#pn').textContent = s.n;
   $('#pb').textContent = s.b;
   $('#pm').textContent = s.real;
-  $('#pshot').className = 'shot i-' + s.k;
+  rotularFoto($('#pshot'), s.k, s.n);
   rows.querySelectorAll('.row').forEach(r => r.classList.toggle('on', +r.dataset.sp === i));
   pvb.classList.remove('prev-fade'); void pvb.offsetWidth; pvb.classList.add('prev-fade');
 }
 
 rows.addEventListener('click', e => {
   const b = e.target.closest('[data-sp]');
-  if (b) abrir(+b.dataset.sp);
+  if (b) abrir(+b.dataset.sp, b);
 });
 let filaPrevia = -1;
 rows.addEventListener('pointerover', e => {
@@ -1762,6 +1763,30 @@ addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft')  $('#fprev').click();
   if (e.key === 'ArrowRight') $('#fnext').click();
 });
+
+/* La foto se pinta y se rotula a la vez. El «Fotografía pendiente» del hueco lo tapa la
+   foto por encima, pero taparlo es solo visual: para un lector de pantalla seguía ahí,
+   anunciando que faltaba una foto que sí estaba. Ahora se esconde cuando hay foto, y la
+   foto pasa a tener nombre. Sin foto se quita el role: un role=img sin etiqueta es peor
+   que no ponerlo. */
+const CONFOTO = new Set(["alimento-seco-1","coral-falsa","corcho-1","corcho-2","dragon-agua","dragon-barbudo","emisor-1","emisor-2","erizos","escorpion","gato-sphynx","gecko-leopardo","gecko-tokay","grillos-1","grillos-2","guacamayo","hero-dragon","higrometro-1","hurones","logo","ninfas","petauro","rana-pacman","ratones","rueda-1","rueda-2","rueda-3","serpiente-maiz","sustrato-1","sustrato-2","tarantula","tenebrios-1","tenebrios-2","tenebrios-3","terrario-alto-1","terrario-alto-2","terrario-cristal-1","terrario-cristal-2","transportin-1","xp-experiencia"]);
+function rotularFoto(shot, clave, nombre){
+  shot.className = 'shot i-' + clave;
+  /* Se pregunta a la lista que deja el build, no al estilo calculado: las reglas de
+     imagen viajan en un <style> al final del documento, asi que la primera vez que
+     corre esto todavia no existen y contestarian que no hay foto para ninguna. */
+  const hay = CONFOTO.has(clave);
+  const rotulo = shot.parentElement.querySelector('span');
+  if (hay){
+    shot.setAttribute('role', 'img');
+    shot.setAttribute('aria-label', 'Fotografía de ' + nombre);
+    if (rotulo) rotulo.setAttribute('aria-hidden', 'true');
+  } else {
+    shot.removeAttribute('role');
+    shot.removeAttribute('aria-label');
+    if (rotulo) rotulo.removeAttribute('aria-hidden');
+  }
+}
 
 /* filtro por grupo */
 const TOPE = 5;                    /* como máximo cinco a la vista: mantiene la altura estable */
@@ -1845,7 +1870,7 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
    La galeria es una tira que se desplaza de verdad, no imagenes apiladas: asi se pasa
    con el dedo sin escribir un solo gestor de tacto, y las flechas solo la empujan. */
 (function(){
-  const PROD = [{"k":"terrario-cristal","n":"Terrario de cristal","c":"Terrarios","u":"60×40×40 cm","precio":"S/ 180","d":"Frontal corredizo y tapa de malla. Un gecko leopardo adulto vive bien años.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Terrario%20de%20cristal."},{"k":"terrario-alto","n":"Terrario alto","c":"Terrarios","u":"45×45×60 cm","precio":"S/ 210","d":"Más alto que ancho, para los que trepan: camaleones y ranas de árbol.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Terrario%20alto."},{"k":"sustrato","n":"Sustrato de fibra de coco","c":"Terrarios","u":"bloque de 8 L","precio":"S/ 25","d":"Retiene la humedad sin enmohecerse y deja que el animal cave.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Sustrato%20de%20fibra%20de%20coco."},{"k":"grillos","n":"Grillos vivos","c":"Alimento","u":"caja de 100","precio":"S/ 15","d":"La presa que más despierta el instinto de caza.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Grillos%20vivos."},{"k":"tenebrios","n":"Tenebrios vivos","c":"Alimento","u":"tarrina de 100 g","precio":"S/ 12","d":"Vienen en salvado, se guardan en frío y aguantan semanas.","fotos":3,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Tenebrios%20vivos."},{"k":"alimento-seco","n":"Mezcla seca para roedores","c":"Alimento","u":"bolsa de 1 kg","precio":"S/ 18","d":"Cereal y semilla para ratones, ratas y jerbos. Se sirve tal cual.","fotos":1,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Mezcla%20seca%20para%20roedores."},{"k":"emisor","n":"Emisor cerámico de calor","c":"Accesorios","u":"60 W","precio":"S/ 85","d":"Da calor sin dar luz, así que puede quedarse de noche. Va con termostato.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Emisor%20cer%C3%A1mico%20de%20calor."},{"k":"higrometro","n":"Termómetro e higrómetro","c":"Accesorios","u":"digital","precio":"S/ 35","d":"Casi todo lo que nos traen enfermo es temperatura o humedad, no comida.","fotos":1,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Term%C3%B3metro%20e%20higr%C3%B3metro."},{"k":"corcho","n":"Corteza de corcho natural","c":"Accesorios","u":"pieza mediana","precio":"S/ 30","d":"Escondite y rampa en una pieza. No se pudre con la humedad.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Corteza%20de%20corcho%20natural."},{"k":"transportin","n":"Caja de transporte","c":"Accesorios","u":"talla S","precio":"S/ 45","d":"Para el veterinario y para separar a uno mientras limpias su terrario.","fotos":1,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Caja%20de%20transporte."},{"k":"rueda","n":"Rueda de ejercicio","c":"Juguetes","u":"28 cm, superficie cerrada","precio":"S/ 55","d":"Sin barrotes donde se enganchen las patas, que es como se hacen daño.","fotos":3,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Rueda%20de%20ejercicio."},{"k":"tunel","n":"Túnel de tela","c":"Juguetes","u":"para hurón","precio":"S/ 40","d":"Se pliega y se lava. Un hurón dedica media tarde a cruzarlo y volver.","fotos":0,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20T%C3%BAnel%20de%20tela."},{"k":"hamaca","n":"Hamaca colgante","c":"Juguetes","u":"para petauro","precio":"S/ 35","d":"Duermen colgados y en grupo; con dos dejan de pelearse por la de arriba.","fotos":0,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20el%20Hamaca%20colgante."}];
+  const PROD = [{"k":"terrario-cristal","n":"Terrario de cristal","c":"Terrarios","u":"60×40×40 cm","precio":"S/ 180","d":"Frontal corredizo y tapa de malla. Un gecko leopardo adulto vive bien años.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABTerrario%20de%20cristal%C2%BB."},{"k":"terrario-alto","n":"Terrario alto","c":"Terrarios","u":"45×45×60 cm","precio":"S/ 210","d":"Más alto que ancho, para los que trepan: camaleones y ranas de árbol.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABTerrario%20alto%C2%BB."},{"k":"sustrato","n":"Sustrato de fibra de coco","c":"Terrarios","u":"bloque de 8 L","precio":"S/ 25","d":"Retiene la humedad sin enmohecerse y deja que el animal cave.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABSustrato%20de%20fibra%20de%20coco%C2%BB."},{"k":"grillos","n":"Grillos vivos","c":"Alimento","u":"caja de 100","precio":"S/ 15","d":"La presa que más despierta el instinto de caza.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABGrillos%20vivos%C2%BB."},{"k":"tenebrios","n":"Tenebrios vivos","c":"Alimento","u":"tarrina de 100 g","precio":"S/ 12","d":"Vienen en salvado, se guardan en frío y aguantan semanas.","fotos":3,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABTenebrios%20vivos%C2%BB."},{"k":"alimento-seco","n":"Mezcla seca para roedores","c":"Alimento","u":"bolsa de 1 kg","precio":"S/ 18","d":"Cereal y semilla para ratones, ratas y jerbos. Se sirve tal cual.","fotos":1,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABMezcla%20seca%20para%20roedores%C2%BB."},{"k":"emisor","n":"Emisor cerámico de calor","c":"Accesorios","u":"60 W","precio":"S/ 85","d":"Da calor sin dar luz, así que puede quedarse de noche. Va con termostato.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABEmisor%20cer%C3%A1mico%20de%20calor%C2%BB."},{"k":"higrometro","n":"Termómetro e higrómetro","c":"Accesorios","u":"digital","precio":"S/ 35","d":"Casi todo lo que nos traen enfermo es temperatura o humedad, no comida.","fotos":1,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABTerm%C3%B3metro%20e%20higr%C3%B3metro%C2%BB."},{"k":"corcho","n":"Corteza de corcho natural","c":"Accesorios","u":"pieza mediana","precio":"S/ 30","d":"Escondite y rampa en una pieza. No se pudre con la humedad.","fotos":2,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABCorteza%20de%20corcho%20natural%C2%BB."},{"k":"transportin","n":"Caja de transporte","c":"Accesorios","u":"talla S","precio":"S/ 45","d":"Para el veterinario y para separar a uno mientras limpias su terrario.","fotos":1,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABCaja%20de%20transporte%C2%BB."},{"k":"rueda","n":"Rueda de ejercicio","c":"Juguetes","u":"28 cm, superficie cerrada","precio":"S/ 55","d":"Sin barrotes donde se enganchen las patas, que es como se hacen daño.","fotos":3,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABRueda%20de%20ejercicio%C2%BB."},{"k":"tunel","n":"Túnel de tela","c":"Juguetes","u":"para hurón","precio":"S/ 40","d":"Se pliega y se lava. Un hurón dedica media tarde a cruzarlo y volver.","fotos":0,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABT%C3%BAnel%20de%20tela%C2%BB."},{"k":"hamaca","n":"Hamaca colgante","c":"Juguetes","u":"para petauro","precio":"S/ 35","d":"Duermen colgados y en grupo; con dos dejan de pelearse por la de arriba.","fotos":0,"wa":"https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20consultar%20por%20%C2%ABHamaca%20colgante%C2%BB."}];
   const filas = document.getElementById('pfilas');
   if (!filas) return;
   const chips = document.querySelectorAll('#ftienda .chip');
@@ -1881,7 +1906,8 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
     gal.toggleAttribute('data-varias', p.fotos > 1);
     pista.innerHTML = p.fotos
       ? Array.from({length: p.fotos}, (_, n) =>
-          '<li><i class="shot i-' + p.k + '-' + (n + 1) + '"></i></li>').join('')
+          '<li><i class="shot i-' + p.k + '-' + (n + 1) + '" role="img" aria-label="' +
+          p.n + ', foto ' + (n + 1) + ' de ' + p.fotos + '"></i></li>').join('')
       : '<li></li>';
     /* La tira se dibuja siempre, tambien con una sola foto y con ninguna: si apareciera
        y desapareciera, la foto grande cambiaria de ancho y con 16:9 tambien de alto, y
@@ -1934,7 +1960,7 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
     if (!p || !p.fotos) return;
     visor.dataset.duena = 'tienda';
     pintarVisorTienda(foto);
-    if (!visor.open) visor.showModal();
+    abrirDialogo(visor, lupa);
   });
   function pintarVisorTienda(n){
     const p = PROD[actual];
@@ -2011,6 +2037,23 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
     fijarAltos(); irFoto(foto, false);      /* la tira mide otra cosa: se recoloca */
   }, 180); });
 })();
+
+/* Los dialogos devuelven el foco a quien los abrio. El disparador se guarda en el
+   propio dialogo y no en una variable compartida: la ficha se abre dentro de una
+   transicion de vista, o sea en otro momento, y ahi document.activeElement ya no es
+   quien pulso. Guardarlo en el elemento lo hace independiente de cuando corra cada
+   cosa. Sin esto, al cerrar te quedabas con el foco en un boton de un dialogo que ya
+   no esta, y con el teclado tenias que recorrer la pagina otra vez. */
+function abrirDialogo(d, disparador){
+  if (d.open) return;
+  d.volverA = disparador || null;
+  d.showModal();
+}
+document.querySelectorAll('dialog').forEach(d => d.addEventListener('close', () => {
+  const v = d.volverA;
+  d.volverA = null;
+  if (v && document.contains(v)) v.focus();
+}));
 
 /* el gecko sube y baja contigo, y gira para mirar hacia donde va */
 const gk = document.getElementById('gecko');
@@ -2230,12 +2273,13 @@ function abrirLegal(clave){
   const d = TEXTOS[clave];
   document.getElementById('legal-tit').textContent = d.tit;
   document.getElementById('legal-cuerpo').innerHTML = d.cuerpo;
-  dlgLegal.showModal();
+  abrirDialogo(dlgLegal, document.activeElement);
 }
 document.getElementById('btn-libro').onclick = () => abrirLegal('libro');
 document.getElementById('btn-priv').onclick  = () => abrirLegal('priv');
 document.getElementById('btn-cred').onclick  = () => abrirLegal('cred');
-document.getElementById('prev-abrir').onclick = () => abrir(verPrevia);
+const btnAbrir = document.getElementById('prev-abrir');
+btnAbrir.onclick = () => abrir(verPrevia, btnAbrir);
 
 document.getElementById('legal-x').onclick   = () => dlgLegal.close();
 dlgLegal.addEventListener('click', e => { if (e.target === dlgLegal) dlgLegal.close(); });
@@ -2336,7 +2380,7 @@ if (pista){
     visor.dataset.duena = 'cinta';        /* quien abre, manda */
     pintarVisor(idx < 0 ? 0 : idx);
     detenidaPorVisor = true; vObj = 0;      /* mientras miras una foto, la cinta espera */
-    if (!visor.open) visor.showModal();
+    abrirDialogo(visor, b);
   });
 }
 document.getElementById('visor-x').onclick    = cerrarVisor;
@@ -2348,17 +2392,14 @@ document.getElementById('visor-next').onclick = () => {
   if (visor.dataset.duena !== 'tienda') pintarVisor(verActual + 1); };
 visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
 function cerrarVisor(){ visor.close(); }
-/* La limpieza va en close y no en cerrarVisor porque close SI se dispara con la tecla
-   Esc, y el clic en el fondo no: antes, cerrar con Esc dejaba la cinta parada.
+/* La limpieza va en close, que cubre tanto el boton como la tecla Esc. UN SOLO
+   listener: hubo un momento con dos, y el segundo no llevaba la guarda de duena, asi
+   que reanudaba la cinta aunque el visor lo hubiera abierto y cerrado la tienda.
    No se borra duena aqui: la fija quien abre, asi que nunca queda antigua. */
 visor.addEventListener('close', () => {
   if (visor.dataset.duena === 'tienda') return;
   detenidaPorVisor = false;
   if (!quieto.matches) vObj = CRUCERO;      /* al cerrar, retoma la marcha */
-});
-visor.addEventListener('close', () => {
-  detenidaPorVisor = false;
-  if (!quieto.matches) vObj = CRUCERO;
 });
 addEventListener('keydown', e => {
   if (!visor.open) return;
