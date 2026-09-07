@@ -431,17 +431,25 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
      especificidad para que aqui gane el ocultar */
   .entradas > .entrada{display:none}
   .entradas > .entrada.activo{display:grid;grid-row:auto !important;
-    grid-template-rows:none !important}
+    grid-template-rows:none !important;
+    /* mismo remate que abajo: linea de puntos y dos muescas, para que las pestañas
+       parezcan el talon que se arranca */
+    border-top:2px dashed rgba(21,32,13,.34);
+    --muescas:radial-gradient(var(--r) at left 0 bottom var(--corte),transparent 97%,#000),
+              radial-gradient(var(--r) at right 0 bottom var(--corte),transparent 97%,#000),
+              radial-gradient(var(--r) at left 0 top 0,transparent 97%,#000),
+              radial-gradient(var(--r) at right 0 top 0,transparent 97%,#000)}
   .ent-specs{grid-row:auto !important;grid-template-rows:none !important}}
-.entrada{--corte:96px;--r:16px;
-  background:#E3E8CF;position:relative;padding:1.5rem 1.6rem 0;
+.entrada{--corte:100px;--r:17px;
+  background:#E3E8CF;position:relative;padding:1.8rem 1.7rem 0;
   display:grid;grid-row:span 12;grid-template-rows:subgrid;align-content:start;
-  /* el troquel se recorta con máscara: dos muescas a la altura del corte */
-  -webkit-mask-image:radial-gradient(var(--r) at left 0 bottom var(--corte),transparent 97%,#000),
-              radial-gradient(var(--r) at right 0 bottom var(--corte),transparent 97%,#000);
+  /* el troquel se recorta con máscara: dos muescas a la altura del corte. En una
+     variable para poder añadirle las de arriba en movil sin repetir el bloque. */
+  --muescas:radial-gradient(var(--r) at left 0 bottom var(--corte),transparent 97%,#000),
+            radial-gradient(var(--r) at right 0 bottom var(--corte),transparent 97%,#000);
+  -webkit-mask-image:var(--muescas);
   -webkit-mask-composite:source-in;
-  mask-image:radial-gradient(var(--r) at left 0 bottom var(--corte),transparent 97%,#000),
-             radial-gradient(var(--r) at right 0 bottom var(--corte),transparent 97%,#000);
+  mask-image:var(--muescas);
   mask-composite:intersect;
   transition:background .3s var(--ease)}
 .entrada:hover{background:#DDE3C6}
@@ -456,17 +464,17 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
 .ent-marca{position:absolute;top:1.9rem;right:1.7rem;font-family:var(--disp);font-weight:700;
   text-transform:uppercase;font-size:.72rem;letter-spacing:.08em;color:#C4D22C;
   background:var(--fg);border-radius:999px;padding:.26rem .6rem .16rem}
-.entrada h3{font-size:clamp(1.6rem,2.4vw,2rem);margin:.75rem 0 0;align-self:end}
+.entrada h3{font-size:clamp(1.65rem,2.5vw,2.05rem);margin:.95rem 0 0;align-self:end}
 .ent-tipo{color:var(--muted);font-size:.93rem;margin:.35rem 0 0;line-height:1.4}
 .destacada .ent-tipo{color:rgba(21,32,13,.72)}
-.ent-precio{margin:.85rem 0 0;display:flex;align-items:baseline;gap:.55rem;flex-wrap:wrap}
-.ent-precio b{font-family:var(--disp);font-weight:900;font-size:2.4rem;line-height:.85;
+.ent-precio{margin:1.05rem 0 0;display:flex;align-items:baseline;gap:.55rem;flex-wrap:wrap}
+.ent-precio b{font-family:var(--disp);font-weight:900;font-size:2.6rem;line-height:.85;
   letter-spacing:-.01em;font-variant-numeric:lining-nums tabular-nums}
 .ent-precio span{font-size:.84rem;color:var(--muted)}
 .destacada .ent-precio span{color:rgba(21,32,13,.72)}
-.ent-specs{margin:1rem 0 1.2rem;display:grid;grid-row:span 7;grid-template-rows:subgrid}
+.ent-specs{margin:1.1rem 0 1.3rem;display:grid;grid-row:span 7;grid-template-rows:subgrid}
 .ent-specs > div{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:baseline;
-  padding:.28rem 0;border-bottom:1px solid rgba(21,32,13,.13)}
+  padding:.36rem 0;border-bottom:1px solid rgba(21,32,13,.13)}
 .ent-specs > div:last-child{border-bottom:0}
 .ent-specs dt{font-size:.83rem;color:var(--muted);line-height:1.3}
 .destacada .ent-specs dt{color:rgba(21,32,13,.7)}
@@ -476,13 +484,17 @@ dialog.ficha::backdrop{background:rgba(20,30,12,.55);backdrop-filter:blur(6px)}
 .ent-specs dd.no{color:var(--fainter);font-weight:700}
 .destacada .ent-specs dd.no{color:rgba(21,32,13,.45)}
 .ent-talon{border-top:2px dashed rgba(21,32,13,.34);
-  padding:1.1rem 0 1.35rem;display:flex;justify-content:center;height:var(--corte);
+  padding:1.15rem 0 1.35rem;display:flex;justify-content:center;height:var(--corte);
   align-items:center}
 .ent-talon .btn{font-size:1.02rem;padding:.62rem 1.25rem .52rem}
 .ent-nota{margin-top:1.4rem;font-size:.88rem;color:var(--fainter)}
 
 /* A LA MEDIDA — no son comparables entre si, asi que no llevan el troquel ni el precio
    grande: filete arriba y tipografia mas callada, para que se lean como otra categoria. */
+/* la cabecera de esta seccion va mas apretada: el ticket completo tiene que caber en
+   pantalla al llegar por el enlace del menu, boton de reservar incluido */
+.sec-corta{margin-bottom:clamp(1.3rem,2.4vw,1.9rem)}
+.sec-corta .lede{margin-top:.8rem}
 .sec-sub{margin-top:clamp(3rem,6vw,4.8rem)}
 .sec-sub h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   font-size:clamp(1.6rem,3vw,2.3rem);line-height:1;margin:0}
@@ -1160,7 +1172,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
   <path d="M40 32v56" stroke="var(--bg)" stroke-width="3" stroke-linecap="round" fill="none"/>
 </svg></span>
     <div class="shell">
-      <div class="sec-head">
+      <div class="sec-head sec-corta">
         <h2>Elige tu recorrido</h2>
         <p class="lede">Los tres son guiados y en los tres tocas animales. Cambia cuánto dura,
           a cuántos conoces y con cuántos te puedes quedar un rato.</p>
@@ -1226,7 +1238,6 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
             <a class="btn btn-go" href="https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20reservar%20el%20recorrido%20BioExclusivo." target="_blank" rel="noopener">Reservar mi visita</a>
           </div>
         </article>
-      </div>
       </div>
       <p class="ent-nota">Solo se entra con reserva, y la reserva se paga por adelantado.</p>
 
