@@ -1983,32 +1983,45 @@ if (vgo) vgo.addEventListener('click', () => {
    Los mandos se muestran unicamente si la tira desborda de verdad. */
 document.querySelectorAll('.carro').forEach(carro => {
   const pista = carro.querySelector('.carro-pista');
-  const botones = [...carro.querySelectorAll('.carro-b')];
+  const [ant, sig] = carro.querySelectorAll('.carro-b');
   const cuenta = carro.querySelector('.carro-n');
   const total = pista.children.length;
+  let n = 0;
   const paso = () => {
     const uno = pista.firstElementChild.getBoundingClientRect().width;
     return uno + parseFloat(getComputedStyle(pista).columnGap || 0);
   };
-  function estado(){
+  /* el contador se pinta al pulsar, no al terminar de desplazarse: el scroll suave dura
+     unos 300ms y hasta entonces se seguia leyendo el numero anterior */
+  function pintar(){
+    cuenta.textContent = (n + 1) + ' / ' + total;
+    ant.disabled = n === 0;
+    sig.disabled = n === total - 1;
+  }
+  function ir(destino){
+    n = Math.max(0, Math.min(total - 1, destino));
+    pintar();
+    pista.scrollTo({left: paso() * n, behavior: 'smooth'});
+  }
+  function medir(){
     const desborda = pista.scrollWidth - pista.clientWidth > 4;
     carro.toggleAttribute('data-desliza', desborda);
     /* una region que se desplaza tiene que poder recorrerse con el teclado */
     pista.tabIndex = desborda ? 0 : -1;
-    if (!desborda) return;
-    const i = Math.min(total, Math.round(pista.scrollLeft / paso()) + 1);
-    cuenta.textContent = i + ' / ' + total;
-    botones[0].disabled = pista.scrollLeft < 4;
-    botones[1].disabled = pista.scrollLeft > pista.scrollWidth - pista.clientWidth - 4;
+    if (desborda) pintar();
   }
-  botones.forEach(b => b.addEventListener('click', () =>
-    pista.scrollBy({left: paso() * (+b.dataset.dir), behavior: 'smooth'})));
+  ant.addEventListener('click', () => ir(n - 1));
+  sig.addEventListener('click', () => ir(n + 1));
   let esperar;
   pista.addEventListener('scroll', () => {
-    clearTimeout(esperar); esperar = setTimeout(estado, 90);
+    clearTimeout(esperar);
+    esperar = setTimeout(() => {          /* al deslizar con el dedo manda la posicion */
+      const visto = Math.round(pista.scrollLeft / paso());
+      if (visto !== n) { n = Math.max(0, Math.min(total - 1, visto)); pintar(); }
+    }, 90);
   }, {passive:true});
-  addEventListener('resize', () => { clearTimeout(esperar); esperar = setTimeout(estado, 150); });
-  estado();
+  addEventListener('resize', () => { clearTimeout(esperar); esperar = setTimeout(medir, 150); });
+  medir();
 });
 
 previa(0);
