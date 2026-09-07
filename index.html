@@ -153,13 +153,13 @@ header.abierto .menu span::after{transform:translateY(-5px) rotate(-45deg)}
 
 section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 
-/* DECORACIÓN — flora y bichos. Detrás de todo, nunca capturan el cursor.
-   La flora es ambiente; los bichos derivan un poco al hacer scroll. */
+/* DECORACIÓN — flora y reptiles. Detrás de todo, nunca capturan el cursor.
+   La flora es ambiente; los reptiles derivan un poco al hacer scroll. */
 .deco{position:absolute;z-index:0;pointer-events:none;color:var(--accent);display:block}
 .deco svg{width:100%;height:auto;display:block}
 .flora{opacity:.11}
-.bicho{opacity:.42;will-change:transform}
-@media(max-width:900px){.flora{opacity:.07}.bicho{display:none}}
+.reptil{opacity:.34;will-change:transform}
+@media(max-width:900px){.flora{opacity:.07}.reptil{display:none}}
 .shell{position:relative;z-index:1}
 /* mismo recurso que el hero: el color es un bloque colocado, no un fondo a sangre */
 .panel{padding:clamp(1.9rem,4.2vw,3.4rem) clamp(1.7rem,3.6vw,3rem)}
@@ -214,16 +214,21 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
    Se recortan contra la esquina: asoman, no se posan en el centro. */
 .video-deco{position:absolute;color:#15200D;pointer-events:none;display:block}
 .video-deco svg{width:100%;height:auto;display:block}
-.v-d1{opacity:.11;left:-2.5%;bottom:-13%;width:19%;transform:rotate(14deg)}
-.v-d2{opacity:.11;right:-2.5%;top:-9%;width:14%;transform:rotate(158deg)}
-.v-d3{opacity:.28;right:8%;bottom:13%;width:5%}
+.v-d1{opacity:.13;left:-3%;bottom:-14%;width:21%;transform:rotate(14deg)}
+.v-d2{opacity:.13;right:-3%;top:-11%;width:16%;transform:rotate(158deg)}
+.v-d3{opacity:.3;right:8%;bottom:12%;width:9.5%}
+.v-d4{opacity:.26;left:7%;top:9%;width:15%;transform:rotate(-8deg)}
+.v-d5{opacity:.1;left:26%;bottom:-9%;width:11%;transform:rotate(48deg)}
+.v-d6{opacity:.22;right:27%;top:7%;width:6.5%;transform:rotate(150deg) scaleX(-1)}
 @media(max-width:900px){.v-d3{display:none}}
 .video-play{width:66px;height:66px;border-radius:50%;background:#15200D;
-  display:grid;place-items:center;transition:transform .3s var(--ease)}
+  display:grid;place-items:center;transition:transform .3s var(--ease);
+  position:relative;z-index:1}
 .video-play svg{width:30px;height:30px;fill:#C4D22C;margin-left:3px}
 .video-go:hover .video-play{transform:scale(1.09)}
-.video-rot{font-family:var(--disp);font-weight:700;text-transform:uppercase;
-  letter-spacing:.07em;font-size:1.02rem;color:#15200D;text-align:center;line-height:1.15}
+.video-rot{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  letter-spacing:.04em;font-size:clamp(1.3rem,2.4vw,1.85rem);color:#15200D;
+  text-align:center;line-height:1.02;max-width:14ch;text-wrap:balance;position:relative}
 .video-go:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
 .video-marco{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:9px}
 .video figcaption{display:grid;gap:.25rem;justify-items:start;
@@ -231,7 +236,7 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .video figcaption a{color:var(--accent);text-decoration:underline;text-underline-offset:.18em}
 @media(max-width:520px){
   .video-play{width:54px;height:54px}.video-play svg{width:25px;height:25px}
-  .video-rot{font-size:.92rem}}
+  .video-rot{font-size:1.15rem}}
 
 .filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.6rem}
 .chip{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:1rem;letter-spacing:.03em;min-height:44px;
@@ -806,7 +811,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
         </div>
         <div class="hero-meta">
           <span><b>Av. La Encalada 969</b>, Santiago de Surco</span>
-          <span>Se entra <b>con reserva previa</b></span>
+          <span>Se visita <b>con reserva previa</b></span>
           <span><b>4,8 ★</b> en Google, 91 reseñas</span>
         </div>
       </div>
@@ -879,17 +884,20 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
   </g>
 </svg></span>
             <span class="video-deco v-d2" aria-hidden="true"><svg viewBox="0 0 120 200" fill="currentColor" aria-hidden="true"><path d="M60 4C34 34 12 76 12 118c0 42 22 74 48 78 26-4 48-36 48-78C108 76 86 34 60 4zm-4 34v146c-18-6-32-32-32-66 0-32 14-62 32-80zm8 0c18 18 32 48 32 80 0 34-14 60-32 66V38z"/></svg></span>
-            <span class="video-deco v-d3" aria-hidden="true"><svg viewBox="0 0 80 100" aria-hidden="true">
-  <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
-    <path d="M26 34 C16 28 10 22 6 14M24 50 C13 48 6 46 0 42M26 66 C16 72 10 78 6 88"/>
-    <path d="M54 34 C64 28 70 22 74 14M56 50 C67 48 74 46 80 42M54 66 C64 72 70 78 74 88"/>
-    <path d="M34 14 C30 8 26 4 20 1M46 14 C50 8 54 4 60 1"/>
+            <span class="video-deco v-d3" aria-hidden="true"><svg viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="currentColor" d="M480.336,136.946c-6.488,0.33-13.244,1.975-15.628-3.817c-2.109-5.108,2.282-10.08,11.025-12.63 c8.747-2.558,11.182-10.64,6.547-15.976c-4.945-5.666-12.673-2.322-15.258,3.73c-2.585,6.052-4.25,10.129-9.951,10.829 c-7.287,0.897-9.971-7.469-2.667-15.755c6.142-6.972,6.791-16.706-0.386-19.736c-6.437-2.723-15.243,0.826-13.52,14.142 c1.688,13.016-3.356,21.672-12.351,20.642c-7.122-0.811-6.942-6.524-9.097-12.378c-5.544-15.032-27.107-0.937-14.256,11.914 c9.019,9.018,22.593,12.93,20.917,21.696c-1.676,8.767-9.923,37.263-34.988,41.504c-39.599,6.729-35.456-23.797-32.996-39.607 c3.234-20.838,16.117-30.219,12.453-64.168c-2.215-20.516-26.107-56.739-46.509-71.282c-7.869-5.603-14.441-6.901-23.36-5.572 c-8.625,1.283-15.488,4.674-21.141,12.457C263.81,34.075,253.395,79.081,259.53,99.07c6.532,21.279,20.924,33.823,12.575,55.527 c-5.036,13.095-13.638,17.4-25.45,19.446c-51.384,8.924-27.653-43.44-28.07-39.308c0.893-8.885,15.456-9.412,26.666-15.472 c15.987-8.633-0.65-28.322-10.25-15.479c-3.746,4.99-5.198,10.514-12.261,9.27c-8.912-1.597-11.273-11.34-5.933-23.333 c5.45-12.237-1.983-18.163-8.924-17.392c-7.748,0.866-9.904,10.348-6.004,18.792c4.627,10.034-0.331,17.29-7.059,14.346 c-5.268-2.29-5.694-6.689-6.441-13.229c-0.752-6.531-7.193-11.954-13.56-7.908c-5.965,3.762-5.941,12.213,1.712,17.156 c7.657,4.942,10.436,10.962,6.965,15.251c-3.946,4.863-9.868,1.117-16.069-0.803c-6.225-1.936-10.95,2.62-11.391,8.09 c-0.322,4.099,5.281,12.654,13.536,9.459c8.263-3.187,22.125-0.89,25.344,3.164c9.617,12.103-19.559,47.579,12.965,58.557 c16.042,5.422,34.008,13.457,31.364,23.286c0,0-0.004,24.403-13.437,37.836c-2.144-4.619-7.252-15.716-9.396-18.698 c-10.502-14.558-29.79-18.462-43.38-6.232c-13.59,12.221-33.709,27.008-33.709,27.008l-3.12-7.735 c-3.77-12.041,12.799-20.894,24.128-23.357c16.136-3.494,6.591-24.884-5.045-16.117c-4.533,3.431-7.2,7.878-13.039,4.998 c-7.385-3.644-6.977-12.749,0.708-21.862c7.861-9.333,2.868-16.377-3.384-17.447c-6.992-1.227-11.269,6.524-9.998,14.89 c1.507,9.923-4.663,14.991-9.794,10.734c-4.018-3.344-3.274-7.287-2.278-13.181c0.999-5.895-3.262-12.253-9.837-10.349 c-6.166,1.802-8.283,9.176-2.85,15.432c5.431,6.24,6.34,12.198,2.224,15.078c-4.675,3.25-8.79-1.692-13.827-4.769 c-4.769-2.903-10.234-0.479-11.997,4.179c-1.318,3.494,1.405,12.378,9.432,11.686c8.024-0.7,18.536,10.93,19.824,21.531 c0,0,7.574,43.613,26.52,47.586c9.251,1.936,27.126-8.743,37.322-14.299c5.229-2.849,9.03-0.984,9.352,4.635 c0.457,7.987,3.05,30.817,3.164,37.412c0.008,0.669,0.023,1.338,0.035,1.998c-3.053,24.868-47.048,22.161-77.719,31.439 c-30.956,9.364-80.706,31.619-85.751,81.158c-5.85,57.51,37.263,81.284,45.14,79.899c8.491-0.952,1.523-7.712-10.474-26.221 c-19.568-30.195,18.714-83.834,83.137-83.008c104.759,1.346,126.251-38.946,143.312-30.581c6.217,3.581,16.357,8.964,22.176,12.836 c4.687,3.132,4.372,7.358-0.736,10.42c-9.95,5.98-31.423,19.438-34.429,28.393c-6.166,18.359,27.22,41.425,27.22,41.425 c9.337,7.13,10.537,23.231,5.875,29.802c-4.659,6.571,0.048,13.212,5.308,14.046c5.58,0.898,9.762-4.265,9.683-8.239 c-0.122-5.887-2.289-11.946,2.885-14.338c4.564-2.086,9.242,1.708,11.879,9.553c2.644,7.846,10.081,9.774,14.744,5.36 c4.974-4.706,1.64-11.6-3.947-13.725c-5.587-2.124-9.364-3.478-10.211-8.633c-1.081-6.586,6.414-9.333,14.217-3.014 c6.567,5.335,15.416,5.548,17.907-1.078c2.239-5.957-1.322-13.826-13.339-11.764c-11.753,2.03-19.807-2.235-19.214-10.443 c0.472-6.508,5.659-6.547,10.907-8.727c13.45-5.596-0.157-24.655-11.352-12.513c-7.85,8.531-17.612,18.628-26.091,9.278 l-5.091-6.61c0,0,22.928-9.868,40.355-15.393c17.427-5.532,23.821-24.144,16.577-40.575c-6.626-15.031-35.747-44.809-40.004-49.342 c34.492-33.217,41.976-73.446,43.518-99.683c0.268-4.548,4.348-7.326,6.485-7.578c15.101-1.778,40.15-8.106,49.763-16.919 c20.889-19.155,15.585-47.611,28.255-56.464c4.246-2.966,18.411-0.48,25.418,4.934c7.016,5.431,14.819-1.172,15.68-5.194 C490.09,142.58,486.517,136.63,480.336,136.946z"/>
+</svg></span>
+            <span class="video-deco v-d4" aria-hidden="true"><svg viewBox="0 0 200 120" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M18 96C10 70 30 52 58 54c26 2 36 24 62 24 22 0 32-16 26-32" stroke-width="13"/>
+    <path d="M146 46c-4-11-16-16-26-12" stroke-width="9"/>
+    <path d="M120 34c-8-2-16 2-19 9" stroke-width="5.5"/>
   </g>
-  <g fill="currentColor">
-    <ellipse cx="40" cy="20" rx="11" ry="9"/>
-    <path d="M40 30 C56 30 64 44 64 60 C64 78 54 90 40 90 C26 90 16 78 16 60 C16 44 24 30 40 30z"/>
-  </g>
-  <path d="M40 32v56" stroke="var(--bg)" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="150" cy="42" r="8.5" fill="currentColor"/>
+</svg></span>
+            <span class="video-deco v-d5" aria-hidden="true"><svg viewBox="0 0 120 200" fill="currentColor" aria-hidden="true"><path d="M60 4C34 34 12 76 12 118c0 42 22 74 48 78 26-4 48-36 48-78C108 76 86 34 60 4zm-4 34v146c-18-6-32-32-32-66 0-32 14-62 32-80zm8 0c18 18 32 48 32 80 0 34-14 60-32 66V38z"/></svg></span>
+            <span class="video-deco v-d6" aria-hidden="true"><svg viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="currentColor" d="M480.336,136.946c-6.488,0.33-13.244,1.975-15.628-3.817c-2.109-5.108,2.282-10.08,11.025-12.63 c8.747-2.558,11.182-10.64,6.547-15.976c-4.945-5.666-12.673-2.322-15.258,3.73c-2.585,6.052-4.25,10.129-9.951,10.829 c-7.287,0.897-9.971-7.469-2.667-15.755c6.142-6.972,6.791-16.706-0.386-19.736c-6.437-2.723-15.243,0.826-13.52,14.142 c1.688,13.016-3.356,21.672-12.351,20.642c-7.122-0.811-6.942-6.524-9.097-12.378c-5.544-15.032-27.107-0.937-14.256,11.914 c9.019,9.018,22.593,12.93,20.917,21.696c-1.676,8.767-9.923,37.263-34.988,41.504c-39.599,6.729-35.456-23.797-32.996-39.607 c3.234-20.838,16.117-30.219,12.453-64.168c-2.215-20.516-26.107-56.739-46.509-71.282c-7.869-5.603-14.441-6.901-23.36-5.572 c-8.625,1.283-15.488,4.674-21.141,12.457C263.81,34.075,253.395,79.081,259.53,99.07c6.532,21.279,20.924,33.823,12.575,55.527 c-5.036,13.095-13.638,17.4-25.45,19.446c-51.384,8.924-27.653-43.44-28.07-39.308c0.893-8.885,15.456-9.412,26.666-15.472 c15.987-8.633-0.65-28.322-10.25-15.479c-3.746,4.99-5.198,10.514-12.261,9.27c-8.912-1.597-11.273-11.34-5.933-23.333 c5.45-12.237-1.983-18.163-8.924-17.392c-7.748,0.866-9.904,10.348-6.004,18.792c4.627,10.034-0.331,17.29-7.059,14.346 c-5.268-2.29-5.694-6.689-6.441-13.229c-0.752-6.531-7.193-11.954-13.56-7.908c-5.965,3.762-5.941,12.213,1.712,17.156 c7.657,4.942,10.436,10.962,6.965,15.251c-3.946,4.863-9.868,1.117-16.069-0.803c-6.225-1.936-10.95,2.62-11.391,8.09 c-0.322,4.099,5.281,12.654,13.536,9.459c8.263-3.187,22.125-0.89,25.344,3.164c9.617,12.103-19.559,47.579,12.965,58.557 c16.042,5.422,34.008,13.457,31.364,23.286c0,0-0.004,24.403-13.437,37.836c-2.144-4.619-7.252-15.716-9.396-18.698 c-10.502-14.558-29.79-18.462-43.38-6.232c-13.59,12.221-33.709,27.008-33.709,27.008l-3.12-7.735 c-3.77-12.041,12.799-20.894,24.128-23.357c16.136-3.494,6.591-24.884-5.045-16.117c-4.533,3.431-7.2,7.878-13.039,4.998 c-7.385-3.644-6.977-12.749,0.708-21.862c7.861-9.333,2.868-16.377-3.384-17.447c-6.992-1.227-11.269,6.524-9.998,14.89 c1.507,9.923-4.663,14.991-9.794,10.734c-4.018-3.344-3.274-7.287-2.278-13.181c0.999-5.895-3.262-12.253-9.837-10.349 c-6.166,1.802-8.283,9.176-2.85,15.432c5.431,6.24,6.34,12.198,2.224,15.078c-4.675,3.25-8.79-1.692-13.827-4.769 c-4.769-2.903-10.234-0.479-11.997,4.179c-1.318,3.494,1.405,12.378,9.432,11.686c8.024-0.7,18.536,10.93,19.824,21.531 c0,0,7.574,43.613,26.52,47.586c9.251,1.936,27.126-8.743,37.322-14.299c5.229-2.849,9.03-0.984,9.352,4.635 c0.457,7.987,3.05,30.817,3.164,37.412c0.008,0.669,0.023,1.338,0.035,1.998c-3.053,24.868-47.048,22.161-77.719,31.439 c-30.956,9.364-80.706,31.619-85.751,81.158c-5.85,57.51,37.263,81.284,45.14,79.899c8.491-0.952,1.523-7.712-10.474-26.221 c-19.568-30.195,18.714-83.834,83.137-83.008c104.759,1.346,126.251-38.946,143.312-30.581c6.217,3.581,16.357,8.964,22.176,12.836 c4.687,3.132,4.372,7.358-0.736,10.42c-9.95,5.98-31.423,19.438-34.429,28.393c-6.166,18.359,27.22,41.425,27.22,41.425 c9.337,7.13,10.537,23.231,5.875,29.802c-4.659,6.571,0.048,13.212,5.308,14.046c5.58,0.898,9.762-4.265,9.683-8.239 c-0.122-5.887-2.289-11.946,2.885-14.338c4.564-2.086,9.242,1.708,11.879,9.553c2.644,7.846,10.081,9.774,14.744,5.36 c4.974-4.706,1.64-11.6-3.947-13.725c-5.587-2.124-9.364-3.478-10.211-8.633c-1.081-6.586,6.414-9.333,14.217-3.014 c6.567,5.335,15.416,5.548,17.907-1.078c2.239-5.957-1.322-13.826-13.339-11.764c-11.753,2.03-19.807-2.235-19.214-10.443 c0.472-6.508,5.659-6.547,10.907-8.727c13.45-5.596-0.157-24.655-11.352-12.513c-7.85,8.531-17.612,18.628-26.091,9.278 l-5.091-6.61c0,0,22.928-9.868,40.355-15.393c17.427-5.532,23.821-24.144,16.577-40.575c-6.626-15.031-35.747-44.809-40.004-49.342 c34.492-33.217,41.976-73.446,43.518-99.683c0.268-4.548,4.348-7.326,6.485-7.578c15.101-1.778,40.15-8.106,49.763-16.919 c20.889-19.155,15.585-47.611,28.255-56.464c4.246-2.966,18.411-0.48,25.418,4.934c7.016,5.431,14.819-1.172,15.68-5.194 C490.09,142.58,486.517,136.63,480.336,136.946z"/>
 </svg></span>
             <span class="video-play" aria-hidden="true">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.5v11l9-5.5z"/></svg>
@@ -902,7 +910,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           </figcaption>
         </figure>
         <div class="facts">
-          <div class="fact"><span class="n">30</span><div><h3>Especies en el recorrido</h3><p>Reptiles, anfibios, aves, arácnidos y mamíferos pequeños en un solo recorrido.</p></div></div>
+          <div class="fact"><span class="n">30</span><div><h3>Increíbles especies que podrás conocer</h3><p>Reptiles, anfibios, aves, arácnidos y mamíferos pequeños en un solo recorrido.</p></div></div>
         </div>
       </div>
       </div>
@@ -911,17 +919,8 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
 
   <section id="recorrido">
     <span class="deco flora" style="right:-1.4rem;bottom:5rem;width:104px;transform:rotate(24deg)" aria-hidden="true"><svg viewBox="0 0 120 200" fill="currentColor" aria-hidden="true"><path d="M60 4C34 34 12 76 12 118c0 42 22 74 48 78 26-4 48-36 48-78C108 76 86 34 60 4zm-4 34v146c-18-6-32-32-32-66 0-32 14-62 32-80zm8 0c18 18 32 48 32 80 0 34-14 60-32 66V38z"/></svg></span>
-    <span class="deco bicho" data-vel="0.05" style="right:9%;bottom:6%;width:26px" aria-hidden="true"><svg viewBox="0 0 110 70" aria-hidden="true">
-  <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
-    <path d="M44 30 C36 20 28 14 18 12M46 36 C36 34 26 34 16 36M48 42 C40 50 32 56 24 60"/>
-    <path d="M62 30 C70 20 78 14 88 12M64 36 C74 34 84 34 94 36M62 42 C70 50 78 56 86 60"/>
-    <path d="M34 24 C28 16 22 10 14 6M38 22 C34 13 30 8 24 3"/>
-  </g>
-  <g fill="currentColor">
-    <ellipse cx="38" cy="30" rx="10" ry="9"/>
-    <ellipse cx="56" cy="35" rx="9" ry="8"/>
-    <ellipse cx="78" cy="38" rx="14" ry="12"/>
-  </g>
+    <span class="deco reptil" data-vel="0.05" style="right:8%;bottom:5%;width:46px;transform:rotate(18deg)" aria-hidden="true"><svg viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="currentColor" d="M480.336,136.946c-6.488,0.33-13.244,1.975-15.628-3.817c-2.109-5.108,2.282-10.08,11.025-12.63 c8.747-2.558,11.182-10.64,6.547-15.976c-4.945-5.666-12.673-2.322-15.258,3.73c-2.585,6.052-4.25,10.129-9.951,10.829 c-7.287,0.897-9.971-7.469-2.667-15.755c6.142-6.972,6.791-16.706-0.386-19.736c-6.437-2.723-15.243,0.826-13.52,14.142 c1.688,13.016-3.356,21.672-12.351,20.642c-7.122-0.811-6.942-6.524-9.097-12.378c-5.544-15.032-27.107-0.937-14.256,11.914 c9.019,9.018,22.593,12.93,20.917,21.696c-1.676,8.767-9.923,37.263-34.988,41.504c-39.599,6.729-35.456-23.797-32.996-39.607 c3.234-20.838,16.117-30.219,12.453-64.168c-2.215-20.516-26.107-56.739-46.509-71.282c-7.869-5.603-14.441-6.901-23.36-5.572 c-8.625,1.283-15.488,4.674-21.141,12.457C263.81,34.075,253.395,79.081,259.53,99.07c6.532,21.279,20.924,33.823,12.575,55.527 c-5.036,13.095-13.638,17.4-25.45,19.446c-51.384,8.924-27.653-43.44-28.07-39.308c0.893-8.885,15.456-9.412,26.666-15.472 c15.987-8.633-0.65-28.322-10.25-15.479c-3.746,4.99-5.198,10.514-12.261,9.27c-8.912-1.597-11.273-11.34-5.933-23.333 c5.45-12.237-1.983-18.163-8.924-17.392c-7.748,0.866-9.904,10.348-6.004,18.792c4.627,10.034-0.331,17.29-7.059,14.346 c-5.268-2.29-5.694-6.689-6.441-13.229c-0.752-6.531-7.193-11.954-13.56-7.908c-5.965,3.762-5.941,12.213,1.712,17.156 c7.657,4.942,10.436,10.962,6.965,15.251c-3.946,4.863-9.868,1.117-16.069-0.803c-6.225-1.936-10.95,2.62-11.391,8.09 c-0.322,4.099,5.281,12.654,13.536,9.459c8.263-3.187,22.125-0.89,25.344,3.164c9.617,12.103-19.559,47.579,12.965,58.557 c16.042,5.422,34.008,13.457,31.364,23.286c0,0-0.004,24.403-13.437,37.836c-2.144-4.619-7.252-15.716-9.396-18.698 c-10.502-14.558-29.79-18.462-43.38-6.232c-13.59,12.221-33.709,27.008-33.709,27.008l-3.12-7.735 c-3.77-12.041,12.799-20.894,24.128-23.357c16.136-3.494,6.591-24.884-5.045-16.117c-4.533,3.431-7.2,7.878-13.039,4.998 c-7.385-3.644-6.977-12.749,0.708-21.862c7.861-9.333,2.868-16.377-3.384-17.447c-6.992-1.227-11.269,6.524-9.998,14.89 c1.507,9.923-4.663,14.991-9.794,10.734c-4.018-3.344-3.274-7.287-2.278-13.181c0.999-5.895-3.262-12.253-9.837-10.349 c-6.166,1.802-8.283,9.176-2.85,15.432c5.431,6.24,6.34,12.198,2.224,15.078c-4.675,3.25-8.79-1.692-13.827-4.769 c-4.769-2.903-10.234-0.479-11.997,4.179c-1.318,3.494,1.405,12.378,9.432,11.686c8.024-0.7,18.536,10.93,19.824,21.531 c0,0,7.574,43.613,26.52,47.586c9.251,1.936,27.126-8.743,37.322-14.299c5.229-2.849,9.03-0.984,9.352,4.635 c0.457,7.987,3.05,30.817,3.164,37.412c0.008,0.669,0.023,1.338,0.035,1.998c-3.053,24.868-47.048,22.161-77.719,31.439 c-30.956,9.364-80.706,31.619-85.751,81.158c-5.85,57.51,37.263,81.284,45.14,79.899c8.491-0.952,1.523-7.712-10.474-26.221 c-19.568-30.195,18.714-83.834,83.137-83.008c104.759,1.346,126.251-38.946,143.312-30.581c6.217,3.581,16.357,8.964,22.176,12.836 c4.687,3.132,4.372,7.358-0.736,10.42c-9.95,5.98-31.423,19.438-34.429,28.393c-6.166,18.359,27.22,41.425,27.22,41.425 c9.337,7.13,10.537,23.231,5.875,29.802c-4.659,6.571,0.048,13.212,5.308,14.046c5.58,0.898,9.762-4.265,9.683-8.239 c-0.122-5.887-2.289-11.946,2.885-14.338c4.564-2.086,9.242,1.708,11.879,9.553c2.644,7.846,10.081,9.774,14.744,5.36 c4.974-4.706,1.64-11.6-3.947-13.725c-5.587-2.124-9.364-3.478-10.211-8.633c-1.081-6.586,6.414-9.333,14.217-3.014 c6.567,5.335,15.416,5.548,17.907-1.078c2.239-5.957-1.322-13.826-13.339-11.764c-11.753,2.03-19.807-2.235-19.214-10.443 c0.472-6.508,5.659-6.547,10.907-8.727c13.45-5.596-0.157-24.655-11.352-12.513c-7.85,8.531-17.612,18.628-26.091,9.278 l-5.091-6.61c0,0,22.928-9.868,40.355-15.393c17.427-5.532,23.821-24.144,16.577-40.575c-6.626-15.031-35.747-44.809-40.004-49.342 c34.492-33.217,41.976-73.446,43.518-99.683c0.268-4.548,4.348-7.326,6.485-7.578c15.101-1.778,40.15-8.106,49.763-16.919 c20.889-19.155,15.585-47.611,28.255-56.464c4.246-2.966,18.411-0.48,25.418,4.934c7.016,5.431,14.819-1.172,15.68-5.194 C490.09,142.58,486.517,136.63,480.336,136.946z"/>
 </svg></span>
     <div class="shell">
       <div class="sec-head">
@@ -946,112 +945,96 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <span class="row-n">Gecko leopardo</span>
           <span class="row-b">Eublepharis macularius</span>
           <span class="row-h">Parpadea, y casi ningún gecko puede.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="1" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Dragón barbudo</span>
           <span class="row-b">Pogona vitticeps</span>
           <span class="row-h">Saluda con el brazo. En serio.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="2" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Serpiente del maíz</span>
           <span class="row-b">Pantherophis guttatus</span>
           <span class="row-h">La primera que vas a tocar.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="3" data-g="Arácnido" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Arácnido</span>
           <span class="row-n">Tarántula</span>
           <span class="row-b">Brachypelma sp.</span>
           <span class="row-h">Prefiere lanzarte pelos antes que morder.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="4" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Gecko tokay</span>
           <span class="row-b">Gekko gecko</span>
           <span class="row-h">Ladra de noche. De ahí el nombre.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="5" data-g="Anfibio" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Anfibio</span>
           <span class="row-n">Rana pacman</span>
           <span class="row-b">Ceratophrys ornata</span>
           <span class="row-h">Es más boca que rana.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="6" data-g="Reptil" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Falsa coral</span>
           <span class="row-b">Lampropeltis sp.</span>
           <span class="row-h">Un disfraz que le salva la vida.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="7" data-g="Arácnido" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Arácnido</span>
           <span class="row-n">Escorpión</span>
           <span class="row-b">Orden Scorpiones</span>
           <span class="row-h">Brilla turquesa bajo luz UV.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="8" data-g="Mamífero" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Hurón</span>
           <span class="row-b">Mustela putorius furo</span>
           <span class="row-h">Te roba cosas y las guarda en su escondite.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="9" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Erizo africano</span>
           <span class="row-b">Atelerix albiventris</span>
           <span class="row-h">Se escupe las púas para oler mejor.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="10" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Petauro del azúcar</span>
           <span class="row-b">Petaurus breviceps</span>
           <span class="row-h">Marsupial que planea 50 metros.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="11" data-g="Mamífero" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Gato sphynx</span>
           <span class="row-b">Felis catus</span>
           <span class="row-h">Se siente como un durazno tibio.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
         <button class="row" type="button" data-sp="12" data-g="Ave" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Ave</span>
           <span class="row-n">Guacamayo escarlata</span>
           <span class="row-b">Ara macao</span>
           <span class="row-h">Se llaman por su nombre entre ellos.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="13" data-g="Ave" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Ave</span>
           <span class="row-n">Ninfa</span>
           <span class="row-b">Nymphicus hollandicus</span>
           <span class="row-h">La cresta te dice cómo se siente.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="14" data-g="Reptil" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Reptil</span>
           <span class="row-n">Dragón de agua chino</span>
           <span class="row-b">Physignathus cocincinus</span>
           <span class="row-h">Aguanta 25 minutos bajo el agua.</span>
-          <span class="row-t"></span>
         </button>
         <button class="row" type="button" data-sp="15" data-g="Mamífero" data-e="0" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
           <span class="row-n">Rata</span>
           <span class="row-b">Rattus norvegicus</span>
           <span class="row-h">Se ríe cuando le haces cosquillas.</span>
-          <span class="row-t"><span class="tocar">Se puede tocar</span></span>
         </button>
           </div>
           <button class="vermas" type="button" id="vermas" hidden></button>
@@ -1091,10 +1074,13 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
     <ellipse cx="78" cy="192" rx="16" ry="6" transform="rotate(12 78 192)"/>
   </g>
 </svg></span>
-    <span class="deco bicho" data-vel="-0.06" style="right:22%;top:7%;width:28px" aria-hidden="true"><svg viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" aria-hidden="true">
-<path d="M38 34 C24 26 14 16 8 6M38 44 C22 42 12 40 3 34M40 52 C26 58 16 66 10 76M44 58 C38 66 34 72 32 79"/>
-<path d="M62 34 C76 26 86 16 92 6M62 44 C78 42 88 40 97 34M60 52 C74 58 84 66 90 76M56 58 C62 66 66 72 68 79"/>
-<g stroke="none" fill="currentColor"><ellipse cx="50" cy="34" rx="9" ry="8"/><ellipse cx="50" cy="52" rx="13" ry="14"/></g>
+    <span class="deco reptil" data-vel="-0.06" style="right:21%;top:6%;width:62px;transform:rotate(-12deg)" aria-hidden="true"><svg viewBox="0 0 200 120" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M18 96C10 70 30 52 58 54c26 2 36 24 62 24 22 0 32-16 26-32" stroke-width="13"/>
+    <path d="M146 46c-4-11-16-16-26-12" stroke-width="9"/>
+    <path d="M120 34c-8-2-16 2-19 9" stroke-width="5.5"/>
+  </g>
+  <circle cx="150" cy="42" r="8.5" fill="currentColor"/>
 </svg></span>
     <div class="shell">
       <div class="sec-head">
@@ -1148,17 +1134,8 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
 
   <section id="experiencias">
     <span class="deco flora" style="right:-1.6rem;top:0.8rem;width:112px;transform:rotate(-34deg)" aria-hidden="true"><svg viewBox="0 0 120 200" fill="currentColor" aria-hidden="true"><path d="M60 4C34 34 12 76 12 118c0 42 22 74 48 78 26-4 48-36 48-78C108 76 86 34 60 4zm-4 34v146c-18-6-32-32-32-66 0-32 14-62 32-80zm8 0c18 18 32 48 32 80 0 34-14 60-32 66V38z"/></svg></span>
-    <span class="deco bicho" data-vel="0.045" style="right:20%;top:6%;width:24px" aria-hidden="true"><svg viewBox="0 0 80 100" aria-hidden="true">
-  <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
-    <path d="M26 34 C16 28 10 22 6 14M24 50 C13 48 6 46 0 42M26 66 C16 72 10 78 6 88"/>
-    <path d="M54 34 C64 28 70 22 74 14M56 50 C67 48 74 46 80 42M54 66 C64 72 70 78 74 88"/>
-    <path d="M34 14 C30 8 26 4 20 1M46 14 C50 8 54 4 60 1"/>
-  </g>
-  <g fill="currentColor">
-    <ellipse cx="40" cy="20" rx="11" ry="9"/>
-    <path d="M40 30 C56 30 64 44 64 60 C64 78 54 90 40 90 C26 90 16 78 16 60 C16 44 24 30 40 30z"/>
-  </g>
-  <path d="M40 32v56" stroke="var(--bg)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <span class="deco reptil" data-vel="0.045" style="right:19%;top:5%;width:40px;transform:rotate(-24deg) scaleX(-1)" aria-hidden="true"><svg viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="currentColor" d="M480.336,136.946c-6.488,0.33-13.244,1.975-15.628-3.817c-2.109-5.108,2.282-10.08,11.025-12.63 c8.747-2.558,11.182-10.64,6.547-15.976c-4.945-5.666-12.673-2.322-15.258,3.73c-2.585,6.052-4.25,10.129-9.951,10.829 c-7.287,0.897-9.971-7.469-2.667-15.755c6.142-6.972,6.791-16.706-0.386-19.736c-6.437-2.723-15.243,0.826-13.52,14.142 c1.688,13.016-3.356,21.672-12.351,20.642c-7.122-0.811-6.942-6.524-9.097-12.378c-5.544-15.032-27.107-0.937-14.256,11.914 c9.019,9.018,22.593,12.93,20.917,21.696c-1.676,8.767-9.923,37.263-34.988,41.504c-39.599,6.729-35.456-23.797-32.996-39.607 c3.234-20.838,16.117-30.219,12.453-64.168c-2.215-20.516-26.107-56.739-46.509-71.282c-7.869-5.603-14.441-6.901-23.36-5.572 c-8.625,1.283-15.488,4.674-21.141,12.457C263.81,34.075,253.395,79.081,259.53,99.07c6.532,21.279,20.924,33.823,12.575,55.527 c-5.036,13.095-13.638,17.4-25.45,19.446c-51.384,8.924-27.653-43.44-28.07-39.308c0.893-8.885,15.456-9.412,26.666-15.472 c15.987-8.633-0.65-28.322-10.25-15.479c-3.746,4.99-5.198,10.514-12.261,9.27c-8.912-1.597-11.273-11.34-5.933-23.333 c5.45-12.237-1.983-18.163-8.924-17.392c-7.748,0.866-9.904,10.348-6.004,18.792c4.627,10.034-0.331,17.29-7.059,14.346 c-5.268-2.29-5.694-6.689-6.441-13.229c-0.752-6.531-7.193-11.954-13.56-7.908c-5.965,3.762-5.941,12.213,1.712,17.156 c7.657,4.942,10.436,10.962,6.965,15.251c-3.946,4.863-9.868,1.117-16.069-0.803c-6.225-1.936-10.95,2.62-11.391,8.09 c-0.322,4.099,5.281,12.654,13.536,9.459c8.263-3.187,22.125-0.89,25.344,3.164c9.617,12.103-19.559,47.579,12.965,58.557 c16.042,5.422,34.008,13.457,31.364,23.286c0,0-0.004,24.403-13.437,37.836c-2.144-4.619-7.252-15.716-9.396-18.698 c-10.502-14.558-29.79-18.462-43.38-6.232c-13.59,12.221-33.709,27.008-33.709,27.008l-3.12-7.735 c-3.77-12.041,12.799-20.894,24.128-23.357c16.136-3.494,6.591-24.884-5.045-16.117c-4.533,3.431-7.2,7.878-13.039,4.998 c-7.385-3.644-6.977-12.749,0.708-21.862c7.861-9.333,2.868-16.377-3.384-17.447c-6.992-1.227-11.269,6.524-9.998,14.89 c1.507,9.923-4.663,14.991-9.794,10.734c-4.018-3.344-3.274-7.287-2.278-13.181c0.999-5.895-3.262-12.253-9.837-10.349 c-6.166,1.802-8.283,9.176-2.85,15.432c5.431,6.24,6.34,12.198,2.224,15.078c-4.675,3.25-8.79-1.692-13.827-4.769 c-4.769-2.903-10.234-0.479-11.997,4.179c-1.318,3.494,1.405,12.378,9.432,11.686c8.024-0.7,18.536,10.93,19.824,21.531 c0,0,7.574,43.613,26.52,47.586c9.251,1.936,27.126-8.743,37.322-14.299c5.229-2.849,9.03-0.984,9.352,4.635 c0.457,7.987,3.05,30.817,3.164,37.412c0.008,0.669,0.023,1.338,0.035,1.998c-3.053,24.868-47.048,22.161-77.719,31.439 c-30.956,9.364-80.706,31.619-85.751,81.158c-5.85,57.51,37.263,81.284,45.14,79.899c8.491-0.952,1.523-7.712-10.474-26.221 c-19.568-30.195,18.714-83.834,83.137-83.008c104.759,1.346,126.251-38.946,143.312-30.581c6.217,3.581,16.357,8.964,22.176,12.836 c4.687,3.132,4.372,7.358-0.736,10.42c-9.95,5.98-31.423,19.438-34.429,28.393c-6.166,18.359,27.22,41.425,27.22,41.425 c9.337,7.13,10.537,23.231,5.875,29.802c-4.659,6.571,0.048,13.212,5.308,14.046c5.58,0.898,9.762-4.265,9.683-8.239 c-0.122-5.887-2.289-11.946,2.885-14.338c4.564-2.086,9.242,1.708,11.879,9.553c2.644,7.846,10.081,9.774,14.744,5.36 c4.974-4.706,1.64-11.6-3.947-13.725c-5.587-2.124-9.364-3.478-10.211-8.633c-1.081-6.586,6.414-9.333,14.217-3.014 c6.567,5.335,15.416,5.548,17.907-1.078c2.239-5.957-1.322-13.826-13.339-11.764c-11.753,2.03-19.807-2.235-19.214-10.443 c0.472-6.508,5.659-6.547,10.907-8.727c13.45-5.596-0.157-24.655-11.352-12.513c-7.85,8.531-17.612,18.628-26.091,9.278 l-5.091-6.61c0,0,22.928-9.868,40.355-15.393c17.427-5.532,23.821-24.144,16.577-40.575c-6.626-15.031-35.747-44.809-40.004-49.342 c34.492-33.217,41.976-73.446,43.518-99.683c0.268-4.548,4.348-7.326,6.485-7.578c15.101-1.778,40.15-8.106,49.763-16.919 c20.889-19.155,15.585-47.611,28.255-56.464c4.246-2.966,18.411-0.48,25.418,4.934c7.016,5.431,14.819-1.172,15.68-5.194 C490.09,142.58,486.517,136.63,480.336,136.946z"/>
 </svg></span>
     <div class="shell">
       <div class="sec-head sec-corta">
@@ -1205,7 +1182,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           </div>
         </article>
         <article class="entrada destacada">
-          <span class="ent-quien">No molestar</span>
+          <span class="ent-quien">Atención personalizada</span>
           <span class="ent-marca">El más pedido</span>
           <h3>BioExclusivo</h3>
           <p class="ent-tipo">Recorrido interactivo personalizado</p>
@@ -1217,7 +1194,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
             <div><dt>Especies que puedes tocar</dt><dd>18 especies</dd></div>
             <div><dt>Puedes alimentar</dt><dd>2–3 especies</dd></div>
             <div><dt>Foto con tu favorito</dt><dd>Instantánea</dd></div>
-            <div><dt>Además</dt><dd>Regalo y atención privada</dd></div>
+            <div><dt>Además</dt><dd>Regalo exclusivo</dd></div>
           </dl>
           <div class="ent-talon">
             <a class="btn btn-go" href="https://wa.me/51986044734?text=Hola%20Biosfera%2C%20quiero%20reservar%20el%20recorrido%20BioExclusivo." target="_blank" rel="noopener">Reservar mi visita</a>
@@ -1232,7 +1209,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
         </div>
       </div>
-      <p class="ent-nota">Solo se entra con reserva, y la reserva se paga por adelantado.</p>
+      <p class="ent-nota">Solo se visita con reserva, y la reserva se paga por adelantado.</p>
 
       <div class="sec-head sec-sub">
         <h3>A la medida</h3>
@@ -1345,7 +1322,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <span><b>Biosfera</b><i>Un mundo exótico</i></span>
         </a>
         <p>Museo interactivo de fauna exótica y centro de educación ambiental en Santiago de Surco.
-          Se entra con reserva previa.</p>
+          Se visita con reserva previa.</p>
         <div class="redes">
           <a href="https://www.instagram.com/biosfera.peru/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor" stroke="none"/></svg></a>
           <a href="https://www.tiktok.com/@biosfera.peru" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.59 2.59 0 0 1 0-5.18c.27 0 .52.04.76.12v-3.2a5.9 5.9 0 0 0-.76-.05A5.72 5.72 0 0 0 4.14 15.3 5.72 5.72 0 0 0 9.86 21a5.72 5.72 0 0 0 5.72-5.72V9.01a7.35 7.35 0 0 0 4.28 1.37V7.3a4.29 4.29 0 0 1-3.26-1.48z"/></svg></a>
@@ -1479,8 +1456,9 @@ function paint(i){
   $('#fd').textContent = s.d; $('#fv').textContent = s.v;
   $('#ficha-cta').href = 'https://wa.me/51986044734?text=' +
     encodeURIComponent('Hola Biosfera, quiero reservar una visita. Me interesa ver ' + s.n + '.');
-  $('#ftocar').innerHTML = s.tocar
-    ? '<span class="tocar">Se puede tocar</span>'
+  /* fuera el «se puede tocar»: se queda solo el aviso de los que no, que es el dato
+     que de verdad hace falta saber antes de estirar la mano */
+  $('#ftocar').innerHTML = s.tocar ? ''
     : '<span style="color:var(--fainter);font-size:.9rem">Solo se observa, por su bienestar</span>';
 }
 
@@ -1722,8 +1700,8 @@ function animarCifras(){
   });
 }
 
-/* los bichos derivan un poco al desplazarte: dan vida sin pedir atención */
-const bichos = [...document.querySelectorAll('.bicho')];
+/* los reptiles derivan un poco al desplazarte: dan vida sin pedir atención */
+const bichos = [...document.querySelectorAll('.reptil')];
 function moverBichos(){
   if (quieto.matches) return;
   for (const b of bichos){
