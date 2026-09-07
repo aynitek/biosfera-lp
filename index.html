@@ -358,7 +358,19 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
    se abre la ficha en un dialogo. Aqui no hay dialogo, asi que el panel es la unica
    forma de ver el producto y tiene que seguir ahi en el movil. */
 .ptienda{position:sticky;top:100px}
-@media(max-width:940px){.ptienda{position:static;margin-top:1.6rem}}
+@media(max-width:940px){
+  .ptienda{position:static;margin-top:0}
+  /* Apilado, el orden que se lee bien es lista, foto, y la nota al final, despues del
+     boton. La nota vive dentro de la columna izquierda porque en escritorio rellena su
+     hueco, asi que para moverla se disuelve la columna con display:contents: sus hijos
+     pasan a ser celdas de la reticula y ahi si se pueden reordenar. Sin duplicar el
+     texto en el HTML. */
+  .idx-tienda{gap:1.1rem}
+  .idx-tienda > .idx-col{display:contents}
+  .idx-tienda #pfilas{order:1}
+  .idx-tienda .ptienda{order:2}
+  .idx-tienda .pf-mas{order:3;max-width:none;margin-top:1.5rem}
+}
 
 /* la lista: miniatura, nombre con su medida debajo y precio a la derecha */
 .pfilas{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
@@ -1464,8 +1476,7 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <span class="pf-precio">S/ 35</span>
         </button>
           </div>
-          <p class="pf-mas">Precios, medidas y fotos de muestra: los pone Biosfera antes
-            de publicar. ¿Buscas algo que no está?
+          <p class="pf-mas">¿Buscas algo que no está?
             <a class="ul" href="https://wa.me/51986044734?text=Hola%20Biosfera%2C%20busco%20algo%20de%20la%20tienda%20que%20no%20veo%20en%20la%20web." target="_blank" rel="noopener">Escríbenos</a>
             y te decimos qué hay hoy.</p>
         </div>
@@ -1839,6 +1850,7 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
   const ant = document.getElementById('pgant'), sig = document.getElementById('pgsig');
   const cta = document.getElementById('pccta');
   const quietoM = matchMedia('(prefers-reduced-motion:reduce)');
+  const apilado = matchMedia('(max-width:940px)');   /* el corte donde deja de haber dos columnas */
   let actual = -1, foto = 0, total = 1;
 
   function marcarTira(){
@@ -1967,16 +1979,23 @@ addEventListener('resize', () => { clearTimeout(reMedir); reMedir = setTimeout(f
     [n.textContent, u.textContent, d.textContent] = antes;
     cuerpo.style.minHeight = Math.ceil(alto) + 'px';
 
+    /* El alto de la lista solo se reserva en dos columnas. Ahi el reservado cae en el
+       hueco muerto de la columna izquierda y no cuesta nada. Apilado si cuesta: la
+       categoria mas larga tiene cuatro filas y las demas tres, asi que reservar dejaba
+       un agujero de 60px entre la lista y la foto. Sin reserva, cambiar de pill mueve
+       lo de abajo una fila, y eso pasa solo cuando lo pides tocando una pill. */
     const todas = [...filas.querySelectorAll('.pfila')];
-    const ocultas = todas.map(r => r.hidden);
     filas.style.minHeight = '';
-    let altoL = 0;
-    chips.forEach(c => {
-      todas.forEach(r => { r.hidden = r.dataset.c !== c.dataset.f; });
-      altoL = Math.max(altoL, filas.getBoundingClientRect().height);
-    });
-    todas.forEach((r, i) => { r.hidden = ocultas[i]; });
-    filas.style.minHeight = Math.ceil(altoL) + 'px';
+    if (!apilado.matches){
+      const ocultas = todas.map(r => r.hidden);
+      let altoL = 0;
+      chips.forEach(c => {
+        todas.forEach(r => { r.hidden = r.dataset.c !== c.dataset.f; });
+        altoL = Math.max(altoL, filas.getBoundingClientRect().height);
+      });
+      todas.forEach((r, i) => { r.hidden = ocultas[i]; });
+      filas.style.minHeight = Math.ceil(altoL) + 'px';
+    }
   }
 
   filtrar(chips[0].dataset.f);
