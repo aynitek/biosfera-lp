@@ -27,6 +27,11 @@
   --rule-2:rgba(21,32,13,.30);
   --accent:#626D15;          /* oliva: 5.18:1 sobre papel, pasa AA */
   --escarlata:#B93A22;
+  /* El destello de cuatro puntas: cuadrado recortado, no una estrella de cinco puntas de
+     galeria de emoji. Lo comparten la pastilla «Famosos» y la marca de los famosos en la
+     lista, y va en una variable para que sean literalmente la misma forma: es lo que hace
+     que quien ve la marca en una fila la reconozca de la pastilla. */
+  --destello:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
   --btn-bg:#15200D; --btn-fg:#F4F6EC;
   --shell:min(1240px,100% - 2.6rem);
   --serif:"Newsreader",ui-serif,Georgia,"Times New Roman",serif;
@@ -298,7 +303,7 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
 .chip-vip:hover{border-color:var(--accent)}
 .chispa{position:absolute;pointer-events:none;background:var(--chispa);
   width:var(--t);height:var(--t);opacity:0;
-  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
+  clip-path:var(--destello);
   /* scale y rotate como propiedades sueltas, no dentro de transform: asi cada una
      lleva su propio reloj. Es lo que separa un destello de un metronomo. */
   animation:chispear var(--vida) ease-in-out infinite,
@@ -341,6 +346,22 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
   font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:.95;
   transition:transform .42s var(--ease)}
 .row:hover .row-n,.row.on .row-n{transform:translateX(10px)}
+/* MARCA DE FAMOSO. El problema que resuelve: filtrando por «Mamiferos», la fila de Mona
+   pone MONA de titulo y se lee como si la especie se llamara asi. Con la marca al lado se
+   entiende que es un nombre propio, y es la misma forma que llevan las chispas de la
+   pastilla «Famosos», asi que la asociacion se hace sin explicar nada.
+   Va DETRAS del nombre y no delante: el filo izquierdo de la lista es la espina del diseno
+   y todas las filas tienen que arrancar en la misma vertical.
+   Y va quieta, sin animacion, aunque las de la pastilla titilen: cinco estrellas parpadeando
+   en una lista es ruido, y la pastilla ya se queda con ese gesto para ella. */
+.row-n .marca,.prev-n .marca,.ficha-body h3 .marca{
+  display:inline-block;background:var(--accent);clip-path:var(--destello);
+  /* en em, para que crezca con el titular, que es fluido */
+  /* .22em y no mas arriba: a .34em queda un hueco sobre la linea de mayusculas y la marca
+     se lee como una llamada de nota suelta; mas abajo se confunde con un signo de
+     puntuacion. Comparado a tamano real, este es el punto en que va pegada al nombre y
+     sigue leyendose como marca. */
+  width:.4em;height:.4em;margin-left:.3em;vertical-align:.22em}
 .row:focus-visible .row-n{transform:translateX(10px)}
 .row-b{grid-area:b;color:var(--fainter);font-size:.9rem;margin-top:.15rem}
 /* el binomio va en cursiva; el nombre comun de un famoso, que comparte esta linea, no */
@@ -1114,31 +1135,31 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <div class="rows" id="rows">
         <button class="row" type="button" data-sp="0" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Mona</span>
+          <span class="row-n">Mona<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Hurona</span> · <i>Mustela putorius furo</i></span>
           <span class="row-h">Roba cosas y las guarda en su escondite.</span>
         </button>
         <button class="row" type="button" data-sp="1" data-g="Ave" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Ave</span>
-          <span class="row-n">Inti</span>
+          <span class="row-n">Inti<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Ninfa cacatúa</span> · <i>Nymphicus hollandicus</i></span>
           <span class="row-h">La cresta te dice cómo se siente.</span>
         </button>
         <button class="row" type="button" data-sp="2" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Gizmo</span>
+          <span class="row-n">Gizmo<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Petauro del azúcar</span> · <i>Petaurus breviceps</i></span>
           <span class="row-h">Marsupial que planea 50 metros.</span>
         </button>
         <button class="row" type="button" data-sp="3" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Copito</span>
+          <span class="row-n">Copito<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Erizo pigmeo africano</span> · <i>Atelerix albiventris</i></span>
           <span class="row-h">Se escupe las púas y no sabemos por qué.</span>
         </button>
         <button class="row" type="button" data-sp="4" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Rhem</span>
+          <span class="row-n">Rhem<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Gato egipcio</span> · <i>Felis catus, raza mau egipcio</i></span>
           <span class="row-h">La raza es de 1956, no de los faraones.</span>
         </button>
@@ -1821,6 +1842,12 @@ document.documentElement.lang = document.documentElement.lang || 'es';
 /* Los cinco famosos tienen nombre propio y ese es el titulo; la especie baja a la linea
    del binomio. El resto no tiene «p», asi que se queda solo el binomio. Se compone aqui y
    no en el build porque la ficha y el panel se rellenan desde el JSON, no desde el HTML. */
+function tituloConMarca(s){
+  /* los famosos llevan el destello detras del nombre, y un texto solo para lector de
+     pantalla: la marca es grafica y sin el no dice nada a quien no la ve */
+  const n = s.p || s.n;
+  return s.p ? n + '<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span>' : n;
+}
 function bajoTitulo(s){
   const bin = '<i>' + s.b + '</i>';
   return s.esp ? '<span class="esp">' + s.esp + '</span> \u00b7 ' + bin : bin;
@@ -1833,7 +1860,7 @@ function paint(i){
   const s = SP[i]; cur = i;
   rotularFoto($('#fshot'), s.k, s.n);
   $('#fg').textContent = s.g;
-  $('#fn').textContent = s.p || s.n;
+  $('#fn').innerHTML = tituloConMarca(s);
   $('#fb').innerHTML = bajoTitulo(s);
   $('#fmito').textContent = s.mito;
   $('#freal').textContent = s.real;
@@ -1872,7 +1899,7 @@ function previa(i){
   verPrevia = i;
   const s = SP[i];
   $('#pg').textContent = s.g;
-  $('#pn').textContent = s.p || s.n;
+  $('#pn').innerHTML = tituloConMarca(s);
   $('#pb').innerHTML = bajoTitulo(s);
   $('#pm').textContent = s.real;
   rotularFoto($('#pshot'), s.k, s.n);
