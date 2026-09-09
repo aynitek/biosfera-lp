@@ -355,13 +355,14 @@ section{padding:clamp(3.4rem,6.5vw,5.8rem) 0;position:relative;overflow:clip}
    Y va quieta, sin animacion, aunque las de la pastilla titilen: cinco estrellas parpadeando
    en una lista es ruido, y la pastilla ya se queda con ese gesto para ella. */
 .row-n .marca,.prev-n .marca,.ficha-body h3 .marca{
-  display:inline-block;background:var(--accent);clip-path:var(--destello);
-  /* en em, para que crezca con el titular, que es fluido */
-  /* .22em y no mas arriba: a .34em queda un hueco sobre la linea de mayusculas y la marca
-     se lee como una llamada de nota suelta; mas abajo se confunde con un signo de
-     puntuacion. Comparado a tamano real, este es el punto en que va pegada al nombre y
-     sigue leyendose como marca. */
-  width:.4em;height:.4em;margin-left:.3em;vertical-align:.22em}
+  /* En em, para que crezca con el titular, que es fluido. Y macizo, no de linea: toda la
+     iconografia de la pagina es silueta —las chispas, el gecko del riel, el tapiz, las
+     hojas— y un icono de trazo se leeria como venido de otro kit. Probado con uno de linea
+     a 13 px: el trazo baja a menos de un pixel y la estrella de dentro desaparece. */
+  display:inline-block;width:.78em;height:.62em;margin-left:.3em;vertical-align:.08em;
+  color:var(--fg)}
+.row-n .marca svg,.prev-n .marca svg,.ficha-body h3 .marca svg{
+  display:block;width:100%;height:100%;fill:currentColor}
 .row:focus-visible .row-n{transform:translateX(10px)}
 .row-b{grid-area:b;color:var(--fainter);font-size:.9rem;margin-top:.15rem}
 /* el binomio va en cursiva; el nombre comun de un famoso, que comparte esta linea, no */
@@ -1135,31 +1136,46 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
           <div class="rows" id="rows">
         <button class="row" type="button" data-sp="0" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Mona<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
+          <span class="row-n">Mona<i class="marca"><svg viewBox="0 0 30 24" aria-hidden="true">
+  <path d="M10 0 Q11.1 10.9 20.5 12 Q11.1 13.1 10 24 Q8.9 13.1 -0.5 12 Q8.9 10.9 10 0Z"/>
+  <path d="M24.5 12.5 Q25 17.3 29.5 17.8 Q25 18.3 24.5 23 Q24 18.3 19.5 17.8 Q24 17.3 24.5 12.5Z"/>
+</svg></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Hurona</span> · <i>Mustela putorius furo</i></span>
           <span class="row-h">Roba cosas y las guarda en su escondite.</span>
         </button>
         <button class="row" type="button" data-sp="1" data-g="Ave" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Ave</span>
-          <span class="row-n">Inti<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
+          <span class="row-n">Inti<i class="marca"><svg viewBox="0 0 30 24" aria-hidden="true">
+  <path d="M10 0 Q11.1 10.9 20.5 12 Q11.1 13.1 10 24 Q8.9 13.1 -0.5 12 Q8.9 10.9 10 0Z"/>
+  <path d="M24.5 12.5 Q25 17.3 29.5 17.8 Q25 18.3 24.5 23 Q24 18.3 19.5 17.8 Q24 17.3 24.5 12.5Z"/>
+</svg></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Ninfa cacatúa</span> · <i>Nymphicus hollandicus</i></span>
           <span class="row-h">La cresta te dice cómo se siente.</span>
         </button>
         <button class="row" type="button" data-sp="2" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Gizmo<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
+          <span class="row-n">Gizmo<i class="marca"><svg viewBox="0 0 30 24" aria-hidden="true">
+  <path d="M10 0 Q11.1 10.9 20.5 12 Q11.1 13.1 10 24 Q8.9 13.1 -0.5 12 Q8.9 10.9 10 0Z"/>
+  <path d="M24.5 12.5 Q25 17.3 29.5 17.8 Q25 18.3 24.5 23 Q24 18.3 19.5 17.8 Q24 17.3 24.5 12.5Z"/>
+</svg></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Petauro del azúcar</span> · <i>Petaurus breviceps</i></span>
           <span class="row-h">Marsupial que planea 50 metros.</span>
         </button>
         <button class="row" type="button" data-sp="3" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Copito<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
+          <span class="row-n">Copito<i class="marca"><svg viewBox="0 0 30 24" aria-hidden="true">
+  <path d="M10 0 Q11.1 10.9 20.5 12 Q11.1 13.1 10 24 Q8.9 13.1 -0.5 12 Q8.9 10.9 10 0Z"/>
+  <path d="M24.5 12.5 Q25 17.3 29.5 17.8 Q25 18.3 24.5 23 Q24 18.3 19.5 17.8 Q24 17.3 24.5 12.5Z"/>
+</svg></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Erizo pigmeo africano</span> · <i>Atelerix albiventris</i></span>
           <span class="row-h">Se escupe las púas y no sabemos por qué.</span>
         </button>
         <button class="row" type="button" data-sp="4" data-g="Mamífero" data-e="1" aria-haspopup="dialog">
           <span class="row-g">Mamífero</span>
-          <span class="row-n">Rhem<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span></span>
+          <span class="row-n">Rhem<i class="marca"><svg viewBox="0 0 30 24" aria-hidden="true">
+  <path d="M10 0 Q11.1 10.9 20.5 12 Q11.1 13.1 10 24 Q8.9 13.1 -0.5 12 Q8.9 10.9 10 0Z"/>
+  <path d="M24.5 12.5 Q25 17.3 29.5 17.8 Q25 18.3 24.5 23 Q24 18.3 19.5 17.8 Q24 17.3 24.5 12.5Z"/>
+</svg></i><span class="vh"> famoso de la casa</span></span>
           <span class="row-b"><span class="esp">Gato egipcio</span> · <i>Felis catus, raza mau egipcio</i></span>
           <span class="row-h">La raza es de 1956, no de los faraones.</span>
         </button>
@@ -1783,6 +1799,11 @@ dialog.visor::backdrop{background:rgba(10,16,6,.86);backdrop-filter:blur(8px)}
     Reservar por WhatsApp</a>
 </div>
 
+<template id="tpl-estrella"><svg viewBox="0 0 30 24" aria-hidden="true">
+  <path d="M10 0 Q11.1 10.9 20.5 12 Q11.1 13.1 10 24 Q8.9 13.1 -0.5 12 Q8.9 10.9 10 0Z"/>
+  <path d="M24.5 12.5 Q25 17.3 29.5 17.8 Q25 18.3 24.5 23 Q24 18.3 19.5 17.8 Q24 17.3 24.5 12.5Z"/>
+</svg></template>
+
 <dialog class="visor" id="visor" aria-label="Foto ampliada">
   <div class="visor-in" aria-live="polite">
     <button class="visor-x" type="button" id="visor-x" aria-label="Cerrar">&#10005;</button>
@@ -1842,11 +1863,18 @@ document.documentElement.lang = document.documentElement.lang || 'es';
 /* Los cinco famosos tienen nombre propio y ese es el titulo; la especie baja a la linea
    del binomio. El resto no tiene «p», asi que se queda solo el binomio. Se compone aqui y
    no en el build porque la ficha y el panel se rellenan desde el JSON, no desde el HTML. */
+/* La estrella se lee del DOM y no se escribe aqui como cadena. Intentar lo segundo costo
+   un rato: el SVG entra multilinea, y una cadena de comilla simple partida en varias lineas
+   es un error de sintaxis que tumba TODO el script —panel, filtros, ficha y galeria— sin
+   que la pagina se vea rota a primera vista, porque el HTML de las filas ya venia servido.
+   Leyendolo de un <template> no hay cadena que romper. */
+const ESTRELLA = (document.getElementById('tpl-estrella') || {}).innerHTML || '';
 function tituloConMarca(s){
   /* los famosos llevan el destello detras del nombre, y un texto solo para lector de
      pantalla: la marca es grafica y sin el no dice nada a quien no la ve */
   const n = s.p || s.n;
-  return s.p ? n + '<i class="marca" aria-hidden="true"></i><span class="vh"> famoso de la casa</span>' : n;
+  return s.p ? n + '<i class="marca">' + ESTRELLA + '</i>'
+                 + '<span class="vh"> famoso de la casa</span>' : n;
 }
 function bajoTitulo(s){
   const bin = '<i>' + s.b + '</i>';
