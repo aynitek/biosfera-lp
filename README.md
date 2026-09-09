@@ -7,15 +7,16 @@ Publicación **temporal** para revisión del cliente. No indexada.
 El código fuente, la investigación y el sistema de construcción no forman parte
 de este repositorio.
 
-Datos que la página muestra marcados «por confirmar»: el horario por día, y la
-razón social con el RUC para el pie legal.
+Dato que la página muestra marcado «por confirmar»: el horario por día. La razón
+social y el RUC se han retirado del pie a petición de Biosfera, que los va a
+cambiar.
 
 **Las fotografías son de referencia y ninguna es de los animales de Biosfera.**
 Hay que sustituirlas por fotografías propias antes de cualquier publicación real.
 La procedencia, el autor y la licencia de cada una están en el diálogo
-«Créditos fotográficos» de la propia página. Dos de las treinta y siete no se
-pudieron atribuir, y una especie —la rata esfinge— se quedó sin foto porque no
-existe ninguna libre y utilizable: aparece con su trama de «Fotografía
-pendiente».
+«Créditos fotográficos» de la propia página: veinte de Wikimedia Commons, diez
+de Pexels, cinco de iNaturalist y una de Flickr. Dos no se pudieron atribuir, y
+otras dos —la rata esfinge y el escorpión gigante asiático— son de derechos
+reservados: de todas las que hay son las primeras a sustituir.
 
 Ver `LICENSE`.
