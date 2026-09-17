@@ -6877,6 +6877,9 @@ void main() {
   /* ---- escena ----------------------------------------------------------- */
 
   var ren, esc, cam, gecko, mezclador, reloj;
+  /* Correcciones para pantalla vertical. Se recalculan al redimensionar, no por
+     fotograma: dependen de la ventana, y la ventana no cambia mientras se pinta. */
+  var giroExtra = 0, acerca = 1;
   var dprTope = modesto ? 1.25 : 1.75;
 
   function rampaToon() {
@@ -6892,6 +6895,25 @@ void main() {
 
   function encuadrar() {
     var aspecto = innerWidth / innerHeight;
+
+    /* EN VERTICAL EL GECKO SE VE PEQUEÑO, y no porque la camara este lejos: como el
+       campo horizontal es fijo, ocupa el mismo porcentaje del ancho que en un
+       escritorio. Lo que pasa es que un movil es estrecho y muy alto, asi que ese
+       mismo porcentaje se lee como una franja fina en medio de una pantalla larga.
+       Y encima ahi el contenido ocupa casi todo el ancho (`--shell` es 100% menos
+       2,6rem), con lo que apenas queda margen por donde asome.
+
+       Dos correcciones, y la primera importa mas que la segunda:
+
+       1. GIRAR. Se le suma hasta 68 grados de inclinacion para que el cuerpo corra
+          a lo largo de la pantalla en vez de cruzarla. Asi usa el lado largo, que
+          en un movil es mas del doble que el corto.
+       2. ACERCAR, solo un 30 %. Mas seria desbordar tanto que se perderia la forma,
+          y la forma es lo unico que hace reconocible a un gecko. */
+    var t = Math.min(1, Math.max(0, (0.95 - aspecto) / (0.95 - 0.46)));
+    giroExtra = 68 * t;
+    acerca = 1 - 0.30 * t;
+
     cam.aspect = aspecto;
     /* El fov de three es VERTICAL. En un movil en vertical (aspecto ~0,46) mantener
        45 grados verticales deja el campo horizontal en menos de un tercio: el gecko
@@ -6978,13 +7000,13 @@ void main() {
 
     anclaEn(vista.actual, dp);
     for (var i = 0; i < 4; i++) cp[i] += (dp[i] - cp[i]) * k;
-    cam.position.set(cp[0], cp[1], cp[2]);
+    cam.position.set(cp[0] * acerca, cp[1] * acerca, cp[2] * acerca);
     cam.lookAt(0, 0, 0);
     /* El giro va DESPUES de lookAt y sobre el eje Z de la camara, que es su eje de
        vision: asi es un balanceo puro y no ensucia hacia donde mira. Tocar `up`
        antes de lookAt daria el mismo efecto solo mientras la camara no se acerque a
        la vertical, y la cenital esta justo ahi. */
-    cam.rotateZ(cp[3] * Math.PI / 180);
+    cam.rotateZ((cp[3] + giroExtra) * Math.PI / 180);
     if (mezclador) mezclador.update(reloj.getDelta());
     ren.render(esc, cam);
   }
@@ -6995,9 +7017,9 @@ void main() {
     if (quieto.matches) {                 /* una pose fija, sin movimiento */
       vista.actual = vista.objetivo = 0;
       anclaEn(0, cp);
-      cam.position.set(cp[0], cp[1], cp[2]);
+      cam.position.set(cp[0] * acerca, cp[1] * acerca, cp[2] * acerca);
       cam.lookAt(0, 0, 0);
-      cam.rotateZ(cp[3] * Math.PI / 180);
+      cam.rotateZ((cp[3] + giroExtra) * Math.PI / 180);
       ren.render(esc, cam);
       lienzo.classList.add('listo');
       return;
