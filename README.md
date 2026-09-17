@@ -23,4 +23,17 @@ ratón—, siete llevan cláusula «no comercial» y una es la que está sin atr
 Son las primeras a sustituir, y todas se resuelven de una vez con fotografía
 propia.
 
+## El fondo
+
+La página se dibuja sobre una escena WebGL: un gecko 3D real cuya cámara gobierna
+el scroll, con un ancla por sección e interpolación amortiguada entre ellas. No hay
+JavaScript en el evento de scroll —el bucle de render lee un objeto mutable— y con
+`prefers-reduced-motion` se pinta una pose fija y no se anima nada.
+
+El modelo es **«Spotted Gecko» de Jeff Larson**, CC BY 3.0 vía Poly Pizza,
+modificado por AYNI: fundido en una malla, sin texturas, recentrado y reescalado.
+Está en los créditos de la página, que es donde lo pide la licencia. Es un gecko
+genérico estilizado: **no corresponde a ninguna de las cinco especies de Biosfera**,
+así que funciona como ambiente y no debe rotularse con nombre de especie.
+
 Ver `LICENSE`.
