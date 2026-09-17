@@ -7,8 +7,8 @@ Publicación **temporal** para revisión del cliente. No indexada.
 El código fuente, la investigación y el sistema de construcción no forman parte
 de este repositorio.
 
-Dato que la página muestra marcado «por confirmar»: el horario por día. La razón
-social y el RUC se han retirado del pie a petición de Biosfera, que los va a
+Ya no queda ningún dato marcado «por confirmar». El horario está puesto, y la
+razón social y el RUC se retiraron del pie a petición de Biosfera, que los va a
 cambiar.
 
 **Las fotografías son de referencia y ninguna es de los animales de Biosfera.**
