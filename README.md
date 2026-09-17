@@ -25,15 +25,14 @@ propia.
 
 ## El fondo
 
-La página se dibuja sobre una escena WebGL: un gecko 3D real cuya cámara gobierna
-el scroll, con un ancla por sección e interpolación amortiguada entre ellas. No hay
-JavaScript en el evento de scroll —el bucle de render lee un objeto mutable— y con
-`prefers-reduced-motion` se pinta una pose fija y no se anima nada.
+La página va sobre un papel pintado de siluetas que se desplaza un poco más despacio
+que el contenido, un tronco pegajoso a la izquierda por el que sube y baja un gecko
+—solo en pantallas anchas— y unas hojas que asoman por las esquinas de la carátula
+del vídeo. Las siluetas son de game-icons.net, CC BY 3.0, acreditadas en la página.
 
-El modelo es **«Spotted Gecko» de Jeff Larson**, CC BY 3.0 vía Poly Pizza,
-modificado por AYNI: fundido en una malla, sin texturas, recentrado y reescalado.
-Está en los créditos de la página, que es donde lo pide la licencia. Es un gecko
-genérico estilizado: **no corresponde a ninguna de las cinco especies de Biosfera**,
-así que funciona como ambiente y no debe rotularse con nombre de especie.
+Hubo un intento de sustituirlo por una escena WebGL con un gecko 3D gobernado por el
+scroll. Estuvo publicado unas horas y se retiró a petición de Biosfera. El código, los
+modelos y las auditorías quedan guardados fuera de este repositorio, en
+`respaldo/2026-09-17-intento-fondo-3d/` y `research/2026-09-fondo3d/`.
 
 Ver `LICENSE`.
