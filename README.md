@@ -14,9 +14,13 @@ cambiar.
 **Las fotografías son de referencia y ninguna es de los animales de Biosfera.**
 Hay que sustituirlas por fotografías propias antes de cualquier publicación real.
 La procedencia, el autor y la licencia de cada una están en el diálogo
-«Créditos fotográficos» de la propia página: veinte de Wikimedia Commons, diez
-de Pexels, cinco de iNaturalist y una de Flickr. Dos no se pudieron atribuir, y
-otras dos —la rata esfinge y el escorpión gigante asiático— son de derechos
-reservados: de todas las que hay son las primeras a sustituir.
+«Créditos fotográficos» de la propia página: diecisiete de Wikimedia Commons,
+diez de Pexels, siete de iNaturalist y tres de Flickr; una no se pudo atribuir.
+
+De las treinta y ocho, **once no serían publicables en un uso comercial**: tres
+son de derechos reservados —la rata esfinge, el escorpión gigante asiático y el
+ratón—, siete llevan cláusula «no comercial» y una es la que está sin atribuir.
+Son las primeras a sustituir, y todas se resuelven de una vez con fotografía
+propia.
 
 Ver `LICENSE`.
