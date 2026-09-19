@@ -11,14 +11,16 @@ Ya no queda ningún dato marcado «por confirmar». El horario está puesto, y l
 razón social y el RUC se retiraron del pie a petición de Biosfera, que los va a
 cambiar.
 
-**Tres fotografías son de Biosfera; el resto es material de referencia.** Las
-propias son las de la galería en las que un visitante sostiene la tarántula, y
-llevan su crédito aparte en la página. Las demás no son de los animales de
-Biosfera y hay que sustituirlas por fotografías propias antes de cualquier
-publicación real.
+**Ninguna imagen de la página es una fotografía de Biosfera.** Las de especies
+son material de referencia, y las tres de la galería en las que alguien sostiene
+la tarántula están **generadas**: no son fotografías, y van acreditadas como tales
+en la página. Todo ello hay que sustituirlo por fotografía propia antes de
+cualquier publicación real.
 
-Las tres propias muestran **menores identificables**: publicarlas en abierto pide
-consentimiento de los padres, y está pendiente de confirmar con el cliente.
+Hubo tres fotos reales del local ocupando esas láminas. Se retiraron: salían
+menores identificables y el cliente pidió cambiarlas. No se alteraron con IA
+—modificar la cara de un menor real no lo saca de la imagen—, se generaron otras
+desde cero.
 La procedencia, el autor y la licencia de cada una están en el diálogo
 «Créditos fotográficos» de la propia página: diecisiete de Wikimedia Commons,
 diez de Pexels, siete de iNaturalist y tres de Flickr; una no se pudo atribuir.
