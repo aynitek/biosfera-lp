@@ -22,13 +22,14 @@ menores identificables y el cliente pidió cambiarlas. No se alteraron con IA
 —modificar la cara de un menor real no lo saca de la imagen—, se generaron otras
 desde cero.
 La procedencia, el autor y la licencia de cada una están en el diálogo
-«Créditos fotográficos» de la propia página: diecisiete de Wikimedia Commons,
-diez de Pexels, siete de iNaturalist y tres de Flickr; una no se pudo atribuir.
+«Créditos fotográficos» de la propia página: veinte de Wikimedia Commons, diez de
+Pexels, cinco de iNaturalist y una de Flickr.
 
-De las treinta y ocho, **once no serían publicables en un uso comercial**: tres
-son de derechos reservados —la rata esfinge, el escorpión gigante asiático y el
-ratón—, siete llevan cláusula «no comercial» y una es la que está sin atribuir.
-Son las primeras a sustituir, y todas se resuelven de una vez con fotografía
+**Todas son publicables acreditando.** Hubo once que no lo eran —siete con
+cláusula «no comercial», tres de derechos reservados y una sin procedencia— y se
+sustituyeron por otras con licencia libre, salvo dos para las que no existe
+recambio: el ratón mexicano y el pez cebra de colores quedan **sin fotografía**,
+con el hueco a la vista, porque son justo las que Biosfera resuelve con una foto
 propia.
 
 ## El fondo
